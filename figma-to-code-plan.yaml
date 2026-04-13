@@ -1,0 +1,347 @@
+project:
+  name: MBFS - Cổng Đầu Tư Quốc Gia
+  platform: react-native
+  figma_file: 'SwJYSyX7POiWiEj6MXx0Ak'
+
+phase_0:
+  status: done
+  completed_at: '2026-04-11'
+  components_generated:
+    - Button
+    - Card
+    - Badge
+    - Input
+    - Header
+    - TabBar
+
+# Chỉ chứa features đã được scan từ Figma.
+# Workflow scan-figma sẽ thêm entry mới vào đây.
+scanned:
+  - feature: '1.1'
+    name: Khai thác thông tin khu công nghiệp trên mobile
+    scanned_at: '2026-04-12'
+    figma_section: '8:2'
+    figma_section_name: 'UC 2-7: Khai thác thông tin khu công nghiệp trên mobile'
+    figma_shared_nodes:
+      - '328:854'   # Tab List (shared component)
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin khu công nghiệp trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes:
+          - '328:293'   # UC 2: List view
+          - '328:583'   # UC 2: Form view
+        note: List screen + Detail screen (tab Hồ sơ KCN)
+      - id: '3'
+        name: Theo dõi lịch sử cập nhật hồ sơ khu công nghiệp trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes:
+          - '328:902'   # UC 3: List view
+          - '328:1019'  # UC 3: Form view
+        note: Tab "Lịch sử cập nhật" + dialog "Chi tiết lịch sử cập nhật"
+      - id: '4'
+        name: Tra cứu thông tin về kinh tế cho khu công nghiệp trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes:
+          - '328:1205'  # UC 4: List view
+        note: Sub-tab "Kinh tế" in tab "Kinh tế - XH - MT"
+      - id: '5'
+        name: Tra cứu nhóm thông tin về xã hội cho khu công nghiệp trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes:
+          - '328:1365'  # UC 5: List view
+        note: Sub-tab "Xã hội" in tab "Kinh tế - XH - MT"
+      - id: '6'
+        name: Tra cứu nhóm thông tin về môi trường cho khu công nghiệp trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes:
+          - '328:1487'  # UC 6: List view
+        note: Sub-tab "Môi trường" in tab "Kinh tế - XH - MT"
+      - id: '7'
+        name: Xem danh sách dự án kêu gọi đầu tư trong khu công nghiệp trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes:
+          - '328:1611'  # UC 7: Dự án đầu tư
+          - '328:1860'  # UC 7: List view - Kêu gọi dự án đầu tư
+          - '328:1966'  # UC 7: Form view - Kêu gọi dự án đầu tư
+        note: Tab "Dự án đầu tư" + Tab "Kêu gọi đầu tư" + dialog "Chi tiết dự án kêu gọi đầu tư"
+
+  - feature: '1.2'
+    name: Khai thác thông tin khu chế xuất trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcx'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin khu chế xuất trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcx
+      - id: '3-7'
+        name: Chi tiết khu chế xuất (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcx
+
+  - feature: '1.3'
+    name: Khai thác thông tin KCN hỗ trợ trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcnht'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin KCN hỗ trợ trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcnht
+      - id: '3-7'
+        name: Chi tiết KCN hỗ trợ (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcnht
+
+  - feature: '1.4'
+    name: Khai thác thông tin KCN chuyên ngành trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcncn'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin KCN chuyên ngành trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcncn
+      - id: '3-7'
+        name: Chi tiết KCN chuyên ngành (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcncn
+
+  - feature: '1.5'
+    name: Khai thác thông tin KCN sinh thái trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcnst'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin KCN sinh thái trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcnst
+      - id: '3-7'
+        name: Chi tiết KCN sinh thái (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcnst
+
+  - feature: '1.6'
+    name: Khai thác thông tin KCN công nghệ cao trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcnctc'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin KCN công nghệ cao trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcnctc
+      - id: '3-7'
+        name: Chi tiết KCN công nghệ cao (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kcnctc
+
+  - feature: '1.7'
+    name: Khai thác thông tin khu kinh tế ven biển trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kktvb'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin KKT ven biển trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kktvb
+      - id: '3-7'
+        name: Chi tiết KKT ven biển (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kktvb
+
+  - feature: '1.8'
+    name: Khai thác thông tin khu kinh tế cửa khẩu trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kktck'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin KKT cửa khẩu trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kktck
+      - id: '3-7'
+        name: Chi tiết KKT cửa khẩu (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kktck
+
+  - feature: '1.9'
+    name: Khai thác thông tin khu kinh tế chuyên biệt trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kktcb'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin KKT chuyên biệt trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kktcb
+      - id: '3-7'
+        name: Chi tiết KKT chuyên biệt (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kktcb
+
+  - feature: '1.10'
+    name: Khai thác thông tin khu thương mại tự do trên mobile
+    scanned_at: '2026-04-13'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=ktmtd'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin khu TMTD trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=ktmtd
+      - id: '3-7'
+        name: Chi tiết khu TMTD (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=ktmtd
+
+  - feature: '2.2'
+    name: Quản lý hồ sơ trên mobile
+    scanned_at: '2026-04-12'
+    generated_at: '2026-04-12'
+    figma_section: '113:640'
+    figma_section_name: 'UC 76-81: Quản lý hồ sơ'
+    figma_shared_nodes:
+      - '113:626'   # Tab List (6 pills: Tất cả / Chờ tiếp nhận / Yêu cầu bổ sung / Đã tiếp nhận / Từ chối / Hoàn thành)
+    status: done
+    functions:
+      - id: '76'
+        name: Xem danh sách hồ sơ trên mobile (Tất cả)
+        status: done
+        file_path: app/src/screens/Dossier/DossierListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '113:2'   # UC 76: Tất cả hồ sơ — List view (374×1557, 5 cards, full tab bar)
+        note: Tab "Tất cả" with mixed status badges, search + filter
+      - id: '77'
+        name: Xem hồ sơ chờ tiếp nhận
+        status: done
+        file_path: app/src/screens/Dossier/DossierListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '113:641'  # UC 77: Hồ sơ chờ tiếp nhận — List view (392×851, badge #dbeafe/#1447e6)
+        note: Tab "Chờ tiếp nhận" with blue info badge
+      - id: '78'
+        name: Xem hồ sơ yêu cầu bổ sung
+        status: done
+        file_path: app/src/screens/Dossier/DossierListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '113:734'  # UC 78: Hồ sơ yêu cầu bổ sung — List view (392×851, badge #fef9c2/#a65f00, reason row)
+        note: Tab "Yêu cầu bổ sung" with yellow warning badge + reason box
+      - id: '79'
+        name: Xem hồ sơ đã tiếp nhận
+        status: done
+        file_path: app/src/screens/Dossier/DossierListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '113:834'  # UC 79: Hồ sơ đã tiếp nhận — List view (392×851, badge #dbeafe/#1447e6)
+        note: Tab "Đã tiếp nhận" with blue info badge
+      - id: '80'
+        name: Xem hồ sơ từ chối tiếp nhận
+        status: done
+        file_path: app/src/screens/Dossier/DossierListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '113:927'  # UC 80: Hồ sơ đã từ chối — List view (392×851, badge #ffe2e2/#c10007, reason row)
+        note: Tab "Từ chối" with red danger badge + reason box
+      - id: '81'
+        name: Xem hồ sơ đã hoàn thành
+        status: done
+        file_path: app/src/screens/Dossier/DossierListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '113:1027' # UC 81: Hồ sơ đã hoàn thành — List view (392×851, badge #dcfce7/#008236)
+        note: Tab "Hoàn thành" with green success badge
+
+  - feature: '2.1'
+    name: Quản lý đặt lịch nộp thủ tục về đầu tư
+    scanned_at: '2026-04-12'
+    generated_at: '2026-04-12'
+    figma_section: '35:2'
+    figma_section_name: 'UC 73 - 75: Quản lý đặt lịch nộp thủ tục về đầu tư'
+    figma_shared_nodes: []
+    status: done
+    functions:
+      - id: '73'
+        name: Tra cứu danh sách thủ tục hành chính đã đặt lịch chờ xác nhận
+        status: done
+        file_path: app/src/screens/Appointment/AppointmentListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '37:1484'   # UC 73: Danh sách thủ tục hành chính chờ xác nhận
+        note: Tab "Chờ xác nhận" with 3 action buttons (Xem, Sửa, Xóa)
+      - id: '74'
+        name: Tra cứu danh sách thủ tục hành chính đã được xác nhận
+        status: done
+        file_path: app/src/screens/Appointment/AppointmentListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '37:1633'   # UC 74: Danh sách thủ tục hành chính đã xác nhận
+        note: Tab "Đã xác nhận" with single Xem button
+      - id: '75'
+        name: Tra cứu danh sách thủ tục hành chính đã huỷ
+        status: done
+        file_path: app/src/screens/Appointment/AppointmentListScreen.tsx
+        generated_at: '2026-04-12'
+        figma_nodes:
+          - '37:1770'   # UC 75: Danh sách thủ tục hành chính đã hủy
+        note: Tab "Đã hủy" with single Xem button + cancel reason box
