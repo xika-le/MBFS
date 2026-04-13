@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd app && npm install && npx expo export -p web",
+  "outputDirectory": "app/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
