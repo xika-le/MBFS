@@ -1,5 +1,5 @@
 ---
-description: "Phase 3 — Update code React Native cho toàn bộ module khi Figma thay đổi. Gọi /update_feature cho từng feature done. Ví dụ: /update_module 2"
+description: "Phase 3 — Update code React Native cho toàn bộ module khi thiết kế đã thay đổi. Gọi /update_feature cho từng feature done. Ví dụ: /update_module 2"
 ---
 
 ## Steps
@@ -16,8 +16,9 @@ description: "Phase 3 — Update code React Native cho toàn bộ module khi Fig
 - Với mỗi feature `done`/`partial`: thực hiện theo quy trình `/update_feature`
 
 ### 3. Screens mới
-- Kiểm tra Figma có screen mới chưa có trong plan
-- Nếu có → gọi `/scan_figma` + `/gen_feature` cho screen mới
+- Kiểm tra có screen mới chưa có trong plan
+- Nếu có và đã có Figma → gọi `/scan_figma` + `/gen_feature`
+- Nếu chưa có Figma → gọi `/scan_specs` + `/gen_feature`
 
 ### 4. Verify
 - `npx tsc --noEmit` → 0 errors

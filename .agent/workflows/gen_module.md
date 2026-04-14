@@ -1,5 +1,5 @@
 ---
-description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma. Gọi /gen_feature cho từng feature pending. Ví dụ: /gen_module 2"
+description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma hoặc specs. Gọi /gen_feature cho từng feature pending. Ví dụ: /gen_module 2"
 ---
 
 ## GATE CHECK — Bắt buộc trước khi làm bất cứ điều gì
@@ -12,11 +12,11 @@ description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma
    - Hoặc match bằng tên
 3. **Nếu KHÔNG tìm thấy BẤT KỲ entry nào → DỪNG NGAY. KHÔNG scan, KHÔNG gen code, KHÔNG gọi MCP.**
    Chỉ trả lời đúng 1 câu:
-   > "❌ Module `$ARGUMENTS` chưa có feature nào được scan. Chạy `/scan_figma` cho từng feature trước rồi quay lại."
+   > "❌ Module `$ARGUMENTS` chưa có feature nào được scan. Chạy `/scan_figma` hoặc `/scan_specs` cho từng feature trước rồi quay lại."
    Sau đó **KẾT THÚC** — không làm thêm bất cứ bước nào.
 4. Nếu chỉ **một số** features có trong `scanned` nhưng còn thiếu → **DỪNG NGAY.**
    Liệt kê features còn thiếu:
-   > "❌ Module `$ARGUMENTS` còn features chưa scan: X, Y, Z. Chạy `/scan_figma` cho chúng trước rồi quay lại."
+   > "❌ Module `$ARGUMENTS` còn features chưa scan: X, Y, Z. Chạy `/scan_figma` hoặc `/scan_specs` cho chúng trước rồi quay lại."
    Sau đó **KẾT THÚC**.
 5. Chỉ tiếp tục khi **TẤT CẢ** features thuộc module đã có trong `scanned` array.
 
@@ -38,7 +38,7 @@ description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma
 ### 2. Kiểm tra features đã scan chưa
 
 - Nếu có features thuộc module nhưng CHƯA có trong `scanned` → cảnh báo:
-  > "Features sau chưa được scan: X, Y, Z. Chạy /scan_figma cho chúng trước."
+  > "Features sau chưa được scan: X, Y, Z. Chạy /scan_figma hoặc /scan_specs cho chúng trước."
 - Chỉ gen cho features đã scan
 - Kiểm tra `app/package.json` tồn tại (Phase 0 đã xong)
 
@@ -54,7 +54,7 @@ description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma
 
 ### 6. Báo cáo tổng hợp
 - Số features/screens đã gen / tổng
-- Figma nodeIds đã sử dụng
-- Features chưa scan (cần `/scan_figma`)
+- Nguồn: bao nhiêu từ Figma, bao nhiêu từ specs
+- Features chưa scan (cần `/scan_figma` hoặc `/scan_specs`)
 - Features không có thiết kế (pending)
 - `cd app && npx expo start`

@@ -21,12 +21,13 @@ import {
   StyleSheet,
   ViewStyle,
   TextStyle,
+  TextInputProps,
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
 
-interface InputProps {
+interface InputProps extends TextInputProps {
   value?: string;
   onChangeText?: (text: string) => void;
   placeholder?: string;
@@ -34,6 +35,8 @@ interface InputProps {
   inputStyle?: TextStyle;
   leftIcon?: React.ReactNode;
   editable?: boolean;
+  variant?: 'outline' | 'filled';
+  rightIcon?: React.ReactNode;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -44,9 +47,17 @@ export const Input: React.FC<InputProps> = ({
   inputStyle,
   leftIcon,
   editable = true,
+  variant = 'filled',
+  rightIcon,
+  ...rest
 }) => {
   return (
-    <View style={[styles.container, style]}>
+    <View style={[
+      styles.container, 
+      variant === 'outline' ? styles.outlineContainer : styles.filledContainer,
+      !editable && styles.disabledContainer,
+      style
+    ]}>
       {leftIcon && <View style={styles.iconContainer}>{leftIcon}</View>}
       <TextInput
         value={value}
@@ -56,32 +67,55 @@ export const Input: React.FC<InputProps> = ({
         style={[
           styles.input,
           leftIcon ? styles.inputWithIcon : null,
+          rightIcon ? styles.inputWithRightIcon : null,
+          !editable && styles.disabledInput,
           inputStyle,
         ]}
         editable={editable}
+        {...rest}
       />
+      {rightIcon && <View style={styles.rightIconContainer}>{rightIcon}</View>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.surfaceAlt2,          // #f3f3f5
-    borderWidth: spacing.borderWidth.thin,        // ~1.224px → 1px
-    borderColor: colors.transparent,              // transparent
-    borderRadius: spacing.borderRadius.md,        // 8px
-    height: 40,                                   // ~39.993px
+    height: 48,
     flexDirection: 'row',
     alignItems: 'center',
     overflow: 'hidden',
+    borderRadius: spacing.borderRadius.md,        // 8px
+  },
+  filledContainer: {
+    backgroundColor: colors.surfaceAlt2,          // #f3f3f5
+    borderWidth: spacing.borderWidth.thin,        // ~1.224px → 1px
+    borderColor: colors.transparent,              // transparent
+  },
+  outlineContainer: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#d0d5dd',
+  },
+  disabledContainer: {
+    backgroundColor: '#f9fafb',
   },
   iconContainer: {
     width: 40,                                    // paddingLeft=40px area
-    height: 40,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
     left: 0,
+    zIndex: 1,
+  },
+  rightIconContainer: {
+    width: 40,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 0,
     zIndex: 1,
   },
   input: {
@@ -89,10 +123,15 @@ const styles = StyleSheet.create({
     height: '100%',
     fontSize: typography.fontSize.md,             // 14px
     color: colors.textPrimary,                    // #101828
-    paddingHorizontal: spacing.lg,                // 16px
-    paddingVertical: spacing.xs,                  // 4px
+    paddingHorizontal: spacing.md,                // 16px
   },
   inputWithIcon: {
     paddingLeft: 40,                              // 40px (from Figma)
+  },
+  inputWithRightIcon: {
+    paddingRight: 40,
+  },
+  disabledInput: {
+    color: '#667085',
   },
 });

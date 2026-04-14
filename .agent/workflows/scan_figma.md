@@ -110,6 +110,7 @@ phase_0:
 scanned:
   - feature: '2.2'
     name: Quản lý hồ sơ trên mobile
+    spec_source: figma
     scanned_at: '2026-04-12'
     figma_section: '113:640'
     figma_section_name: 'UC 76-81: Quản lý hồ sơ'
@@ -134,6 +135,7 @@ scanned:
 - KHÔNG thay đổi `project` và `phase_0` sections
 
 **Quy tắc ghi:**
+- `spec_source: figma` — bắt buộc trên mọi entry tạo bởi `/scan_figma`
 - `status: scanned` — đã quét Figma, chưa gen code (feature level)
 - `status: pending` — chưa gen code (function level)
 - `status: done` — KHÔNG bao giờ tự đặt, chỉ `/gen_feature` mới set

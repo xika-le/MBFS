@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     borderWidth: spacing.borderWidth.thin,        // ~1.224px → 1px
     borderColor: colors.border,                  // rgba(0,0,0,0.1)
     borderRadius: spacing.borderRadius.lg,        // 14px
-    padding: spacing.lg,                         // 16px
+    padding: spacing.md,                         // 12px
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,

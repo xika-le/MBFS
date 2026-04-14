@@ -11,7 +11,7 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
@@ -19,7 +19,7 @@ import { spacing } from '../../theme/spacing';
 interface CardProps {
   children: React.ReactNode;
   title?: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const Card: React.FC<CardProps> = ({ children, title, style }) => {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   cardContent: {
-    padding: spacing.lg,                          // ~15.989px → 16px
+    padding: spacing.md,                          // ~11.992px → 12px
   },
   title: {
     fontSize: typography.fontSize.md,             // 14px

@@ -10,12 +10,29 @@
 ## Tổng quan Workflow
 
 ```
-Phase 0: /init-design-system        →  Làm 1 lần duy nhất
+Scan:    /scan-figma                 →  Scan Figma section (cần Figma Desktop + MCP)
+         /scan-specs                 →  Scan từ ảnh mô tả / text (KHÔNG cần Figma)
+Phase 0: /init-design-system         →  Làm 1 lần duy nhất
 Phase 1: /gen-module [tên]           →  Gen toàn bộ module khi Figma module đó đã xong
 Phase 2: /gen-feature [tên]          →  Gen 1 feature cụ thể khi chỉ 1 phần được thiết kế
 Phase 3: /update-module [tên]        →  Update toàn bộ module khi Figma thay đổi
          /update-feature [tên]       →  Update 1 feature khi Figma thay đổi
 ```
+
+### 2 đường scan song song
+
+```
+          ┌── /scan-figma ──┐
+          │  (Figma MCP)     │
+          │                  │
+Input ────┤                  ├──→ plan YAML (scanned) ──→ /gen-feature | /gen-module
+          │                  │
+          └── /scan-specs ──┘
+              (ảnh + text)
+```
+
+- Mỗi feature chỉ dùng **1 source duy nhất**: `figma` HOẶC `specs`
+- Output cùng format trong `figma-to-code-plan.yaml` → gen-feature/gen-module hoạt động bình thường với cả hai nguồn
 
 ---
 
@@ -52,6 +69,43 @@ Bạn:  /init-design-system
 - [ ] Figma Desktop đang mở file thiết kế
 - [ ] Plugin "Figma Dev Mode MCP Server" đang chạy và hiện "Connected"
 - [ ] Figma Desktop đang mở file thiết kế (Dev Mode MCP tự khởi động cùng Figma)
+
+---
+
+### `/scan-specs --feature <featureId>`
+
+> **Scan UI specs from images or text descriptions**
+> Alternative to `/scan-figma` when Figma is not available.
+
+**When to use:**
+- No Figma design available, but you have mockup screenshots / wireframe images
+- You want to describe screens via text directly in chat
+- You have reference images in `docs/img_references/`
+
+**AI will do:**
+1. Receive images (pasted or from folder) + text descriptions from user
+2. User describes each image: function name, view type (list/detail/form)
+3. Map descriptions into functions
+4. Display proposed mapping for user confirmation
+5. Save images to `docs/img_references/{featureId}/` if pasted directly
+6. Write scanned entry to `figma-to-code-plan.yaml` with `source: specs`
+
+**Usage:**
+```
+You:  /scan-specs --feature 3.1
+      [paste image 1] - Dashboard overview (list view)
+      [paste image 2] - Dashboard detail (detail view)
+
+You:  /scan-specs --feature 3.1 --images docs/img_references/3.1/
+
+You:  /scan-specs --feature 3.1
+      (then describe screens via text only - no images)
+```
+
+**Prerequisites:**
+- NO Figma Desktop required
+- NO MCP Server required
+- User provides images + descriptions
 
 ---
 
@@ -231,6 +285,18 @@ Bạn:  /update-feature Đăng nhập
 Bạn:  /gen-module Xúc tiến đầu tư
   → AI gen toàn bộ 50+ features
   → Plan: Module 2 = ✅
+
+═══════════════════════════════════════════════════════
+  NGÀY 25: Có mockup ảnh cho feature chưa có trên Figma
+═══════════════════════════════════════════════════════
+
+Bạn:  /scan-specs --feature 3.1
+  → Paste ảnh mockup + mô tả từng màn
+  → AI ghi vào plan YAML (source: specs)
+
+Bạn:  /gen-feature 3.1
+  → AI gen code từ ảnh specs
+  → Plan: 3.1 = ✅
 ```
 
 ---
@@ -239,7 +305,8 @@ Bạn:  /gen-module Xúc tiến đầu tư
 
 ### 1. Thứ tự bắt buộc
 ```
-/init-design-system  →  PHẢI chạy trước mọi lệnh khác
+/scan-figma hoặc /scan-specs  →  Scan thông tin UI trước
+/init-design-system  →  PHẢI chạy trước mọi lệnh gen
 /gen-module hoặc /gen-feature  →  Chạy sau Phase 0
 /update-*  →  Chỉ chạy khi feature/module đã gen trước đó
 ```
@@ -272,8 +339,10 @@ Bạn:  /gen-module Xúc tiến đầu tư
 | Tôi muốn... | Lệnh |
 |-------------|------|
 | Bắt đầu dự án | `/init-design-system` |
+| Scan UI từ Figma | `/scan-figma --section <nodeId> --feature <id>` |
+| Scan UI từ ảnh/text | `/scan-specs --feature <id>` |
 | Gen toàn bộ 1 module | `/gen-module [tên]` |
 | Gen 1 feature nhỏ | `/gen-feature [tên]` |
 | Cập nhật 1 module | `/update-module [tên]` |
 | Cập nhật 1 feature | `/update-feature [tên]` |
-| Xem tiến độ | Mở `figma-to-code-plan.md` |
+| Xem tiến độ | Mở `figma-to-code-plan.yaml` |

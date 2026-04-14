@@ -14,9 +14,32 @@ phase_0:
     - Header
     - TabBar
 
-# Chỉ chứa features đã được scan từ Figma.
-# Workflow scan-figma sẽ thêm entry mới vào đây.
+# Features da scan tu Figma hoac Specs.
+# Workflow scan-figma hoac scan-specs se them entry moi vao day.
+# Moi feature chi co 1 source duy nhat:
+#   - (khong ghi hoac) source: figma — scan tu Figma MCP
+#   - source: specs — scan tu anh mo ta / text mo ta
+# Entry specs dung spec_images + spec_description thay cho figma_nodes.
 scanned:
+  - feature: '1.0'
+    name: Trang chủ & Điều hướng
+    status: done
+    spec_source: figma
+    scanned_at: '2026-04-14'
+    figma_section: '523:5096'
+    figma_section_name: 'Common'
+    functions:
+      - id: '1.0.1'
+        name: Màn hình Trang chủ (Dashboard)
+        status: done
+        figma_nodes:
+          - '755:743'
+      - id: '1.0.2'
+        name: Menu điều hướng (Left Sidebar)
+        status: done
+        figma_nodes:
+          - '755:259'
+
   - feature: '1.1'
     name: Khai thác thông tin khu công nghiệp trên mobile
     scanned_at: '2026-04-12'
@@ -345,3 +368,195 @@ scanned:
         figma_nodes:
           - '37:1770'   # UC 75: Danh sách thủ tục hành chính đã hủy
         note: Tab "Đã hủy" with single Xem button + cancel reason box
+
+  - feature: '2.6'
+    name: Tin tức & Hỗ trợ (UC85 - UC115)
+    scanned_at: '2026-04-14'
+    generated_at: '2026-04-14'
+    figma_section: '341:2099'
+    figma_section_name: 'UC 99-104: Hướng dẫn sử dụng'
+    status: done
+    spec_source: figma
+    spec_files:
+      - 'docs/img_references/UC85-Danh sách các khu vực đầu tư.png'
+      - 'docs/img_references/UC86.1-Danh sách lĩnh vực đầu tư.png'
+      - 'docs/img_references/UC86.2- Bản tin trong thông tin lĩnh vực đầu tư.png'
+      - 'docs/img_references/UC87.1-Bản tin chính sách đầu tư.png'
+      - 'docs/img_references/UC85-Chi tiết thông tin khu vực đầu tư.png'
+      - 'docs/img_references/UC86.3-Chi tiết bản tin thông tin lĩnh vực đầu tư.png'
+      - 'docs/img_references/UC87.2-Chi tiết bản tin chính sách đầu tư.png'
+      - 'docs/img_references/UC99 - Tra cứu thủ tục hành chính.png'
+      - 'docs/img_references/UC1111, UC105, UC106 - Câu hỏi thường gặp.png'
+      - 'docs/img_references/UC107, UC108, UC109 - Câu hỏi thường gặp.png'
+      - 'docs/img_references/UC110 - Câu hỏi thường gặp.png'
+    spec_notes: |
+      Flow thông tin: Danh sách -> bản tin -> chi tiết bản tin.
+      Flow FAQ: Trang chủ chủ đề -> Danh sách câu hỏi (Accordion) -> Search.
+    status: done
+    generated_at: '2026-04-14'
+    functions:
+      - id: '85'
+        name: UC 85 - Thông tin khu vực đầu tư
+        status: done
+        file_path: app/src/screens/InvestmentArea/AreaListScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes: []
+        spec_description: |
+          Flow: Danh sách -> Chi tiết
+      - id: '86'
+        name: UC 86 - Lĩnh vực đầu tư
+        status: done
+        file_path: app/src/screens/InvestmentSector/SectorListScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes: []
+        spec_description: |
+          Flow: Danh sách -> Bản tin -> Chi tiết
+      - id: '87'
+        name: UC 87 - Chính sách đầu tư
+        status: done
+        file_path: app/src/screens/InvestmentPolicy/PolicyNewsScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes: []
+        spec_description: |
+          Flow: Bản tin -> Chi tiết
+      - id: '95'
+        name: UC 95 - Tra cứu tin tức đầu tư
+        status: done
+        file_path: app/src/screens/InvestmentNews/InvestmentNewsScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes: []
+        spec_description: |
+          Tương tự UC87: 1 màn danh sách bản tin và 1 màn chi tiết bản tin
+          Flow: Danh sách bản tin -> Chi tiết
+      - id: '96'
+        name: UC 96 - Tra cứu tin tức Dịch vụ công
+        status: done
+        file_path: app/src/screens/PublicServiceNews/PublicServiceNewsScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes: []
+        spec_description: |
+          Tương tự UC87: 1 màn danh sách bản tin và 1 màn chi tiết bản tin
+          Flow: Danh sách bản tin -> Chi tiết
+      - id: '97'
+        name: UC 97 - Tra cứu câu chuyện thành công
+        status: done
+        file_path: app/src/screens/SuccessStoryNews/SuccessStoryScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes: []
+        spec_description: |
+          Tương tự UC87: 1 màn danh sách bản tin và 1 màn chi tiết bản tin
+          Flow: Danh sách bản tin -> Chi tiết
+      - id: '98'
+        name: UC 98 - Tra cứu văn bản pháp luật
+        status: done
+        file_path: app/src/screens/LegalDocument/LegalDocumentListScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '43:1724'
+          - '113:1120'
+        spec_description: 'Quyển văn bản pháp luật: màn danh sách và chi tiết'
+      - id: '114'
+        name: UC 114 - Liên hệ
+        status: done
+        file_path: app/src/screens/Contact/ContactScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '43:1303'
+          - '43:1411'
+        spec_description: 'Trang liên hệ: Địa chỉ, Điện thoại, Email, Website, Bản đồ, Giờ làm việc'
+      - id: '115'
+        name: UC 115 - Giới thiệu
+        status: done
+        file_path: app/src/screens/About/AboutScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '43:1139'
+          - '43:1225'
+        spec_description: 'Trang giới thiệu: Mục tiêu, Chức năng chính, Lợi ích, Tổng quan, Cơ cấu tổ chức'
+      - id: '99'
+        name: UC 99 - Tra cứu thủ tục hành chính
+        status: done
+        file_path: app/src/screens/Procedure/ProcedureListScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes: []
+        spec_description: |
+          Màn hình danh sách thủ tục hành chính với SearchBar và Tabs lọc theo cấp (Trung ương/Tỉnh/Xã).
+          Card hiển thị: Badge đơn vị, Badge trạng thái, tiêu đề bold, meta info (thời gian xử lý, số hồ sơ), và link Xem chi tiết.
+      - id: '104'
+        name: UC 104 - Tra cứu hướng dẫn sử dụng (Main Menu)
+        status: done
+        file_path: app/src/screens/Help/HelpGuideScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '341:532'
+      - id: '100-103'
+        name: UC 100-103 - Nội dung chi tiết hướng dẫn
+        status: done
+        file_path: app/src/screens/Help/HelpDetailScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '354:2149'
+          - '354:2157'
+          - '354:2158'
+          - '354:2159'
+          - '354:2194'
+        note: Unified screen for all help step content.
+      - id: '111'
+        name: UC 111 - Câu hỏi thường gặp (Trang chủ)
+        status: done
+        file_path: app/src/screens/FAQ/FAQHomeScreen.tsx
+        generated_at: '2026-04-14'
+        spec_source: specs
+        spec_description: |
+          Header: BackButton + "Câu hỏi thường gặp"
+          Body: 
+            - "Chọn chủ đề": Grid 2 cột các Card chủ đề (Icon + Tên + Số câu hỏi).
+            - SearchBar: "Tìm kiếm câu hỏi, từ khóa..." ở phía dưới grid.
+            - "Câu hỏi phổ biến nhất": Section header với icon ngôi sao, chứa danh sách các câu hỏi nổi bật (Accordion).
+      - id: '105-110'
+        name: UC 105-110 - Câu hỏi thường gặp theo chủ đề
+        status: done
+        file_path: app/src/screens/FAQ/FAQCategoryScreen.tsx
+        generated_at: '2026-04-14'
+        spec_source: specs
+        spec_description: |
+          Header: BackButton + Tên chủ đề (vd: "Câu hỏi chung", "Pháp lý & Giấy tờ")
+          Body:
+            - Badge nổi bật ở đầu: Icon + Tên chủ đề + Số lượng câu hỏi.
+            - SearchBar: "Tìm kiếm trong [chủ đề]..."
+            - Sub-tabs (tùy chọn): Thuế TNDN, Thuế GTGT... (vd màn Thuế).
+            - Danh sách câu hỏi (Accordion): 
+              - Card gồm: Mini Badge chủ đề, Câu hỏi (bold), Arrow icon.
+              - Khi bấm: Mở rộng hiển thị câu trả lời bên dưới.
+              - Badge "Phổ biến" (vàng) cho các câu được quan tâm nhiều.
+
+  - feature: '4.1'
+    name: Quản lý tài khoản nhà đầu tư trên mobile
+    spec_source: figma
+    scanned_at: '2026-04-14'
+    figma_section: '110:12'
+    figma_section_name: 'UC 171-177: Quản lý tài khoản nhà đầu tư trên mobile'
+    status: done
+    functions:
+      - id: '171'
+        name: Quản lý thông tin tài khoản cá nhân
+        status: done
+        figma_nodes:
+          - '110:188'
+          - '115:458'
+      - id: '172'
+        name: Quản lý thông tin tài khoản doanh nghiệp
+        status: done
+        figma_nodes:
+          - '120:717'
+          - '120:1065'
+      - id: '173'
+        name: Đổi mật khẩu
+        status: done
+        figma_nodes:
+          - '126:230'
+      - id: '176'
+        name: Cấu hình tài khoản người dùng
+        status: done
+        figma_nodes:
+          - '126:312'
