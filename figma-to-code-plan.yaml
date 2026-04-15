@@ -560,3 +560,44 @@ scanned:
         status: done
         figma_nodes:
           - '126:312'
+
+  - feature: '4.2'
+    name: Đăng nhập & Xác thực
+    spec_source: figma
+    scanned_at: '2026-04-14'
+    generated_at: '2026-04-14'
+    figma_section: '163:2516'
+    figma_section_name: 'UC 178: đăng nhập'
+    status: done
+    functions:
+      - id: '178.1'
+        name: Chọn phương thức đăng nhập
+        status: done
+        file_path: app/src/screens/Auth/LoginMethodScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '159:43'
+      - id: '178.2'
+        name: Đăng nhập bằng Mã định danh (Vân tay/FaceID)
+        status: done
+        file_path: app/src/screens/Auth/IdentityLoginScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '159:175'
+          - '332:197'
+      - id: '178.3'
+        name: Đăng nhập bằng VNeID (QR Code/Manual)
+        status: done
+        file_path: app/src/screens/Auth/VNeIDLoginScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '159:273'
+          - '183:3308'
+      - id: '178.4'
+        name: Lựa chọn ngôn ngữ (Popup)
+        status: done
+        file_path: app/src/screens/Auth/LoginMethodScreen.tsx
+        generated_at: '2026-04-14'
+        figma_nodes:
+          - '523:6236'
+        note: Integrated as a modal in LoginMethodScreen.

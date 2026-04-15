@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import {
   DrawerContentComponentProps,
@@ -14,7 +15,7 @@ import {
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { typography } from '../../theme/typography';
-import { Icon } from '../shared';
+import { Icon, ConfirmModal } from '../shared';
 
 interface NavItem {
   label: string;
@@ -25,6 +26,7 @@ interface NavItem {
 
 export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
   const { navigation } = props;
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const sections: { title: string; items: NavItem[] }[] = [
     {
@@ -73,6 +75,14 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
       screen: route,
       params: params,
     });
+  };
+
+  const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = () => {
+    navigation.navigate('MainStack', { screen: 'LoginMethod' });
   };
 
   return (
@@ -129,11 +139,25 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
           <Icon name="settings" size={18} color={colors.textPrimary} />
           <Text style={styles.footerItemLabel}>Cấu hình tài khoản</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItem}>
+        <TouchableOpacity 
+          style={styles.footerItem}
+          onPress={handleLogout}
+        >
           <Icon name="log-out" size={18} color="#e53935" />
           <Text style={[styles.footerItemLabel, { color: '#e53935' }]}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
+
+      <ConfirmModal
+        visible={showLogoutModal}
+        title="Xác nhận đăng xuất"
+        message="Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?"
+        confirmText="Đăng xuất"
+        cancelText="Hủy"
+        isDestructive
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={confirmLogout}
+      />
     </SafeAreaView>
   );
 };

@@ -6,15 +6,13 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors, spacing, typography } from '../../theme';
 import { Header, Card } from '../../components/shared';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-const { width } = Dimensions.get('window');
 
 const FAQ_CATEGORIES = [
   { id: 'all', title: 'Tất cả', count: 39, icon: 'apps', color: '#8B1A2B' },
@@ -44,93 +42,97 @@ type Props = NativeStackScreenProps<RootStackParamList, 'FAQHome'>;
 
 const FAQHomeScreen = ({ navigation }: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const { width } = useWindowDimensions();
+
+  const cardWidth = (width - 48) / 2;
 
   const renderCategoryCard = (item: typeof FAQ_CATEGORIES[0]) => (
     <TouchableOpacity
       key={item.id}
-      style={styles.cardWrapper}
+      style={[styles.cardWrapper, { width: cardWidth }]}
       onPress={() => item.id !== 'more' && navigation.navigate('FAQCategory', { 
         categoryId: item.id,
         categoryName: item.title 
       })}
     >
       <View style={[styles.card, styles.categoryCard, item.id === 'all' && styles.activeCard]}>
-        <View style={[styles.iconBox, { backgroundColor: `${item.color}15` }]}>
-          <MaterialCommunityIcons name={item.icon as any} size={24} color={item.color} />
+        <View style={styles.cardContentInner}>
+          <View style={[styles.iconBox, item.id === 'all' && styles.activeIconBox]}>
+            <MaterialCommunityIcons 
+              name={item.icon as any} 
+              size={24} 
+              color={item.id === 'all' ? colors.surface : colors.primary} 
+            />
+          </View>
+          <Text style={[styles.cardCategory, item.id === 'all' && styles.activeText]}>{item.title}</Text>
+          <Text style={[styles.cardCount, item.id === 'all' && styles.activeText]}>{item.count} câu hỏi</Text>
         </View>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        {item.count > 0 && (
-          <Text style={styles.cardCount}>{item.count} câu hỏi</Text>
-        )}
       </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Header title="Câu hỏi thường gặp" onBack={() => navigation.goBack()} />
+      <Header 
+        title="Câu hỏi thường gặp" 
+        onBack={() => navigation.goBack()}
+      />
       
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Text style={styles.sectionTitle}>Chọn chủ đề</Text>
-        
-        <View style={styles.grid}>
-          {FAQ_CATEGORIES.map(renderCategoryCard)}
-        </View>
-
-        <View style={styles.searchSection}>
-          <View style={styles.searchBar}>
-            <MaterialCommunityIcons name="magnify" size={20} color={colors.textSecondary} />
+      <ScrollView 
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.heroSection}>
+          <Text style={styles.heroTitle}>Chúng tôi có thể giúp gì cho bạn?</Text>
+          <View style={styles.searchContainer}>
+            <MaterialCommunityIcons name="magnify" size={24} color={colors.textSecondary} />
             <TextInput
               style={styles.searchInput}
-              placeholder="Tìm kiếm câu hỏi, từ khóa..."
+              placeholder="Tìm kiếm câu hỏi..."
               value={searchQuery}
               onChangeText={setSearchQuery}
-              placeholderTextColor={colors.textSecondary}
             />
           </View>
         </View>
 
-        <View style={styles.popularSection}>
-          <View style={styles.sectionHeader}>
-            <MaterialCommunityIcons name="star" size={20} color="#F59E0B" style={{ marginRight: 8 }} />
-            <Text style={styles.sectionTitle}>Câu hỏi phổ biến nhất</Text>
-          </View>
-
-          {POPULAR_QUESTIONS.map((item) => (
-            <AccordionItem key={item.id} question={item.question} answer={item.answer} />
-          ))}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Chủ đề phổ biến</Text>
         </View>
-        
-        <View style={styles.footerSpace} />
+
+        <View style={styles.grid}>
+          {FAQ_CATEGORIES.map(renderCategoryCard)}
+        </View>
+
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Câu hỏi thường gặp</Text>
+          <TouchableOpacity>
+            <Text style={styles.seeAllText}>Xem tất cả</Text>
+          </TouchableOpacity>
+        </View>
+
+        {POPULAR_QUESTIONS.map((item) => (
+          <Card key={item.id} style={styles.questionCard}>
+            <Text style={styles.question}>{item.question}</Text>
+            <Text style={styles.answer} numberOfLines={3}>{item.answer}</Text>
+            <TouchableOpacity style={styles.readMoreBtn}>
+              <Text style={styles.readMoreText}>Đọc tiếp</Text>
+              <MaterialCommunityIcons name="chevron-right" size={16} color={colors.primary} />
+            </TouchableOpacity>
+          </Card>
+        ))}
+
+        <View style={styles.contactSection}>
+          <Text style={styles.contactTitle}>Vẫn chưa tìm thấy câu trả lời?</Text>
+          <Text style={styles.contactDesc}>
+            Nếu bạn không tìm thấy thông tin mình cần, hãy liên hệ trực tiếp với chúng tôi để được hỗ trợ.
+          </Text>
+          <TouchableOpacity style={styles.contactBtn}>
+            <Text style={styles.contactBtnText}>Gửi yêu cầu hỗ trợ</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
-  );
-};
-
-const AccordionItem = ({ question, answer }: { question: string, answer: string }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  return (
-    <Card style={styles.accordionCard}>
-      <TouchableOpacity
-        onPress={() => setIsExpanded(!isExpanded)}
-        style={styles.accordionHeader}
-        activeOpacity={0.7}
-      >
-        <Text style={styles.questionText}>{question}</Text>
-        <MaterialCommunityIcons
-          name={isExpanded ? 'chevron-up' : 'chevron-down'}
-          size={20}
-          color={colors.textSecondary}
-        />
-      </TouchableOpacity>
-      {isExpanded && (
-        <View style={styles.accordionContent}>
-          <View style={styles.divider} />
-          <Text style={styles.answerText}>{answer}</Text>
-        </View>
-      )}
-    </Card>
   );
 };
 
@@ -139,133 +141,178 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F9FA',
   },
+  content: {
+    flex: 1,
+  },
   scrollContent: {
     paddingBottom: spacing.xl,
   },
-  sectionTitle: {
+  heroSection: {
+    padding: spacing.lg,
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEEEEE',
+  },
+  heroTitle: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.semiBold,
     color: colors.textPrimary,
-    marginHorizontal: spacing.lg,
-    marginTop: spacing.lg,
     marginBottom: spacing.md,
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: spacing.lg,
-    gap: spacing.md,
-  },
-  cardWrapper: {
-    width: '48%',
-    marginBottom: spacing.md,
-  },
-  card: {
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  categoryCard: {
-    padding: spacing.md,
-    alignItems: 'center',
-    minHeight: 110,
-    justifyContent: 'center',
-    borderRadius: 16,
-    flex: 1,
-    height: '100%',
-  },
-  activeCard: {
-    borderColor: colors.primary,
-    borderWidth: 1,
-  },
-  iconBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: typography.fontWeight.semiBold,
-    color: colors.textPrimary,
     textAlign: 'center',
-    marginBottom: 4,
   },
-  cardCount: {
-    fontSize: 11,
-    color: colors.textSecondary,
-  },
-  searchSection: {
-    marginHorizontal: spacing.lg,
-    marginTop: spacing.md,
-  },
-  searchBar: {
+  searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: spacing.md,
+    backgroundColor: '#F1F3F5',
     borderRadius: 12,
-    height: 48,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    paddingHorizontal: spacing.md,
+    height: 50,
   },
   searchInput: {
     flex: 1,
     marginLeft: spacing.sm,
-    fontSize: 14,
+    fontSize: typography.fontSize.md,
+    fontWeight: typography.fontWeight.regular,
     color: colors.textPrimary,
-  },
-  popularSection: {
-    marginTop: spacing.xl,
-    paddingHorizontal: spacing.lg,
   },
   sectionHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  accordionCard: {
-    padding: 0,
-    marginBottom: spacing.sm,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  accordionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: spacing.md,
     justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.md,
   },
-  questionText: {
-    flex: 1,
-    fontSize: 14,
-    fontWeight: typography.fontWeight.semiBold,
+  sectionTitle: {
+    fontSize: typography.fontSize.md,
+    lineHeight: typography.lineHeight.md,
+    fontWeight: '700',
     color: colors.textPrimary,
-    paddingRight: spacing.sm,
   },
-  accordionContent: {
+  seeAllText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.primary,
+    fontWeight: '600',
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: spacing.md,
+    justifyContent: 'center',
+  },
+  cardWrapper: {
+    padding: 8,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 16,
     padding: spacing.md,
-    backgroundColor: '#F9FAFB',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#EEEEEE',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  divider: {
-    height: 1,
-    backgroundColor: '#E5E7EB',
+  categoryCard: {
+    height: 140,
+    justifyContent: 'center',
+  },
+  cardContentInner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  activeCard: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  iconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: `${colors.primary}10`,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
+  activeIconBox: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  cardCategory: {
+    fontSize: typography.fontSize.sm,
+    fontWeight: '700',
+    color: colors.textPrimary,
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  activeText: {
+    color: colors.surface,
+  },
+  cardCount: {
+    fontSize: 11,
+    color: colors.textSecondary,
+    fontWeight: '500',
+  },
+  questionCard: {
+    marginHorizontal: spacing.lg,
     marginBottom: spacing.md,
+    padding: spacing.lg,
   },
-  answerText: {
-    fontSize: 14,
+  question: {
+    fontSize: typography.fontSize.md,
+    fontWeight: '700',
+    color: colors.textPrimary,
+    marginBottom: spacing.xs,
+  },
+  answer: {
+    fontSize: typography.fontSize.sm,
     color: colors.textSecondary,
     lineHeight: 20,
+    marginBottom: spacing.sm,
   },
-  footerSpace: {
-    height: 40,
+  readMoreBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  readMoreText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.primary,
+    fontWeight: '600',
+    marginRight: 4,
+  },
+  contactSection: {
+    marginTop: spacing.xl,
+    padding: spacing.xl,
+    backgroundColor: '#8B1A2B10',
+    marginHorizontal: spacing.lg,
+    borderRadius: 20,
+    alignItems: 'center',
+  },
+  contactTitle: {
+    fontSize: typography.fontSize.md,
+    fontWeight: '700',
+    color: colors.textPrimary,
+    marginBottom: spacing.xs,
+  },
+  contactDesc: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: spacing.lg,
+  },
+  contactBtn: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    borderRadius: 12,
+  },
+  contactBtnText: {
+    fontSize: typography.fontSize.md,
+    fontWeight: typography.fontWeight.medium,
+    color: colors.surface,
   },
 });
 

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
-  Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
@@ -17,20 +17,21 @@ import { typography } from '../../theme/typography';
 import { Icon, Badge } from '../../components/shared';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 
-const { width } = Dimensions.get('window');
-
 type HomeScreenNavigationProp = DrawerNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { width } = useWindowDimensions();
+
+  const itemWidth = (width - 32 - 16) / 3;
 
   const quickAccessItems = [
-    { title: 'Thủ tục hành chính', icon: 'file-text' as const, color: '#eff6ff', route: 'ProcedureList' },
-    { title: 'Quản lý hồ sơ', icon: 'folder' as const, color: '#f0fdf4', route: 'DossierList' },
-    { title: 'Quản lý đặt lịch', icon: 'calendar' as const, color: '#fef3c7', route: 'AppointmentList' },
-    { title: 'Khu công nghiệp / KKT', icon: 'layers' as const, color: '#faf5ff', route: 'IZList', params: { zoneType: 'kcn' } },
-    { title: 'Câu hỏi (FAQ)', icon: 'help-circle' as const, color: '#fdf2f8', route: 'FAQHome' },
-    { title: 'Văn bản pháp luật', icon: 'book' as const, color: '#eef2ff', route: 'LegalDocumentList' },
+    { title: 'Thủ tục hành chính', icon: 'file-text' as const, route: 'ProcedureList' },
+    { title: 'Quản lý hồ sơ', icon: 'folder' as const, route: 'DossierList' },
+    { title: 'Quản lý đặt lịch', icon: 'calendar' as const, route: 'AppointmentList' },
+    { title: 'Khu công nghiệp / KKT', icon: 'layers' as const, route: 'IZList', params: { zoneType: 'kcn' } },
+    { title: 'Câu hỏi (FAQ)', icon: 'help-circle' as const, route: 'FAQHome' },
+    { title: 'Văn bản pháp luật', icon: 'book' as const, route: 'LegalDocumentList' },
   ];
 
   const stats = [
@@ -105,7 +106,7 @@ export const HomeScreen: React.FC = () => {
             {quickAccessItems.map((item, index) => (
               <TouchableOpacity 
                 key={index} 
-                style={styles.quickAccessItem}
+                style={[styles.quickAccessItem, { width: itemWidth }]}
                 onPress={() => {
                   if (item.route && item.route !== 'Placeholder') {
                     // @ts-ignore
@@ -113,8 +114,8 @@ export const HomeScreen: React.FC = () => {
                   }
                 }}
               >
-                <View style={[styles.quickAccessIconBg, { backgroundColor: item.color }]}>
-                  <Icon name={item.icon} size={20} color={colors.textPrimary} />
+                <View style={styles.quickAccessIconBg}>
+                  <Icon name={item.icon} size={24} color={colors.primary} />
                 </View>
                 <Text style={styles.quickAccessText} numberOfLines={2}>
                   {item.title}
@@ -379,7 +380,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   quickAccessItem: {
-    width: (width - 32 - 16) / 3,
     backgroundColor: colors.surface,
     borderRadius: 16,
     padding: spacing.md,
@@ -394,9 +394,10 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
   quickAccessIconBg: {
-    width: 48,
-    height: 48,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: `${colors.primary}10`,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,

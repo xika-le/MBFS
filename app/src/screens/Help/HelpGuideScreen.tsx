@@ -5,15 +5,12 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
+  useWindowDimensions,
   StatusBar,
 } from 'react-native';
 import { colors, spacing, typography } from '../../theme';
 import { Header, Card } from '../../components/shared';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - spacing.lg * 2 - spacing.md) / 2;
 
 const GUIDE_CATEGORIES = [
   {
@@ -48,8 +45,8 @@ const GUIDE_CATEGORIES = [
   },
 ];
 
-const GuideCard = ({ title, desc, icon, onPress }: any) => (
-  <TouchableOpacity style={styles.cardWrapper} onPress={onPress} activeOpacity={0.8}>
+const GuideCard = ({ title, desc, icon, onPress, cardWidth }: any) => (
+  <TouchableOpacity style={[styles.cardWrapper, { width: cardWidth }]} onPress={onPress} activeOpacity={0.8}>
     <Card style={styles.guideCard}>
       <View style={styles.iconBox}>
         <MaterialCommunityIcons name={icon} size={24} color={colors.primary} />
@@ -60,52 +57,71 @@ const GuideCard = ({ title, desc, icon, onPress }: any) => (
           {desc}
         </Text>
       </View>
-      <Text style={styles.linkText}>Xem hướng dẫn {'>'}</Text>
+      <View style={styles.footer}>
+        <Text style={styles.readMore}>Xem ngay</Text>
+        <MaterialCommunityIcons name="arrow-right" size={16} color={colors.primary} />
+      </View>
     </Card>
   </TouchableOpacity>
 );
 
 const HelpGuideScreen = ({ navigation }: any) => {
-  const handleGuidePress = (guide: any) => {
-    navigation.navigate('HelpDetail', { guideId: guide.id, title: guide.title });
-  };
+  const { width } = useWindowDimensions();
+  const cardWidth = (width - spacing.lg * 2 - spacing.md) / 2;
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary} />
+      <StatusBar barStyle="light-content" />
       <Header 
         title="Hướng dẫn sử dụng" 
-        onBack={() => navigation.goBack()} 
+        onBack={() => navigation.goBack()}
       />
       
       <ScrollView 
-        style={styles.scrollContainer} 
-        contentContainerStyle={styles.content}
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.heroSection}>
-          <Text style={styles.heroTitle}>Hướng dẫn sử dụng</Text>
-          <Text style={styles.heroSubtitle}>
-            Tài liệu hướng dẫn chi tiết giúp bạn tận dụng tối đa các tính năng của hệ thống
+        <View style={styles.welcomeSection}>
+          <Text style={styles.welcomeTitle}>Khu vực hướng dẫn</Text>
+          <Text style={styles.welcomeDesc}>
+            Lựa chọn chủ đề bạn đang quan tâm để xem hướng dẫn chi tiết về các tính năng trên hệ thống FIA.
           </Text>
         </View>
 
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionLabel}>DANH MỤC HƯỚNG DẪN</Text>
-          <View style={styles.grid}>
-            {GUIDE_CATEGORIES.map((cat) => (
-              <GuideCard
-                key={cat.id}
-                title={cat.title}
-                desc={cat.desc}
-                icon={cat.icon}
-                onPress={() => handleGuidePress(cat)}
-              />
-            ))}
+        <View style={styles.grid}>
+          {GUIDE_CATEGORIES.map((item) => (
+            <GuideCard
+              key={item.id}
+              {...item}
+              cardWidth={cardWidth}
+              onPress={() => navigation.navigate('HelpDetail', { guideId: item.id, title: item.title })}
+            />
+          ))}
+        </View>
+
+        <View style={styles.communitySection}>
+          <View style={styles.commCard}>
+            <View style={styles.commHeader}>
+              <MaterialCommunityIcons name="message-question-outline" size={24} color={colors.primary} />
+              <Text style={styles.commTitle}>Vẫn cần trợ giúp?</Text>
+            </View>
+            <Text style={styles.commDesc}>
+              Tham khảo các câu hỏi thường gặp hoặc gửi phản ánh kiến nghị để được hỗ trợ trực tiếp.
+            </Text>
+            <View style={styles.commButtons}>
+              <TouchableOpacity 
+                style={[styles.commBtn, styles.primaryBtn]}
+                onPress={() => navigation.navigate('FAQHome')}
+              >
+                <Text style={styles.primaryBtnText}>Xem FAQ</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.commBtn, styles.secondaryBtn]}>
+                <Text style={styles.secondaryBtnText}>Liên hệ</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-        
-        <View style={styles.footerSpace} />
       </ScrollView>
     </View>
   );
@@ -114,68 +130,51 @@ const HelpGuideScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollContainer: {
-    flex: 1,
+    backgroundColor: '#F7F8FA',
   },
   content: {
+    flex: 1,
+  },
+  scrollContent: {
     paddingBottom: spacing.xl,
   },
-  heroSection: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.xl,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.xl,
-    alignItems: 'center',
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
+  welcomeSection: {
+    padding: spacing.xl,
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EDF0F5',
   },
-  heroTitle: {
-    fontSize: 20,
+  welcomeTitle: {
+    fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.semiBold,
-    color: '#fff',
-    textAlign: 'center',
+    color: colors.textPrimary,
     marginBottom: spacing.xs,
   },
-  heroSubtitle: {
+  welcomeDesc: {
     fontSize: typography.fontSize.sm,
-    color: 'rgba(255, 255, 255, 0.85)',
-    textAlign: 'center',
-    lineHeight: 20,
-    maxWidth: 300,
-  },
-  sectionContainer: {
-    marginTop: spacing.lg,
-    paddingHorizontal: spacing.lg,
-  },
-  sectionLabel: {
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.semiBold,
     color: colors.textSecondary,
-    marginBottom: spacing.md,
-    letterSpacing: 0.5,
+    lineHeight: 20,
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    padding: spacing.lg,
     justifyContent: 'space-between',
+    gap: spacing.md,
   },
   cardWrapper: {
-    width: CARD_WIDTH,
-    marginBottom: spacing.md,
+    // Width is dynamic from props
   },
   guideCard: {
     padding: spacing.md,
-    height: 185,
+    height: 180,
     justifyContent: 'space-between',
-    borderRadius: spacing.borderRadius.lg,
   },
   iconBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 10,
-    backgroundColor: '#F3F4F6',
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: `${colors.primary}10`,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: spacing.sm,
@@ -184,25 +183,82 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardTitle: {
-    fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.semiBold,
+    fontSize: typography.fontSize.md,
     color: colors.textPrimary,
-    lineHeight: 18,
+    fontWeight: '700',
     marginBottom: 4,
   },
   cardDesc: {
-    fontSize: 11,
+    fontSize: typography.fontSize.xs,
     color: colors.textSecondary,
-    lineHeight: 15,
+    lineHeight: 16,
   },
-  linkText: {
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: spacing.xs,
+  },
+  readMore: {
     fontSize: 12,
-    fontWeight: typography.fontWeight.semiBold,
     color: colors.primary,
-    marginTop: spacing.xs,
+    fontWeight: '600',
+    marginRight: 4,
   },
-  footerSpace: {
-    height: spacing.xl,
+  communitySection: {
+    paddingHorizontal: spacing.xl,
+    marginTop: spacing.md,
+  },
+  commCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: spacing.lg,
+    borderWidth: 1,
+    borderColor: '#EDF0F5',
+  },
+  commHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.xs,
+  },
+  commTitle: {
+    fontSize: typography.fontSize.md,
+    color: colors.textPrimary,
+    fontWeight: '700',
+    marginLeft: spacing.sm,
+  },
+  commDesc: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
+    lineHeight: 20,
+    marginBottom: spacing.lg,
+  },
+  commButtons: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  commBtn: {
+    flex: 1,
+    height: 44,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  primaryBtn: {
+    backgroundColor: colors.primary,
+  },
+  primaryBtnText: {
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.medium,
+    color: colors.surface,
+  },
+  secondaryBtn: {
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+  secondaryBtnText: {
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.medium,
+    color: colors.primary,
   },
 });
 

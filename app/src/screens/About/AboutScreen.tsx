@@ -11,9 +11,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Header } from '../../components/shared/Header';
+import { Header, Card, Icon } from '../../components/shared';
 import { TabBar } from '../../components/shared/TabBar';
-import { Card } from '../../components/shared/Card';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { typography } from '../../theme/typography';
@@ -32,7 +31,7 @@ export const AboutScreen = () => {
       <Card style={styles.mainCard}>
         <View style={styles.titleSection}>
           <View style={styles.iconCircle}>
-             <Text style={styles.iconSymbol}>🌐</Text>
+             <Icon name="globe" size={32} color={colors.primary} />
           </View>
           <View style={styles.titleTextContainer}>
             <Text style={styles.mainTitle}>CỔNG MỘT CỬA ĐẦU TƯ QUỐC GIA</Text>
@@ -53,7 +52,7 @@ export const AboutScreen = () => {
         <View style={styles.sectionBox}>
           <View style={styles.sectionHeader}>
             <View style={styles.smallIconCircle}>
-              <Text style={styles.smallIconSymbol}>🎯</Text>
+              <Icon name="target" size={18} color={colors.primary} />
             </View>
             <Text style={styles.sectionTitle}>MỤC TIÊU VÀ SỨ MỆNH</Text>
           </View>
@@ -69,18 +68,18 @@ export const AboutScreen = () => {
 
         <Text style={[styles.sectionTitle, { marginTop: spacing.lg, marginLeft: spacing.sm }]}>CÁC TÍNH NĂNG CHÍNH</Text>
         <View style={styles.grid}>
-          <FeatureMiniCard icon="📄" title="Thủ tục trực tuyến" desc="Nộp hồ sơ, theo dõi tiến độ xử lý và nhận kết quả trực tuyến 24/7." />
-          <FeatureMiniCard icon="🎯" title="Cơ hội đầu tư" desc="Tra cứu thông tin các lĩnh vực ưu tiên và địa bàn khuyến khích đầu tư." />
-          <FeatureMiniCard icon="🎖️" title="Chính sách ưu đãi" desc="Thông tin chi tiết về các chính sách ưu đãi đầu tư theo ngành, lĩnh vực." />
-          <FeatureMiniCard icon="👬" title="Hỗ trợ nhà đầu tư" desc="Giải đáp thắc mắc, hỗ trợ tư vấn và kết nối nhà đầu tư." />
-          <FeatureMiniCard icon="🌐" title="Thông tin đa ngôn ngữ" desc="Cung cấp thông tin bằng nhiều ngôn ngũ, phục vụ nhà đầu tư quốc tế." />
-          <FeatureMiniCard icon="📍" title="Bản đồ đầu tư" desc="Tra cứu thông tin khu công nghiệp, khu kinh tế trên bản đồ tương tác." />
+          <FeatureMiniCard icon="file-text" title="Thủ tục trực tuyến" desc="Nộp hồ sơ, theo dõi tiến độ xử lý và nhận kết quả trực tuyến 24/7." />
+          <FeatureMiniCard icon="target" title="Cơ hội đầu tư" desc="Tra cứu thông tin các lĩnh vực ưu tiên và địa bàn khuyến khích đầu tư." />
+          <FeatureMiniCard icon="award" title="Chính sách ưu đãi" desc="Thông tin chi tiết về các chính sách ưu đãi đầu tư theo ngành, lĩnh vực." />
+          <FeatureMiniCard icon="users" title="Hỗ trợ nhà đầu tư" desc="Giải đáp thắc mắc, hỗ trợ tư vấn và kết nối nhà đầu tư." />
+          <FeatureMiniCard icon="globe" title="Thông tin đa ngôn ngữ" desc="Cung cấp thông tin bằng nhiều ngôn ngũ, phục vụ nhà đầu tư quốc tế." />
+          <FeatureMiniCard icon="map-pin" title="Bản đồ đầu tư" desc="Tra cứu thông tin khu công nghiệp, khu kinh tế trên bản đồ tương tác." />
         </View>
 
         <View style={[styles.sectionBox, { marginTop: spacing.lg }]}>
           <View style={styles.sectionHeader}>
             <View style={styles.smallIconCircle}>
-              <Text style={styles.smallIconSymbol}>👥</Text>
+              <Icon name="user-check" size={18} color={colors.primary} />
             </View>
             <Text style={styles.sectionTitle}>LỢI ÍCH KHI SỬ DỤNG</Text>
           </View>
@@ -108,7 +107,7 @@ export const AboutScreen = () => {
       <Card style={styles.mainCard}>
         <View style={styles.titleSection}>
           <View style={styles.iconCircle}>
-             <Text style={styles.iconSymbol}>🏢</Text>
+             <Icon name="briefcase" size={32} color={colors.primary} />
           </View>
           <View style={styles.titleTextContainer}>
             <Text style={styles.mainTitle}>Cục Đầu tư nước ngoài</Text>
@@ -159,19 +158,13 @@ const BulletItem = ({ text }: { text: string }) => (
   </View>
 );
 
-const FeatureMiniCard = ({ icon, title, desc }: { icon: string; title: string; desc: string }) => (
+const FeatureMiniCard = ({ icon, title, desc }: { icon: any; title: string; desc: string }) => (
   <View style={styles.featureMiniCard}>
     <View style={styles.iconBox}>
-      <Text style={styles.iconBoxSymbol}>{icon}</Text>
+      <Icon name={icon} size={22} color={colors.primary} />
     </View>
     <Text style={styles.featureTitle}>{title}</Text>
     <Text style={styles.featureDesc}>{desc}</Text>
-  </View>
-);
-
-const BenefitItem = ({ label, color }: any) => (
-  <View style={[styles.benefitItem, { backgroundColor: color }]}>
-    <Text style={styles.benefitLabel}>{label}</Text>
   </View>
 );
 
@@ -196,22 +189,19 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   iconCircle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(139, 26, 26, 0.08)',
+    width: 64,
+    height: 64,
+    borderRadius: 16,
+    backgroundColor: `${colors.primary}10`,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: spacing.md,
-  },
-  iconSymbol: {
-    fontSize: 28,
   },
   titleTextContainer: {
     flex: 1,
   },
   mainTitle: {
-    fontSize: typography.fontSize.lg,
+    fontSize: 16,
     fontWeight: typography.fontWeight.semiBold,
     color: colors.textDark,
     marginBottom: 4,
@@ -219,11 +209,6 @@ const styles = StyleSheet.create({
   agencySubtitle: {
     fontSize: typography.fontSize.sm,
     color: colors.textSecondary,
-  },
-  descriptionText: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textPrimary,
-    lineHeight: 20,
   },
   sectionBox: {
     backgroundColor: '#fff',
@@ -239,19 +224,16 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   smallIconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(139, 26, 26, 0.08)',
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: `${colors.primary}10`,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: spacing.sm,
   },
-  smallIconSymbol: {
-    fontSize: 16,
-  },
   sectionTitle: {
-    fontSize: typography.fontSize.md,
+    fontSize: 13,
     fontWeight: typography.fontWeight.semiBold,
     color: colors.primary,
     marginBottom: spacing.sm,
@@ -272,45 +254,42 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: spacing.md,
+    gap: 12,
     marginTop: spacing.sm,
   },
   featureMiniCard: {
-    width: '47.5%',
+    width: '48%',
     backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: colors.borderLight,
-    borderRadius: spacing.borderRadius.lg,
+    borderColor: 'rgba(0,0,0,0.04)',
+    borderRadius: 16,
     padding: spacing.md,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.03,
     shadowRadius: 4,
     elevation: 2,
     minHeight: 120,
   },
   iconBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(139, 26, 26, 0.05)',
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: `${colors.primary}10`,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: spacing.sm,
   },
-  iconBoxSymbol: {
-    fontSize: 20,
-  },
   featureTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
-    color: colors.primary,
+    color: colors.textDark,
     marginBottom: spacing.xs,
   },
   featureDesc: {
-    fontSize: 12,
+    fontSize: 11,
     color: colors.textSecondary,
-    lineHeight: 18,
+    lineHeight: 16,
   },
   bulletRow: {
     flexDirection: 'row',
@@ -331,22 +310,6 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     lineHeight: 18,
   },
-  benefitsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  benefitItem: {
-    flex: 1,
-    borderRadius: spacing.borderRadius.lg,
-    padding: spacing.lg,
-    alignItems: 'flex-start',
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.03)',
-  },
-  benefitLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.textDark,
-  },
 });
+
+export default AboutScreen;

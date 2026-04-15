@@ -11,9 +11,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Header } from '../../components/shared/Header';
+import { Header, Card, Icon } from '../../components/shared';
 import { TabBar } from '../../components/shared/TabBar';
-import { Card } from '../../components/shared/Card';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { typography } from '../../theme/typography';
@@ -33,7 +32,7 @@ export const ContactScreen = () => {
       <Card style={styles.infoCard}>
         <View style={styles.agencyContainer}>
           <View style={styles.iconCircle}>
-             <Text style={styles.iconSymbol}>🏛️</Text>
+             <Icon name="briefcase" size={28} color={colors.primary} />
           </View>
           <View style={styles.agencyContent}>
             <Text style={styles.agencyTitle}>Cục Đầu tư nước ngoài</Text>
@@ -43,23 +42,23 @@ export const ContactScreen = () => {
 
         <View style={styles.divider} />
 
-        <ContactItem icon="📍" label="Địa chỉ" value="Số 6B Hoàng Diệu, Phường Quán Thánh, Quận Ba Đình, Hà Nội, Việt Nam" />
+        <ContactItem icon="map-pin" label="Địa chỉ" value="Số 6B Hoàng Diệu, Phường Quán Thánh, Quận Ba Đình, Hà Nội, Việt Nam" />
         <ContactItem 
-          icon="📞" 
+          icon="phone" 
           label="Điện thoại" 
           value="+84 24 3845 5298" 
           onPress={() => Linking.openURL('tel:+842438455298')}
           isLink 
         />
         <ContactItem 
-          icon="✉️" 
+          icon="mail" 
           label="Email" 
           value="fid@mpi.gov.vn" 
           onPress={() => Linking.openURL('mailto:fid@mpi.gov.vn')}
           isLink 
         />
         <ContactItem 
-          icon="🌐" 
+          icon="globe" 
           label="Website" 
           value="dautunuocngoai.gov.vn" 
           onPress={() => Linking.openURL('https://dautunuocngoai.gov.vn')}
@@ -70,14 +69,17 @@ export const ContactScreen = () => {
       {/* Bản đồ vị trí */}
       <Card style={styles.mapCard}>
         <View style={styles.mapPlaceholder}>
-          <Text style={styles.mapIconText}>🗺️</Text>
+          <Icon name="map" size={40} color={colors.textSecondary} />
           <Text style={styles.mapLabel}>Bản đồ vị trí</Text>
           <Text style={styles.mapAddress}>Số 6B Hoàng Diệu, Ba Đình, Hà Nội</Text>
         </View>
       </Card>
 
       {/* Giờ làm việc */}
-      <Card title="Giờ làm việc">
+      <Card style={styles.hoursCard}>
+        <View style={styles.sectionHeader}>
+           <Text style={styles.cardTitle}>Giờ làm việc</Text>
+        </View>
         <View style={styles.workHoursContainer}>
           <HourRow day="Thứ 2 - Thứ 6" time="8:00 - 17:00" />
           <HourRow day="Thứ 7 - Chủ nhật" time="Nghỉ" isRest />
@@ -142,7 +144,7 @@ export const ContactScreen = () => {
 const ContactItem = ({ icon, label, value, onPress, isLink }: any) => (
   <View style={styles.contactItem}>
     <View style={styles.contactIconBox}>
-      <Text style={styles.contactIconSymbol}>{icon}</Text>
+      <Icon name={icon} size={18} color={colors.primary} />
     </View>
     <View style={styles.contactTextContainer}>
       <Text style={styles.contactLabel}>{label}</Text>
@@ -168,19 +170,25 @@ const RepresentativeCard = ({ name, location, phone, email }: any) => (
   <Card style={styles.repCard}>
     <Text style={styles.repName}>{name}</Text>
     <View style={styles.repInfoRow}>
-      <Text style={styles.repInfoIcon}>📍</Text>
+      <View style={styles.repIconBox}>
+        <Icon name="map-pin" size={14} color={colors.primary} />
+      </View>
       <Text style={styles.repInfoLabel}>Địa chỉ:</Text>
       <Text style={styles.repInfoText}>{location}</Text>
     </View>
     <View style={styles.repInfoRow}>
-      <Text style={styles.repInfoIcon}>📞</Text>
+      <View style={styles.repIconBox}>
+        <Icon name="phone" size={14} color={colors.primary} />
+      </View>
       <Text style={styles.repInfoLabel}>SĐT:</Text>
       <TouchableOpacity onPress={() => Linking.openURL(`tel:${phone}`)}>
         <Text style={styles.repLinkText}>{phone}</Text>
       </TouchableOpacity>
     </View>
     <View style={styles.repInfoRow}>
-      <Text style={styles.repInfoIcon}>✉️</Text>
+      <View style={styles.repIconBox}>
+        <Icon name="mail" size={14} color={colors.primary} />
+      </View>
       <Text style={styles.repInfoLabel}>Email:</Text>
       <TouchableOpacity onPress={() => Linking.openURL(`mailto:${email}`)}>
         <Text style={styles.repLinkText}>{email}</Text>
@@ -214,16 +222,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   iconCircle: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: 'rgba(139, 26, 26, 0.08)',
+    width: 60,
+    height: 60,
+    borderRadius: 16,
+    backgroundColor: `${colors.primary}10`,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: spacing.md,
-  },
-  iconSymbol: {
-    fontSize: 26,
   },
   agencyContent: {
     flex: 1,
@@ -248,16 +253,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   contactIconBox: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(139, 26, 26, 0.05)',
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: `${colors.primary}10`,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: spacing.md,
-  },
-  contactIconSymbol: {
-    fontSize: 16,
   },
   contactTextContainer: {
     flex: 1,
@@ -290,19 +292,34 @@ const styles = StyleSheet.create({
   mapPlaceholder: {
     alignItems: 'center',
   },
-  mapIconText: {
-    fontSize: 40,
-    marginBottom: spacing.sm,
-  },
   mapLabel: {
     fontSize: typography.fontSize.md,
     color: colors.textSecondary,
     marginBottom: 4,
+    marginTop: spacing.sm,
+    fontWeight: '600',
   },
   mapAddress: {
     fontSize: typography.fontSize.sm,
     color: colors.textTertiary,
     textAlign: 'center',
+  },
+  hoursCard: {
+    marginTop: spacing.xl,
+    padding: spacing.md,
+  },
+  sectionHeader: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semiBold,
+    color: colors.textDark,
+    marginBottom: spacing.md,
+    marginTop: spacing.xl,
+  },
+  cardTitle: {
+    fontSize: typography.fontSize.md,
+    fontWeight: typography.fontWeight.semiBold,
+    color: colors.textDark,
+    marginBottom: spacing.sm,
   },
   workHoursContainer: {
     marginTop: spacing.xs,
@@ -361,9 +378,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: spacing.sm,
   },
-  repInfoIcon: {
-    width: 24,
-    fontSize: 14,
+  repIconBox: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    backgroundColor: `${colors.primary}10`,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
   },
   repInfoLabel: {
     width: 60,
@@ -371,6 +393,7 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   repInfoText: {
+    flex: 1,
     fontSize: typography.fontSize.sm,
     color: colors.textPrimary,
   },
@@ -380,10 +403,10 @@ const styles = StyleSheet.create({
   },
   repDetailButton: {
     marginTop: spacing.md,
-    height: 36,
+    height: 40,
     borderWidth: 1,
-    borderColor: colors.borderMedium,
-    borderRadius: spacing.borderRadius.md,
+    borderColor: colors.primary,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -391,6 +414,8 @@ const styles = StyleSheet.create({
   repDetailButtonText: {
     fontSize: typography.fontSize.sm,
     fontWeight: typography.fontWeight.medium,
-    color: colors.textDark,
+    color: colors.primary,
   },
 });
+
+export default ContactScreen;

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { useWindowDimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -45,13 +45,14 @@ import BusinessAccountScreen from '../screens/Account/BusinessAccountScreen';
 import EditBusinessAccountScreen from '../screens/Account/EditBusinessAccountScreen';
 import ChangePasswordScreen from '../screens/Account/ChangePasswordScreen';
 import AccountSettingsScreen from '../screens/Account/AccountSettingsScreen';
+import { LoginMethodScreen } from '../screens/Auth/LoginMethodScreen';
+import { IdentityLoginScreen } from '../screens/Auth/IdentityLoginScreen';
+import { VNeIDLoginScreen } from '../screens/Auth/VNeIDLoginScreen';
 
 // Theme & Data
 import { colors } from '../theme/colors';
 import { typography } from '../theme/typography';
 import { ZoneType, ZONE_CONFIG } from '../data/zoneTypes';
-
-const { width } = Dimensions.get('window');
 
 export type RootStackParamList = {
   Home: undefined;
@@ -87,6 +88,9 @@ export type RootStackParamList = {
   EditBusinessAccount: undefined;
   ChangePassword: undefined;
   AccountSettings: undefined;
+  LoginMethod: undefined;
+  IdentityLogin: undefined;
+  VNeIDLogin: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -276,11 +280,28 @@ const MainStack = () => {
         component={AccountSettingsScreen}
         options={{ title: 'Cấu hình tài khoản', headerShown: false }}
       />
+      <Stack.Screen
+        name="LoginMethod"
+        component={LoginMethodScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="IdentityLogin"
+        component={IdentityLoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="VNeIDLogin"
+        component={VNeIDLoginScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
 
 export const AppNavigator: React.FC = () => {
+  const { width } = useWindowDimensions();
+
   return (
     <NavigationContainer>
       <Drawer.Navigator
