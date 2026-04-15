@@ -132,9 +132,55 @@ export const AboutScreen = () => {
 
         <View style={styles.sectionBox}>
           <Text style={styles.sectionTitle}>CƠ CẤU TỔ CHỨC</Text>
-          <BulletItem text="Ban Lãnh đạo Cục" />
           <BulletItem text="Văn phòng Cục" />
           <BulletItem text="Các phòng chuyên môn" />
+          <BulletItem text="Các đơn vị sự nghiệp trực thuộc" />
+        </View>
+
+        {/* LÃNH ĐẠO CỤC — New Section from Specs */}
+        <View style={styles.leadershipSection}>
+          <View style={styles.leadershipHeader}>
+             <Icon name="users" size={20} color={colors.primary} />
+             <View style={{ marginLeft: spacing.sm }}>
+                <Text style={styles.leadershipTitle}>LÃNH ĐẠO CỤC</Text>
+                <Text style={styles.leadershipSubtitle}>Ban lãnh đạo Cục Đầu tư nước ngoài hiện nay</Text>
+             </View>
+          </View>
+
+          {/* Cục trưởng */}
+          <View style={styles.directorCard}>
+            <View style={styles.directorAvatarBox}>
+              <Icon name="user" size={28} color={colors.primary} />
+            </View>
+            <View style={styles.directorInfo}>
+              <Text style={styles.directorLabel}>CỤC TRƯỞNG</Text>
+              <Text style={styles.directorName}>Đỗ Văn Sử</Text>
+            </View>
+          </View>
+
+          {/* Phó Cục trưởng Section */}
+          <View style={styles.deputyHeader}>
+            <View style={styles.verticalBar} />
+            <Text style={styles.deputyTitle}>Phó Cục trưởng</Text>
+          </View>
+
+          <View style={styles.deputyGrid}>
+            {[
+              'Vũ Văn Chung',
+              'Nguyễn Anh Tuấn',
+              'Trương Minh',
+              'Đào Thanh Hương',
+              'Vương Thị Minh Hiếu',
+              'Bùi Thu Thủy',
+            ].map((name, index) => (
+              <View key={index} style={styles.deputyCard}>
+                <View style={styles.deputyAvatar}>
+                   <Icon name="user" size={14} color={colors.primary} />
+                </View>
+                <Text style={styles.deputyName}>{name}</Text>
+              </View>
+            ))}
+          </View>
         </View>
       </Card>
       
@@ -309,6 +355,114 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.sm,
     color: colors.textPrimary,
     lineHeight: 18,
+  },
+  leadershipSection: {
+    marginTop: spacing.xl,
+    paddingHorizontal: spacing.sm,
+  },
+  leadershipHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+  },
+  leadershipTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.primary,
+    letterSpacing: 0.5,
+  },
+  leadershipSubtitle: {
+    fontSize: 11,
+    color: colors.textSecondary,
+    marginTop: 2,
+  },
+  directorCard: {
+    backgroundColor: colors.primary,
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
+    minWidth: '70%',
+  },
+  directorAvatarBox: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  directorInfo: {
+    alignItems: 'flex-start',
+  },
+  directorLabel: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 9,
+    fontWeight: '700',
+    letterSpacing: 1,
+    marginBottom: 0,
+    textTransform: 'uppercase',
+  },
+  directorName: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '800',
+  },
+  deputyHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: spacing.xl,
+    marginBottom: spacing.lg,
+  },
+  verticalBar: {
+    width: 3,
+    height: 18,
+    backgroundColor: colors.primary,
+    marginRight: spacing.sm,
+  },
+  deputyTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.textDark,
+  },
+  deputyGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  deputyCard: {
+    width: '48%',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#f1f1f1',
+  },
+  deputyAvatar: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#f8f8f8',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  deputyName: {
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textDark,
   },
 });
 

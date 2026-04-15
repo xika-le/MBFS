@@ -57,16 +57,13 @@ export default function CreateComplaintScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       
-      {/* Header */}
+      {/* Header — Simple style */}
       <View style={styles.header}>
         <View style={styles.navRow}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Ionicons name="chevron-back" size={20} color="white" />
+            <Ionicons name="arrow-back" size={24} color="white" />
           </TouchableOpacity>
-          <View style={styles.headerCenter}>
-            <Text style={styles.headerSubtitle}>CỔNG ĐẦU TƯ QUỐC GIA</Text>
-            <Text style={styles.headerTitle}>Gửi phản ánh kiến nghị</Text>
-          </View>
+          <Text style={styles.headerTitle}>Gửi phản ánh kiến nghị</Text>
         </View>
       </View>
 
@@ -352,28 +349,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.md,
     height: 56,
+    gap: 12,
   },
   backButton: {
     width: 32,
     height: 32,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headerCenter: {
-    marginLeft: 12,
-  },
-  headerSubtitle: {
-    color: 'rgba(255, 255, 255, 0.6)',
-    fontSize: 9,
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.regular,
-    letterSpacing: 1,
-  },
   headerTitle: {
     color: 'white',
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.semiBold,
   },

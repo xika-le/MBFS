@@ -45,6 +45,7 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         { label: 'Thủ tục về đầu tư', icon: 'clipboard' as const, route: 'ProcedureList' },
         { label: 'Quản lý hồ sơ', icon: 'folder' as const, route: 'DossierList' },
         { label: 'Quản lý đặt lịch', icon: 'calendar' as const, route: 'AppointmentList' },
+        { label: 'Phản ánh kiến nghị', icon: 'message-square' as const, route: 'ComplaintList' },
         { label: 'Báo cáo đầu tư', icon: 'activity' as const, route: 'Placeholder' },
       ],
     },

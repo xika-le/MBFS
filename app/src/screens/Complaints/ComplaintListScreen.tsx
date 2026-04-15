@@ -4,17 +4,19 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
   FlatList,
   StatusBar,
   SafeAreaView,
 } from 'react-native';
-import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
+import { TabBar } from '../../components/shared/TabBar';
+import { Badge } from '../../components/shared/Badge';
+import { Input } from '../../components/shared/Input';
 
 type RootStackParamList = {
   ComplaintList: undefined;
@@ -90,18 +92,25 @@ const TABS = [
   { id: 'draft', title: 'Nháp' },
 ];
 
-const getStatusStyles = (status: string) => {
+const getStatusLabel = (status: string) => {
   switch (status) {
-    case 'processing':
-      return { bg: '#FEFCE8', text: '#A65F00', border: '#FFF085', icon: 'time-outline' };
-    case 'replied':
-      return { bg: '#F0FDF4', text: '#008236', border: '#B9F8CF', icon: 'checkmark-circle-outline' };
-    case 'closed':
-      return { bg: '#F3F4F6', text: '#4A5565', border: '#E5E7EB', icon: 'close-circle-outline' };
-    case 'rejected':
-      return { bg: '#FEF2F2', text: '#C10007', border: '#FFC9C9', icon: 'alert-circle-outline' };
-    default:
-      return { bg: '#F3F4F6', text: '#4A5565', border: '#E5E7EB', icon: 'document-outline' };
+    case 'processing': return 'Đang xử lý';
+    case 'replied': return 'Đã trả lời';
+    case 'closed': return 'Đã đóng';
+    case 'rejected': return 'Từ chối';
+    case 'draft': return 'Nháp';
+    default: return 'Gửi mới';
+  }
+};
+
+const getBadgeVariant = (status: string): 'info' | 'success' | 'warning' | 'danger' | 'warningAlt' => {
+  switch (status) {
+    case 'processing': return 'info';
+    case 'replied': return 'success';
+    case 'closed': return 'info';
+    case 'rejected': return 'danger';
+    case 'draft': return 'warning';
+    default: return 'info';
   }
 };
 
@@ -110,9 +119,14 @@ export default function ComplaintListScreen() {
   const [activeTab, setActiveTab] = useState('all');
   const [searchText, setSearchText] = useState('');
 
-  const renderItem = ({ item }: { item: Complaint }) => {
-    const statusStyle = getStatusStyles(item.status);
+  const filteredData = COMPLAINTS.filter(item => {
+    const matchSearch = item.code.toLowerCase().includes(searchText.toLowerCase()) || 
+                      item.title.toLowerCase().includes(searchText.toLowerCase());
+    const matchTab = activeTab === 'all' || item.status === activeTab;
+    return matchSearch && matchTab;
+  });
 
+  const renderItem = ({ item }: { item: Complaint }) => {
     return (
       <TouchableOpacity 
         style={styles.card}
@@ -120,13 +134,8 @@ export default function ComplaintListScreen() {
         onPress={() => navigation.navigate('ComplaintDetail', { id: item.id })}
       >
         <View style={styles.cardHeader}>
-          <View style={styles.codeBadge}>
-            <Text style={styles.codeText}>{item.code}</Text>
-          </View>
-          <View style={[styles.statusBadge, { backgroundColor: statusStyle.bg, borderColor: statusStyle.border }]}>
-            <Ionicons name={statusStyle.icon as any} size={12} color={statusStyle.text} style={styles.statusIcon} />
-            <Text style={[styles.statusText, { color: statusStyle.text }]}>{item.statusText}</Text>
-          </View>
+          <Text style={styles.codeText}>{item.code}</Text>
+          <Badge label={getStatusLabel(item.status)} variant={getBadgeVariant(item.status)} />
         </View>
 
         <Text style={styles.complaintTitle} numberOfLines={2}>
@@ -151,84 +160,56 @@ export default function ComplaintListScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
       
-      {/* Header section */}
-      <View style={styles.header}>
+      {/* Header — Simple style as requested */}
+      <View style={styles.brandHeader}>
         <View style={styles.navRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconButton}>
-            <Ionicons name="chevron-back" size={24} color="white" />
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Phản ánh kiến nghị</Text>
-          <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="notifications-outline" size={24} color="white" />
-            <View style={styles.notifBadge} />
+        </View>
+      </View>
+
+      {/* Tab Bar — Sync with UC76 */}
+      <TabBar
+        tabs={TABS.map(t => ({ key: t.id, label: t.title }))}
+        activeKey={activeTab}
+        onTabPress={setActiveTab}
+      />
+
+      <View style={styles.container}>
+        {/* Search & Filter row — Sync with UC76 */}
+        <View style={styles.searchRow}>
+          <View style={styles.searchInput}>
+            <Input
+              value={searchText}
+              onChangeText={setSearchText}
+              placeholder="Tìm kiếm phản ánh..."
+            />
+          </View>
+          <TouchableOpacity style={styles.filterButton}>
+            <Feather name="filter" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
 
-        <View style={styles.searchContainer}>
-          <View style={styles.searchBar}>
-            <Feather name="search" size={16} color={colors.textMuted} />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Nhập mã PAKN"
-              placeholderTextColor={colors.textMuted}
-              value={searchText}
-              onChangeText={setSearchText}
-            />
-            <TouchableOpacity>
-              <MaterialIcons name="tune" size={20} color={colors.primary} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.tabContainer}>
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={TABS}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => setActiveTab(item.id)}
-                style={[
-                  styles.tabItem,
-                  activeTab === item.id && styles.activeTabItem,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.tabText,
-                    activeTab === item.id && styles.activeTabText,
-                  ]}
-                >
-                  {item.title}
-                </Text>
-              </TouchableOpacity>
-            )}
-            contentContainerStyle={styles.tabList}
-          />
-        </View>
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>Không tìm thấy phản ánh nào</Text>
+            </View>
+          }
+        />
       </View>
 
-      <View style={styles.listHeader}>
-        <Text style={styles.countText}>5 phản ánh kiến nghị</Text>
-        <TouchableOpacity style={styles.sortButton}>
-          <Text style={styles.sortText}>Mới nhất</Text>
-          <Ionicons name="arrow-down" size={12} color={colors.primary} />
-        </TouchableOpacity>
-      </View>
-
-      <FlatList
-        data={COMPLAINTS}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-      />
-
-      {/* FAB - Floating Action Button */}
+      {/* FAB - Floating Action Button for creation */}
       <TouchableOpacity 
         style={styles.fab}
         activeOpacity={0.9}
@@ -242,128 +223,70 @@ export default function ComplaintListScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#F4F5F7',
+    backgroundColor: colors.background,
   },
-  header: {
+  brandHeader: {
     backgroundColor: colors.primary,
-    paddingTop: spacing.xs,
     paddingBottom: spacing.sm,
   },
   navRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: spacing.md,
-    height: 48,
+    height: 56,
+    gap: spacing.md,
   },
-  iconButton: {
-    width: 40,
-    height: 40,
+  backButton: {
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
   },
   headerTitle: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.semiBold,
   },
-  notifBadge: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#FDC700',
-    borderWidth: 1.5,
-    borderColor: colors.primary,
+  container: {
+    flex: 1,
+    paddingHorizontal: spacing.container.paddingHorizontal,
+    paddingTop: spacing.lg,
   },
-  searchContainer: {
-    paddingHorizontal: spacing.md,
-    marginTop: spacing.sm,
-  },
-  searchBar: {
+  searchRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    height: 40,
-    paddingHorizontal: 12,
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
   },
   searchInput: {
     flex: 1,
-    marginHorizontal: 8,
-    fontSize: 13,
-    color: colors.textPrimary,
-    fontFamily: typography.fontFamily,
   },
-  tabContainer: {
-    marginTop: spacing.sm,
-  },
-  tabList: {
-    paddingHorizontal: spacing.md,
-  },
-  tabItem: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: 8,
-    borderBottomWidth: 2,
-    borderBottomColor: 'transparent',
-  },
-  activeTabItem: {
-    borderBottomColor: '#FDC700',
-  },
-  tabText: {
-    color: 'rgba(255, 255, 255, 0.6)',
-    fontSize: 13,
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.medium,
-  },
-  activeTabText: {
-    color: '#FFDF20',
-  },
-  listHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  filterButton: {
+    width: 44,
+    height: 44,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    marginTop: spacing.md,
-    marginBottom: spacing.xs,
-  },
-  countText: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    fontFamily: typography.fontFamily,
-  },
-  sortButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  sortText: {
-    fontSize: 12,
-    color: colors.primary,
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.medium,
-    marginRight: 4,
   },
   listContent: {
-    paddingHorizontal: spacing.md,
     paddingBottom: 100, // Space for FAB
+    gap: spacing.md,
   },
   card: {
     backgroundColor: 'white',
     borderRadius: 16,
     padding: 16,
-    marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderColor: '#F1F5F9',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
     elevation: 2,
   },
   cardHeader: {
@@ -372,48 +295,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
   },
-  codeBadge: {
-    backgroundColor: '#FEF2F2',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 8,
-  },
   codeText: {
-    fontSize: 10,
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.medium,
     color: colors.primary,
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.medium,
-  },
-  statusBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 20,
-    borderWidth: 1,
-  },
-  statusIcon: {
-    marginRight: 4,
-  },
-  statusText: {
-    fontSize: 10,
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.medium,
   },
   complaintTitle: {
-    fontSize: 14,
+    fontSize: typography.fontSize.sm + 1,
+    fontWeight: typography.fontWeight.semiBold,
     color: '#1E2939',
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.medium,
-    lineHeight: 20,
     marginBottom: 12,
+    lineHeight: 18,
   },
   cardFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     borderTopWidth: 1,
-    borderTopColor: '#F9FAFB',
+    borderTopColor: '#F1F5F9',
     paddingTop: 12,
   },
   footerInfo: {
@@ -422,13 +321,23 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 6,
   },
   footerText: {
-    fontSize: 11,
+    fontSize: typography.fontSize.xs,
     color: colors.textSecondary,
     fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.medium,
-    marginLeft: 6,
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 60,
+  },
+  emptyText: {
+    marginTop: 12,
+    fontSize: typography.fontSize.sm,
+    color: colors.textTertiary,
+    fontFamily: typography.fontFamily,
   },
   fab: {
     position: 'absolute',

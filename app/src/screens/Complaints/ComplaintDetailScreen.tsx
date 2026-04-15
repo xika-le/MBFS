@@ -60,16 +60,13 @@ export default function ComplaintDetailScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       
-      {/* Header */}
+      {/* Header — Simple style */}
       <View style={styles.header}>
         <View style={styles.navRow}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Ionicons name="chevron-back" size={20} color="white" />
+            <Ionicons name="arrow-back" size={24} color="white" />
           </TouchableOpacity>
-          <View style={styles.headerCenter}>
-            <Text style={styles.headerSubtitle}>CỔNG ĐẦU TƯ QUỐC GIA</Text>
-            <Text style={styles.headerTitle}>Chi tiết phản ánh</Text>
-          </View>
+          <Text style={styles.headerTitle}>Chi tiết phản ánh</Text>
         </View>
       </View>
 
@@ -140,6 +137,7 @@ export default function ComplaintDetailScreen() {
                 </View>
               </View>
               {renderInfoRow('Họ và tên', 'Nguyễn Văn An')}
+              {renderInfoRow('Địa chỉ', 'Số 123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh')}
               {renderInfoRow('Số điện thoại', '0912 345 678', { color: '#8B1A1A' })}
               {renderInfoRow('Email', 'nguyenvanan@email.com', { color: '#8B1A1A' })}
             </View>
@@ -338,31 +336,17 @@ const styles = StyleSheet.create({
   navRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headerCenter: {
-    flex: 1,
-    alignItems: 'center',
-    marginRight: 40,
-  },
-  headerSubtitle: {
-    fontSize: typography.fontSize.xs,
-    color: 'rgba(255, 255, 255, 0.7)',
-    letterSpacing: 1,
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.medium,
-  },
   headerTitle: {
-    fontSize: typography.fontSize.lg,
+    fontSize: 18,
     color: 'white',
-    marginTop: 2,
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.semiBold,
   },
@@ -423,7 +407,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F9FAFB',
   },
   infoLabel: {
-    fontSize: typography.fontSize.xs,
+    fontSize: typography.fontSize.sm,
     color: colors.textTertiary,
     flex: 1,
   },
@@ -445,7 +429,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   statusText: {
-    fontSize: 10,
+    fontSize: typography.fontSize.xs,
     fontWeight: typography.fontWeight.semiBold,
     fontFamily: typography.fontFamily,
   },
@@ -458,13 +442,13 @@ const styles = StyleSheet.create({
     borderColor: '#DBEAFE',
   },
   typeText: {
-    fontSize: 10,
+    fontSize: typography.fontSize.xs,
     color: '#1447E6',
     fontWeight: typography.fontWeight.semiBold,
     fontFamily: typography.fontFamily,
   },
   detailLabel: {
-    fontSize: typography.fontSize.xs,
+    fontSize: typography.fontSize.sm,
     color: colors.textTertiary,
     marginBottom: 6,
     fontFamily: typography.fontFamily,
@@ -495,7 +479,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   contentText: {
-    fontSize: 11,
+    fontSize: typography.fontSize.sm,
     color: '#8200DB',
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.regular,
@@ -528,13 +512,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   fileName: {
-    fontSize: 12,
+    fontSize: typography.fontSize.sm,
     color: '#364153',
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.medium,
   },
   fileSize: {
-    fontSize: 10,
+    fontSize: typography.fontSize.xs,
     color: colors.textTertiary,
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.regular,
@@ -551,7 +535,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   downloadText: {
-    fontSize: 10,
+    fontSize: typography.fontSize.xs,
     color: '#8B1A1A',
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.medium,
@@ -568,7 +552,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   dateText: {
-    fontSize: 12,
+    fontSize: typography.fontSize.sm,
     color: '#364153',
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.semiBold,
@@ -593,7 +577,7 @@ const styles = StyleSheet.create({
   },
   timelineItem: {
     flexDirection: 'row',
-    height: 50,
+    height: 60,
   },
   timelineIndicator: {
     width: 20,
@@ -617,13 +601,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   timelineStatus: {
-    fontSize: 12,
+    fontSize: typography.fontSize.sm,
     color: '#364153',
     fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.medium,
   },
   timelineDate: {
-    fontSize: 10,
+    fontSize: typography.fontSize.xs,
     color: colors.textTertiary,
     marginTop: 2,
     fontFamily: typography.fontFamily,
