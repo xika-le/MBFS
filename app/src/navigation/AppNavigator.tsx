@@ -110,6 +110,7 @@ const MainStack = () => {
         },
         headerBackButtonDisplayMode: 'minimal',
       }}
+      initialRouteName="LoginMethod"
     >
       <Stack.Screen
         name="Home"
