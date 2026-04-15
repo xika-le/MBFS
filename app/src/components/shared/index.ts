@@ -11,3 +11,4 @@ export { TabBar } from './TabBar';
 export { RelatedNews } from './RelatedNews';
 export { Icon } from './Icon';
 export { ConfirmModal } from './ConfirmModal';
+export { RegisterStepIndicator } from './RegisterStepIndicator';

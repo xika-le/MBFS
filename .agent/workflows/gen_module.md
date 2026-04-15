@@ -47,7 +47,7 @@ description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma
 - Thứ tự gen: feature có ít functions trước (dễ hơn)
 
 ### 4. Xử lý features không có thiết kế
-- Features mà `get_design_context` không tìm thấy → giữ `pending`, báo cáo
+- Features mà `get_design_context` không tìm thấy → giữ `scanned`, báo cáo
 
 ### 5. Verify project
 - `npx tsc --noEmit` → 0 errors
@@ -56,5 +56,5 @@ description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma
 - Số features/screens đã gen / tổng
 - Nguồn: bao nhiêu từ Figma, bao nhiêu từ specs
 - Features chưa scan (cần `/scan_figma` hoặc `/scan_specs`)
-- Features không có thiết kế (pending)
+- Features không có thiết kế (scanned)
 - `cd app && npx expo start`

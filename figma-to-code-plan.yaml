@@ -369,6 +369,45 @@ scanned:
           - '37:1770'   # UC 75: Danh sách thủ tục hành chính đã hủy
         note: Tab "Đã hủy" with single Xem button + cancel reason box
 
+  - feature: '2.4'
+    name: Tra cứu phản ánh kiến nghị trên mobile
+    spec_source: figma
+    scanned_at: '2026-04-15'
+    generated_at: '2026-04-15'
+    figma_section: '89:2'
+    figma_section_name: 'UC 83: Phản ánh kiến nghị'
+    status: done
+    functions:
+      - id: '83'
+        name: Tra cứu danh sách phản ánh kiến nghị
+        status: done
+        file_path: app/src/screens/Complaints/ComplaintListScreen.tsx
+        figma_nodes:
+          - '22:276'
+      - id: '93'
+        name: Gửi phản ánh kiến nghị
+        status: done
+        spec_source: specs
+        file_path: app/src/screens/Complaints/CreateComplaintScreen.tsx
+        spec_description: |
+          [Zone: Form - Target Selection]
+            - Radio buttons: Cá nhân / Tổ chức
+          [Zone: Form - Sender Info]
+            - If Tổ chức: Tên tổ chức, Người đại diện, Chức vụ, Tỉnh/TP, Xã/Phường, Địa chỉ, Số điện thoại (với flag)
+            - If Cá nhân: Họ và tên, Tỉnh/TP, Xã/Phường, Địa chỉ, Số điện thoại, Email
+          [Zone: Form - Content]
+            - Chủ đề, Đơn vị tiếp nhận, Tiêu đề, Loại nội dung (Radio: Quy định/Hành vi), Nội dung (Textarea)
+          [Zone: Form - Attachments]
+            - Button "Tải tệp lên", Hint text PDF/DOC... 10MB
+        figma_nodes: []
+      - id: '94'
+        name: Chi tiết phản ánh và kết quả xử lý
+        status: done
+        file_path: app/src/screens/Complaints/ComplaintDetailScreen.tsx
+        figma_nodes:
+          - '29:1382'
+          - '29:1958'
+
   - feature: '2.6'
     name: Tin tức & Hỗ trợ (UC85 - UC115)
     scanned_at: '2026-04-14'
@@ -601,3 +640,48 @@ scanned:
         figma_nodes:
           - '523:6236'
         note: Integrated as a modal in LoginMethodScreen.
+      - id: '175'
+        name: Quên & Đặt lại mật khẩu
+        status: pending
+        figma_nodes:
+          - '161:2330'   # Quên mật khẩu
+          - '161:2430'   # Đặt lại mật khẩu
+
+  - feature: '4.3'
+    name: Đăng ký tài khoản
+    spec_source: figma
+    scanned_at: '2026-04-15'
+    generated_at: '2026-04-15'
+    figma_section: '163:2517'
+    figma_section_name: 'UC 174: Đăng ký'
+    figma_shared_nodes:
+      - '159:735'   # StepIndicator
+    status: done
+    functions:
+      - id: '174.1'
+        name: Chọn loại hình đăng ký
+        status: done
+        file_path: app/src/screens/Auth/RegisterTypeScreen.tsx
+        figma_nodes:
+          - '159:733'
+      - id: '174.2'
+        name: Đăng ký tài khoản cá nhân Việt Nam
+        status: done
+        file_path: app/src/screens/Auth/RegisterFormScreen.tsx
+        figma_nodes:
+          - '159:868'
+          - '161:1554'
+      - id: '174.3'
+        name: Đăng ký tài khoản tổ chức / doanh nghiệp
+        status: done
+        file_path: app/src/screens/Auth/RegisterFormScreen.tsx
+        figma_nodes:
+          - '161:1700'
+          - '161:1754'
+      - id: '174.4'
+        name: Đăng ký tài khoản cá nhân nước ngoài
+        status: done
+        file_path: app/src/screens/Auth/RegisterFormScreen.tsx
+        figma_nodes:
+          - '161:1873'
+          - '161:1927'

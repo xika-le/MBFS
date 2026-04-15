@@ -29,6 +29,7 @@ Nếu thiếu `--section` → DỪNG, yêu cầu cung cấp:
 - Kiểm tra file `figma-to-code-plan.yaml` CÓ TỒN TẠI hay không:
   - **Có** → đọc file, kiểm tra section này đã scan chưa
     - Nếu đã scan → hỏi: "Section này đã scan cho feature X. Scan lại (ghi đè)?"
+    - Nếu đã có với `spec_source: specs` → cảnh báo: "Feature này đã có Specs entry. Bạn muốn thêm figma song song không?"
   - **Chưa có** → đánh dấu là lần đầu scan, sẽ tạo file mới ở bước 6
 
 ### 2. Gọi MCP get_metadata cho section
@@ -40,7 +41,22 @@ Nếu thiếu `--section` → DỪNG, yêu cầu cung cấp:
   - `type` (frame, section, component...)
   - Số lượng children
 
-### 3. Hiển thị kết quả scan cho user
+
+### 3. Phân loại frames thành functions
+
+Dựa vào naming convention trong Figma:
+- Frame tên chứa "UC X:" → đây là 1 Use Case / function
+- Frame tên chứa "List view" → màn hình danh sách
+- Frame tên chứa "Form view" → màn hình chi tiết/form
+- Frame tên chứa "Tab List" hoặc component shared → `figma_shared_nodes`
+- Nhóm các frames cùng UC lại (ví dụ UC 3 List view + UC 3 Form view = 1 function)
+
+**Auto-grouping logic:**
+1. Parse UC number từ tên frame (regex: `UC\s*(\d+)`)
+2. Nhóm các frames có cùng UC number thành 1 function
+
+
+### 4. Hiển thị kết quả scan cho user
 
 Format output:
 ```
@@ -56,19 +72,6 @@ Tổng frames: N
  ...
 ```
 
-### 4. Phân loại frames thành functions
-
-Dựa vào naming convention trong Figma:
-- Frame tên chứa "UC X:" → đây là 1 Use Case / function
-- Frame tên chứa "List view" → màn hình danh sách
-- Frame tên chứa "Form view" → màn hình chi tiết/form
-- Frame tên chứa "Tab List" hoặc component shared → `figma_shared_nodes`
-- Nhóm các frames cùng UC lại (ví dụ UC 3 List view + UC 3 Form view = 1 function)
-
-**Auto-grouping logic:**
-1. Parse UC number từ tên frame (regex: `UC\s*(\d+)`)
-2. Nhóm các frames có cùng UC number thành 1 function
-3. Frames không match pattern UC → hỏi user phân loại
 
 ### 5. Hỏi user confirm/bổ sung
 
@@ -90,6 +93,8 @@ Proposed mapping:
 
 Confirm? (y/n/edit)
 ```
+Nếu user edit → áp dụng thay đổi trước khi ghi.
+
 
 ### 6. Ghi vào figma-to-code-plan.yaml
 
@@ -111,7 +116,6 @@ scanned:
   - feature: '2.2'
     name: Quản lý hồ sơ trên mobile
     spec_source: figma
-    scanned_at: '2026-04-12'
     figma_section: '113:640'
     figma_section_name: 'UC 76-81: Quản lý hồ sơ'
     figma_shared_nodes:
@@ -126,7 +130,7 @@ scanned:
       # ...
 ```
 
-#### TRƯỜNG HỢP 2: File ĐÃ tồn tại (scan lần sau)
+#### TRƯỜNG HỢP 2: File ĐÃ tồn tại 
 
 - Đọc file hiện có
 - **Nếu feature đã có trong `scanned`** → update entry đó (merge figma_nodes, giữ status done nếu đã done)
@@ -136,9 +140,8 @@ scanned:
 
 **Quy tắc ghi:**
 - `spec_source: figma` — bắt buộc trên mọi entry tạo bởi `/scan_figma`
-- `status: scanned` — đã quét Figma, chưa gen code (feature level)
+- `status: scanned` — feature level (vừa scan), chưa gen code
 - `status: pending` — chưa gen code (function level)
-- `status: done` — KHÔNG bao giờ tự đặt, chỉ `/gen_feature` mới set
 - `figma_nodes` — mảng nodeIds (có thể nhiều: list + form view)
 - Function name: lấy từ tên frame Figma, bỏ prefix "UC X:"
 - Function id: lấy từ UC number nếu có, hoặc auto-generate
@@ -146,7 +149,7 @@ scanned:
 ### 7. Báo cáo
 
 ```
-=== SCAN COMPLETE ===
+=== SCAN FIGMA COMPLETE ===
 Feature: 2.2 - Quản lý hồ sơ trên mobile
 Section: [113:640] UC 76-81: Quản lý hồ sơ
 
@@ -165,7 +168,7 @@ Plan YAML: figma-to-code-plan.yaml (updated / created)
 → Next: /gen_feature 2.2
 ```
 
-## Lưu ý quan trọng
+## Lưu ý 
 - Command này CHỈ scan và ghi metadata — KHÔNG gen code
 - Gen code → dùng `/gen_feature` sau khi scan
 - Nếu section có sub-sections (nested) → chỉ scan level 1 children, không đệ quy

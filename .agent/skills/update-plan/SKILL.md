@@ -44,7 +44,7 @@ scanned:
   status: scanned
   functions:
     - id: '<ucNumber>'
-      status: pending
+      status: scanned
       figma_nodes: [...]
 ```
 
@@ -58,7 +58,7 @@ status: done | partial    # tùy theo functions bên trong
 # Cập nhật từng function:
 functions:
   - id: '<funcId>'
-    status: done | partial | pending
+    status: done | partial | scanned
     file_path: <đường dẫn file .tsx đã tạo>
     generated_at: <ngày hiện tại>
     note: <ghi chú nếu partial>
@@ -67,9 +67,9 @@ functions:
 **Quy tắc đánh status:**
 - Function `done` = UI hoàn chỉnh, bám sát Figma
 - Function `partial` = đã gen nhưng thiếu nội dung
-- Function `pending` = chưa gen hoặc không tìm thấy thiết kế
+- Function `scanned` = chưa gen hoặc không tìm thấy thiết kế
 - Feature `done` = TẤT CẢ functions đều done
-- Feature `partial` = ít nhất 1 done, có function pending/partial
+- Feature `partial` = ít nhất 1 done, có function scanned/partial
 - Feature `scanned` = chưa gen code nào
 - **TUYỆT ĐỐI KHÔNG đánh done cho placeholder UI**
 

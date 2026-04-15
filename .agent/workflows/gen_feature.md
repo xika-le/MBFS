@@ -29,7 +29,7 @@ description: "Phase 2 — Gen code React Native cho 1 feature từ Figma. Tạo 
 
 ### 1A. Lấy Figma context cho từng function (`spec_source: figma`)
 
-Với mỗi function có `status: pending` hoặc `status: scanned`:
+Với mỗi function có `status: scanned`:
 - Đọc `figma_nodes` array → gọi MCP cho từng node:
   ```
   get_design_context(nodeId, artifactType, clientFrameworks, clientLanguages)
@@ -96,13 +96,13 @@ Cập nhật entry trong `scanned` array của `figma-to-code-plan.yaml`:
 **Function level:**
 - **`done`** = function có giao diện HOÀN CHỈNH, bám sát thiết kế (Figma hoặc specs), có nội dung thực
 - **`partial`** = function đã gen nhưng chưa đầy đủ (thiếu nội dung, placeholder)
-- **`pending`** = function chưa gen hoặc KHÔNG tìm thấy thiết kế
+- **`scanned`** = function chưa gen hoặc KHÔNG tìm thấy thiết kế
 - **TUYỆT ĐỐI KHÔNG đánh `done` cho function mà UI chỉ là placeholder**
 - Thêm fields: `file_path`, `generated_at`, `note` (nếu partial)
 
 **Feature level:**
 - **`done`** = TẤT CẢ functions đều `done`
-- **`partial`** = ít nhất 1 function `done`, nhưng có function `pending`/`partial`
+- **`partial`** = ít nhất 1 function `done`, nhưng có function `scanned`/`partial`
 - **`scanned`** = chưa gen code nào
 
 Ví dụ sau khi gen xong:
@@ -129,7 +129,7 @@ scanned:
 
 ### 8. Báo cáo
 - Feature name, tổng functions
-- Functions done / partial / pending — chi tiết từng cái
+- Functions done / partial / scanned — chi tiết từng cái
 - Files tạo/cập nhật
 - Figma nodeIds đã sử dụng (nếu `spec_source: figma`) hoặc specs files đã tham chiếu (nếu `spec_source: specs`)
 - Những gì còn thiếu và cần làm tiếp

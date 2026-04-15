@@ -133,11 +133,17 @@ export const LoginMethodScreen: React.FC = () => {
 
           {/* Bottom Actions */}
           <View style={styles.bottomActions}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => navigation.navigate('RegisterType' as any)}
+            >
               <Text style={styles.actionButtonText}>Đăng ký tài khoản</Text>
             </TouchableOpacity>
             <View style={styles.verticalDivider} />
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => navigation.navigate('ForgotPassword' as any)}
+            >
               <Text style={[styles.actionButtonText, { color: colors.textSecondary }]}>Quên mật khẩu</Text>
             </TouchableOpacity>
           </View>

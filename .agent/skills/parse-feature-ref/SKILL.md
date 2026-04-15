@@ -45,7 +45,7 @@ status: "done" | "partial" | "scanned"
 functions:
   - id: "76"
     name: "Xem danh sách hồ sơ trên mobile"
-    status: "done" | "partial" | "pending"
+    status: "done" | "partial" | "scanned"
     file_path: "app/src/screens/HoSo/HoSoListScreen.tsx"  # nếu đã gen
     generated_at: "2026-04-13"   # nếu đã gen
     figma_nodes:

@@ -101,7 +101,7 @@ Trả về object JSON/YAML có thể ghi thẳng vào plan:
 functions:
   - id: '1'
     name: <tên function>
-    status: pending
+    status: scanned
     figma_nodes: []
     spec_description: |
       [Zone: Header]

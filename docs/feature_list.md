@@ -2,6 +2,8 @@
 
 Cây phân rã được trích xuất từ tài liệu Usecase của BA, giữ nguyên định danh của BA để map chuẩn với Figma.
 
+## 0. TRANG CHỦ
+├── [1] Trang chủ
 ## 1. CHỨC NĂNG KHAI THÁC THÔNG TIN KHU CÔNG NGHIỆP, KHU KINH TẾ DÀNH CHO NHÀ ĐẦU TƯ TRÊN MOBILE
 ├── 1.1 Khai thác thông tin khu công nghiệp trên mobile
 │   ├── [2] Tra cứu thông tin khu công nghiệp trên mobile
@@ -103,7 +105,11 @@ Cây phân rã được trích xuất từ tài liệu Usecase của BA, giữ n
 ├── 2.3 Tra cứu kho dữ liệu điện tử trên mobile
 │   └── [82] Tra cứu kho tài liệu cá nhân trên mobile
 ├── 2.4 Tra cứu phản ánh kiến nghị trên mobile
-│   └── [83] Tra cứu danh sách phản ánh kiến nghị trên mobile
+│   ├── [83] Tra cứu danh sách phản ánh kiến nghị trên mobile
+│   ├── [93] Xem biểu mẫu gửi phản ánh kiến nghị trên mobile
+│   ├── [93.1] Xem chi tiết PAKN
+│   ├── [93.2] Tạo mới PAKN
+│   └── [94] Tra cứu trạng thái phản ánh kiến nghị theo mã trên
 ├── 2.5 Tra cứu báo cáo nhà đầu tư đã nộp trên mobile
 │   └── [84] Tra cứu báo cáo nhà đầu tư đã nộp cho cơ quan Nhà nước trên mobile
 ├── 2.6 Tin tức
@@ -115,10 +121,7 @@ Cây phân rã được trích xuất từ tài liệu Usecase của BA, giữ n
 │   ├── [90] Tra cứu thông tin với chatbot trên mobile
 │   ├── [91] Đánh giá phản hồi của chatbot trên mobile
 │   ├── [92] Tra cứu doanh nghiệp kết nối đối tác trên mobile
-│   ├── [93] Xem biểu mẫu gửi phản ánh kiến nghị trên mobile
-│   ├── [93.1] Xem chi tiết PAKN
-│   ├── [93.2] Tạo mới PAKN
-│   ├── [94] Tra cứu trạng thái phản ánh kiến nghị theo mã trên mobile
+ mobile
 │   ├── [95] Tra cứu tin tức đầu tư trên mobile
 │   ├── [96] Tra cứu tin tức Dịch vụ công trên mobile
 │   ├── [97] Tra cứu câu chuyện thành công trên mobile

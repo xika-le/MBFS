@@ -33,6 +33,9 @@ import SuccessStoryDetailScreen from '../screens/SuccessStoryNews/SuccessStoryDe
 import LegalDocumentListScreen from '../screens/LegalDocument/LegalDocumentListScreen';
 import LegalDocumentDetailScreen from '../screens/LegalDocument/LegalDocumentDetailScreen';
 import ProcedureListScreen from '../screens/Procedure/ProcedureListScreen';
+import ComplaintListScreen from '../screens/Complaints/ComplaintListScreen';
+import CreateComplaintScreen from '../screens/Complaints/CreateComplaintScreen';
+import ComplaintDetailScreen from '../screens/Complaints/ComplaintDetailScreen';
 import HelpGuideScreen from '../screens/Help/HelpGuideScreen';
 import HelpDetailScreen from '../screens/Help/HelpDetailScreen';
 import FAQHomeScreen from '../screens/FAQ/FAQHomeScreen';
@@ -48,6 +51,10 @@ import AccountSettingsScreen from '../screens/Account/AccountSettingsScreen';
 import { LoginMethodScreen } from '../screens/Auth/LoginMethodScreen';
 import { IdentityLoginScreen } from '../screens/Auth/IdentityLoginScreen';
 import { VNeIDLoginScreen } from '../screens/Auth/VNeIDLoginScreen';
+import { RegisterTypeScreen } from '../screens/Auth/RegisterTypeScreen';
+import { RegisterFormScreen } from '../screens/Auth/RegisterFormScreen';
+import { ForgotPasswordScreen } from '../screens/Auth/ForgotPasswordScreen';
+import { ResetPasswordScreen } from '../screens/Auth/ResetPasswordScreen';
 
 // Theme & Data
 import { colors } from '../theme/colors';
@@ -78,6 +85,9 @@ export type RootStackParamList = {
   Contact: undefined;
   About: undefined;
   ProcedureList: undefined;
+  ComplaintList: undefined;
+  CreateComplaint: undefined;
+  ComplaintDetail: { id: string };
   HelpGuide: undefined;
   HelpDetail: { guideId: string; title: string };
   FAQHome: undefined;
@@ -91,6 +101,10 @@ export type RootStackParamList = {
   LoginMethod: undefined;
   IdentityLogin: undefined;
   VNeIDLogin: undefined;
+  RegisterType: undefined;
+  RegisterForm: { type: 'VN_INDIVIDUAL' | 'BUSINESS' | 'FOREIGN_INDIVIDUAL' };
+  ForgotPassword: undefined;
+  ResetPassword: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -110,7 +124,6 @@ const MainStack = () => {
         },
         headerBackButtonDisplayMode: 'minimal',
       }}
-      initialRouteName="LoginMethod"
     >
       <Stack.Screen
         name="Home"
@@ -232,6 +245,21 @@ const MainStack = () => {
         options={{ title: 'Thủ tục hành chính', headerShown: false }}
       />
       <Stack.Screen
+        name="ComplaintList"
+        component={ComplaintListScreen}
+        options={{ title: 'Danh sách khiếu nại', headerShown: false }}
+      />
+      <Stack.Screen
+        name="CreateComplaint"
+        component={CreateComplaintScreen}
+        options={{ title: 'Gửi khiếu nại', headerShown: false }}
+      />
+      <Stack.Screen
+        name="ComplaintDetail"
+        component={ComplaintDetailScreen}
+        options={{ title: 'Chi tiết phản ánh', headerShown: false }}
+      />
+      <Stack.Screen
         name="HelpGuide"
         component={HelpGuideScreen}
         options={{ title: 'Hướng dẫn sử dụng', headerShown: false }}
@@ -294,6 +322,26 @@ const MainStack = () => {
       <Stack.Screen
         name="VNeIDLogin"
         component={VNeIDLoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterType"
+        component={RegisterTypeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterForm"
+        component={RegisterFormScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPasswordScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

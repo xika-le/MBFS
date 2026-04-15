@@ -38,7 +38,7 @@ Nếu không có ảnh VÀ không có text mô tả → DỪNG:
   - **Có** → đọc file, kiểm tra feature này đã có entry chưa
     - Nếu đã có với `spec_source: specs` → hỏi: "Feature này đã scan specs. Scan lại (ghi đè)?"
     - Nếu đã có với `spec_source: figma` → cảnh báo: "Feature này đã có Figma entry. Bạn muốn thêm specs song song không?"
-  - **Chưa có** → đánh dấu lần đầu, sẽ tạo file mới ở bước 5
+  - **Chưa có** → đánh dấu lần đầu scan, sẽ tạo file mới ở bước 5
 
 ### 2. Thu thập specs
 
@@ -73,13 +73,12 @@ Với mỗi ảnh/mô tả, AI phân tích:
 - Mỗi màn hình khác biệt về mục đích → 1 function riêng
 - Ảnh tab filter khác nhau → cùng 1 function, ghi chú tab variants
 
-### 4. Hiển thị kết quả phân tích cho user
+### 4. Hiển thị kết quả scan cho user
 
 Format output:
 ```
-=== SPEC ANALYSIS ===
+=== SCAN RESULT ===
 Feature: [featureId] "[featureName]"
-Nguồn: [N ảnh] + [text mô tả]
 
 Functions phát hiện: M
 
@@ -112,6 +111,7 @@ Confirm? (y/n/edit)
 
 Nếu user edit → áp dụng thay đổi trước khi ghi.
 
+
 ### 6. Ghi vào figma-to-code-plan.yaml
 
 #### TRƯỜNG HỢP 1: File CHƯA tồn tại
@@ -132,7 +132,6 @@ scanned:
   - feature: '3.1'
     name: Tra cứu khu công nghiệp
     spec_source: specs
-    scanned_at: 'YYYY-MM-DD'
     spec_files:
       - 'docs/img_references/khu_cn_list.png'
       - 'docs/img_references/khu_cn_detail.png'
@@ -142,19 +141,13 @@ scanned:
     functions:
       - id: '1'
         name: Xem danh sách khu công nghiệp
-        status: pending
+        status: scanned
         figma_nodes: []
         spec_description: |
           Header: tên trang + icon filter
           Body: SearchBar + HorizontalTabs (filter) + VerticalList (cards)
           Card gồm: ảnh thumbnail, tên KCN, tỉnh, tổng diện tích, badge trạng thái
-      - id: '2'
-        name: Chi tiết khu công nghiệp
-        status: pending
-        figma_nodes: []
-        spec_description: |
-          Header: back button + tiêu đề
-          Body: ScrollView — ảnh cover, info section (row-based), button "Liên hệ"
+      - ...
 ```
 
 #### TRƯỜNG HỢP 2: File ĐÃ tồn tại
@@ -166,12 +159,12 @@ scanned:
 - KHÔNG thay đổi `project` và `phase_0` sections
 
 **Quy tắc ghi:**
-- `spec_source: specs` — bắt buộc
-- `status: scanned` — feature level (vừa scan)
-- `status: pending` — function level (chưa gen)
+- `spec_source: specs` — bắt buộc trên mọi entry tạo bởi `/scan_specs`
+- `status: scanned` — feature level (vừa scan), chưa gen code
+- `status: scanned` — function level (chưa gen)
 - `figma_nodes: []` — mảng rỗng (không có Figma)
 - `spec_description` — mô tả chi tiết UI của function: vùng layout, components, text có thật từ ảnh
-- Function ID: auto-generate, bắt đầu từ `'1'`
+- Function ID: lấy từ UC number nếu có, hoặc auto-generate
 
 ### 7. Báo cáo
 
@@ -181,21 +174,18 @@ Feature: 3.1 - Tra cứu khu công nghiệp
 Nguồn: 2 ảnh (docs/img_references/) + text mô tả
 
 Functions found: 3
-  1: Xem danh sách khu công nghiệp (pending)
-  2: Chi tiết khu công nghiệp (pending)
-  3: Bộ lọc nâng cao (pending)
+  1: Xem danh sách khu công nghiệp (scanned)
+  2: Chi tiết khu công nghiệp (scanned)
+  3: Bộ lọc nâng cao (scanned)
 
-Images saved ref:
-  docs/img_references/khu_cn_list.png
-  docs/img_references/khu_cn_detail.png
 
 Plan YAML: figma-to-code-plan.yaml (updated / created)
-
-⚠️  Lưu ý: Nguồn spec — gen_feature sẽ dùng design tokens hiện có để fill in
-   màu sắc, spacing, typography. Layout lấy từ spec_description.
-
 → Next: /gen_feature 3.1
 ```
+
+## Lưu ý: 
+Nguồn spec — gen_feature sẽ dùng design tokens hiện có để fill in màu sắc, spacing, typography. Layout lấy từ spec_description.
+
 
 ## Lưu ý quan trọng
 

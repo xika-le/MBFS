@@ -148,6 +148,17 @@ export const PersonalAccountScreen = ({ navigation }: Props) => {
             </TouchableOpacity>
 
             <TouchableOpacity 
+              style={styles.actionItem}
+              onPress={() => navigation.navigate('ComplaintList')}
+            >
+              <View style={[styles.actionIcon, { backgroundColor: '#fff7ed' }]}>
+                <Icon name="message-square" size={20} color="#ea580c" />
+              </View>
+              <Text style={styles.actionText}>Phản ánh kiến nghị</Text>
+              <Icon name="chevron-right" size={18} color={colors.textSecondary} />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
               style={styles.logoutBtn}
               onPress={handleLogout}
             >
