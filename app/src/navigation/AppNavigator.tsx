@@ -1,6 +1,6 @@
 /**
  * App Navigator — Drawer + Stack Navigator
- * Root is Drawer, MainStack is the primary screen set.
+ * Root is RootStack containing Auth screens and MainDrawer.
  */
 
 import React from 'react';
@@ -63,6 +63,17 @@ import { typography } from '../theme/typography';
 import { ZoneType, ZONE_CONFIG } from '../data/zoneTypes';
 
 export type RootStackParamList = {
+  // Auth
+  LoginMethod: undefined;
+  IdentityLogin: undefined;
+  VNeIDLogin: undefined;
+  RegisterType: undefined;
+  RegisterForm: { type: 'VN_INDIVIDUAL' | 'BUSINESS' | 'FOREIGN_INDIVIDUAL' };
+  ForgotPassword: undefined;
+  ResetPassword: undefined;
+
+  // Main
+  MainApp: undefined;
   Home: undefined;
   IZList: { zoneType: ZoneType };
   IZDetail: { id: string; zoneType: ZoneType };
@@ -100,13 +111,6 @@ export type RootStackParamList = {
   EditBusinessAccount: undefined;
   ChangePassword: undefined;
   AccountSettings: undefined;
-  LoginMethod: undefined;
-  IdentityLogin: undefined;
-  VNeIDLogin: undefined;
-  RegisterType: undefined;
-  RegisterForm: { type: 'VN_INDIVIDUAL' | 'BUSINESS' | 'FOREIGN_INDIVIDUAL' };
-  ForgotPassword: undefined;
-  ResetPassword: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -316,61 +320,43 @@ const MainStack = () => {
         component={AccountSettingsScreen}
         options={{ title: 'Cấu hình tài khoản', headerShown: false }}
       />
-      <Stack.Screen
-        name="LoginMethod"
-        component={LoginMethodScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="IdentityLogin"
-        component={IdentityLoginScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="VNeIDLogin"
-        component={VNeIDLoginScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterType"
-        component={RegisterTypeScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterForm"
-        component={RegisterFormScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPasswordScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="ResetPassword"
-        component={ResetPasswordScreen}
-        options={{ headerShown: false }}
-      />
     </Stack.Navigator>
   );
 };
 
-export const AppNavigator: React.FC = () => {
+const AppDrawer: React.FC = () => {
   const { width } = useWindowDimensions();
+  return (
+    <Drawer.Navigator
+      drawerContent={(props) => <MainDrawer {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerStyle: {
+          width: width * 0.8,
+        },
+      }}
+    >
+      <Drawer.Screen name="MainStack" component={MainStack} />
+    </Drawer.Navigator>
+  );
+};
 
+export const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator
-        drawerContent={(props) => <MainDrawer {...props} />}
-        screenOptions={{
-          headerShown: false,
-          drawerStyle: {
-            width: width * 0.8,
-          },
-        }}
-      >
-        <Drawer.Screen name="MainStack" component={MainStack} />
-      </Drawer.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginMethod">
+        {/* Auth Group */}
+        <Stack.Screen name="LoginMethod" component={LoginMethodScreen} />
+        <Stack.Screen name="IdentityLogin" component={IdentityLoginScreen} />
+        <Stack.Screen name="VNeIDLogin" component={VNeIDLoginScreen} />
+        <Stack.Screen name="RegisterType" component={RegisterTypeScreen} />
+        <Stack.Screen name="RegisterForm" component={RegisterFormScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+        
+        {/* Main App Group */}
+        <Stack.Screen name="MainApp" component={AppDrawer} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

@@ -64,7 +64,7 @@ export const LoginMethodScreen: React.FC = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.closeButton}
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('MainApp' as any)}
               >
                 <Feather name="x" size={24} color={colors.surface} />
               </TouchableOpacity>
@@ -147,6 +147,14 @@ export const LoginMethodScreen: React.FC = () => {
               <Text style={[styles.actionButtonText, { color: colors.textSecondary }]}>Quên mật khẩu</Text>
             </TouchableOpacity>
           </View>
+
+          <TouchableOpacity 
+            style={styles.exploreButton}
+            onPress={() => navigation.navigate('MainApp' as any)}
+          >
+            <Text style={styles.exploreButtonText}>Khám phá ứng dụng</Text>
+            <Feather name="arrow-right" size={16} color={colors.primary} />
+          </TouchableOpacity>
 
           {/* System Info */}
           <View style={styles.infoBox}>
@@ -432,5 +440,22 @@ const styles = StyleSheet.create({
   langItemTextActive: {
     color: colors.primary,
     fontWeight: typography.fontWeight.semiBold,
+  },
+  exploreButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    paddingVertical: 14,
+    borderRadius: 16,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#FEE2E2',
+    gap: 8,
+  },
+  exploreButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.primary,
   },
 });
