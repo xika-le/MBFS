@@ -334,6 +334,14 @@ scanned:
         figma_nodes:
           - '113:1027' # UC 81: Hồ sơ đã hoàn thành — List view (392×851, badge #dcfce7/#008236)
         note: Tab "Hoàn thành" with green success badge
+      - id: '76.1'
+        name: Xem chi tiết hồ sơ
+        status: done
+        file_path: app/src/screens/Dossier/DossierDetailScreen.tsx
+        generated_at: '2026-04-16'
+        figma_nodes:
+          - '948:1918'
+        note: Màn hình chi tiết hồ sơ hoàn chỉnh bám sát thiết kế Figma với 7 phân mục thông tin.
 
   - feature: '2.1'
     name: Quản lý đặt lịch nộp thủ tục về đầu tư
@@ -487,13 +495,19 @@ scanned:
           Flow: Danh sách bản tin -> Chi tiết
       - id: '98'
         name: UC 98 - Tra cứu văn bản pháp luật
-        status: done
+        status: partial
         file_path: app/src/screens/LegalDocument/LegalDocumentListScreen.tsx
         generated_at: '2026-04-14'
-        figma_nodes:
-          - '43:1724'
-          - '113:1120'
-        spec_description: 'Quyển văn bản pháp luật: màn danh sách và chi tiết'
+        spec_source: specs
+        spec_description: |
+          [Layout] Màn hình danh sách văn bản với bộ lọc nâng cao và chế độ xem toàn văn.
+          [Filter] Modal/Section chứa các field: Cơ quan ban hành, Khoảng ngày ban hành (từ-đến), Loại văn bản, Lĩnh vực, Đơn vị soạn thảo, Trạng thái.
+          [ViewToggle] Nút radio cho phép chọn loại phân loại: "Số hiệu, Trích yếu" hoặc "Toàn văn".
+          [Card] 
+            - Phần đầu: Icon văn bản + Số hiệu (Primary color).
+            - Phần phải: Ngày ban hành, Ngày có hiệu lực, Tình trạng hiệu lực (Badge "Chưa cập nhật").
+            - Hàng nút 5 chức năng: Thuộc tính, VB liên quan, Tải về, Toàn văn, Quan tâm.
+            - Nếu đang ở mode "Toàn văn" -> Hiển thị box "Nội dung toàn văn" chứa văn pháp quy có định dạng (fit mobile).
       - id: '114'
         name: UC 114 - Liên hệ
         status: done

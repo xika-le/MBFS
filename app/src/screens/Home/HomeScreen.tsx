@@ -26,7 +26,7 @@ export const HomeScreen: React.FC = () => {
   const itemWidth = (width - 32 - 16) / 3;
 
   const quickAccessItems = [
-    { title: 'Thủ tục hành chính', icon: 'file-text' as const, route: 'ProcedureList' },
+    { title: 'Hướng dẫn sử dụng', icon: 'help-circle' as const, route: 'HelpGuide' },
     { title: 'Quản lý hồ sơ', icon: 'folder' as const, route: 'DossierList' },
     { title: 'Quản lý đặt lịch', icon: 'calendar' as const, route: 'AppointmentList' },
     { title: 'Khu công nghiệp / KKT', icon: 'layers' as const, route: 'IZList', params: { zoneType: 'kcn' } },

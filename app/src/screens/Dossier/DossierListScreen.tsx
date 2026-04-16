@@ -20,15 +20,18 @@ import {
   StyleSheet,
   SafeAreaView,
   Alert,
+  Modal,
+  ScrollView,
+  TextInput,
+  StatusBar,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
-import { Input } from '../../components/shared/Input';
-import { TabBar } from '../../components/shared/TabBar';
-import { Badge } from '../../components/shared/Badge';
+import { Input, TabBar, Badge, Header } from '../../components/shared';
 import {
   DossierItem,
   DossierTabKey,
@@ -39,18 +42,39 @@ import {
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DossierList'>;
 
-export const DossierListScreen: React.FC<Props> = () => {
+export const DossierListScreen: React.FC<Props> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState<string>('tat_ca');
   const [searchText, setSearchText] = useState('');
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  
+  // Filter states
+  const [status, setStatus] = useState('');
+  const [submittedDateFrom, setSubmittedDateFrom] = useState('');
+  const [submittedDateTo, setSubmittedDateTo] = useState('');
+  const [dueDateFrom, setDueDateFrom] = useState('');
+  const [dueDateTo, setDueDateTo] = useState('');
 
   const currentData = getDossiersByTab(activeTab as DossierTabKey);
-  const filteredData = currentData.filter((item) =>
-    item.title.toLowerCase().includes(searchText.toLowerCase()) ||
-    item.hsCode.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  const filteredData = currentData.filter((item) => {
+    const matchesSearch = item.title.toLowerCase().includes(searchText.toLowerCase()) ||
+                         item.hsCode.toLowerCase().includes(searchText.toLowerCase());
+    return matchesSearch;
+  });
+
+  const handleReset = () => {
+    setStatus('');
+    setSubmittedDateFrom('');
+    setSubmittedDateTo('');
+    setDueDateFrom('');
+    setDueDateTo('');
+  };
+
+  const handleSearch = () => {
+    setIsFilterVisible(false);
+  };
 
   const handleView = (item: DossierItem) => {
-    Alert.alert('Chi tiết hồ sơ', `Mã: ${item.hsCode}\n${item.title}`);
+    navigation.navigate('DossierDetail', { id: item.id });
   };
 
   const renderCard = ({ item }: { item: DossierItem }) => {
@@ -114,28 +138,44 @@ export const DossierListScreen: React.FC<Props> = () => {
           </View>
         )}
 
-        {/* View detail button */}
-        <TouchableOpacity
-          style={styles.viewButton}
-          onPress={() => handleView(item)}
-        >
-          <Text style={styles.viewButtonText}>Xem chi tiết</Text>
-        </TouchableOpacity>
+        {/* Action buttons */}
+        <View style={styles.actionRow}>
+          {item.status === 'cho_tiep_nhan' && (
+            <>
+              <TouchableOpacity
+                style={[styles.smallActionButton, styles.stopBtn]}
+                onPress={() => Alert.alert('Yêu cầu dừng', `Mã HS: ${item.hsCode}`)}
+              >
+                <Text style={styles.stopBtnText}>Yêu cầu dừng</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.smallActionButton, styles.withdrawBtn]}
+                onPress={() => Alert.alert('Yêu cầu rút', `Mã HS: ${item.hsCode}`)}
+              >
+                <Text style={styles.withdrawBtnText}>Yêu cầu rút</Text>
+              </TouchableOpacity>
+            </>
+          )}
+          <TouchableOpacity
+            style={[styles.viewButton, item.status === 'cho_tiep_nhan' ? { flex: 1, marginTop: 0 } : { width: '100%' }]}
+            onPress={() => handleView(item)}
+          >
+            <Text style={styles.viewButtonText}>Xem chi tiết</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Tab Bar — 6 tabs, horizontal scroll */}
-      <TabBar
-        tabs={DOSSIER_TABS.map((t) => ({ key: t.key, label: t.label }))}
-        activeKey={activeTab}
-        onTabPress={setActiveTab}
-      />
+      <StatusBar barStyle="light-content" />
+      
+      {/* Header — Standardized shared component */}
+      <Header title="Quản lý hồ sơ" onBack={() => navigation.goBack()} />
 
       <View style={styles.container}>
-        {/* Search row */}
+        {/* Search row - Now on top */}
         <View style={styles.searchRow}>
           <View style={styles.searchInput}>
             <Input
@@ -144,10 +184,110 @@ export const DossierListScreen: React.FC<Props> = () => {
               placeholder="Tìm kiếm hồ sơ..."
             />
           </View>
-          <TouchableOpacity style={styles.filterButton}>
-            <Text style={styles.filterIcon}>☰</Text>
+          <TouchableOpacity 
+            style={styles.filterBtn}
+            onPress={() => setIsFilterVisible(true)}
+          >
+            <Ionicons name="filter-outline" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
+
+        {/* Tab Bar — 6 tabs, horizontal scroll, moved below search */}
+        <TabBar
+          tabs={DOSSIER_TABS.map((t) => ({ key: t.key, label: t.label }))}
+          activeKey={activeTab}
+          onTabPress={setActiveTab}
+        />
+
+        {/* Filter Modal — Image 2 */}
+        <Modal
+          visible={isFilterVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setIsFilterVisible(false)}
+        >
+          <TouchableOpacity 
+            style={styles.modalOverlay} 
+            activeOpacity={1} 
+            onPress={() => setIsFilterVisible(false)}
+          >
+            <TouchableOpacity 
+              activeOpacity={1} 
+              style={styles.filterContainer}
+            >
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {/* Trạng thái */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Trạng thái</Text>
+                  <TouchableOpacity style={styles.dropdownInput}>
+                    <Text style={styles.dropdownPlaceholder}>{status || 'Chọn trạng thái'}</Text>
+                    <Ionicons name="chevron-down" size={18} color={colors.textTertiary} />
+                  </TouchableOpacity>
+                </View>
+
+                {/* Ngày tiếp nhận */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Ngày tiếp nhận (từ - đến)</Text>
+                  <View style={styles.dateRangeInput}>
+                    <TextInput
+                      style={styles.dateInput}
+                      placeholder="Từ ngày"
+                      value={submittedDateFrom}
+                      onChangeText={setSubmittedDateFrom}
+                    />
+                    <Text style={styles.dateSeparator}>→</Text>
+                    <TextInput
+                      style={styles.dateInput}
+                      placeholder="Đến ngày"
+                      value={submittedDateTo}
+                      onChangeText={setSubmittedDateTo}
+                    />
+                    <Ionicons name="calendar-outline" size={20} color={colors.textTertiary} />
+                  </View>
+                </View>
+
+                {/* Ngày hẹn trả */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Ngày hẹn trả (từ - đến)</Text>
+                  <View style={styles.dateRangeInput}>
+                    <TextInput
+                      style={styles.dateInput}
+                      placeholder="Từ ngày"
+                      value={dueDateFrom}
+                      onChangeText={setDueDateFrom}
+                    />
+                    <Text style={styles.dateSeparator}>→</Text>
+                    <TextInput
+                      style={styles.dateInput}
+                      placeholder="Đến ngày"
+                      value={dueDateTo}
+                      onChangeText={setDueDateTo}
+                    />
+                    <Ionicons name="calendar-outline" size={20} color={colors.textTertiary} />
+                  </View>
+                </View>
+              </ScrollView>
+
+              {/* Action Buttons */}
+              <View style={styles.modalFooter}>
+                <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
+                  <Ionicons name="refresh-outline" size={20} color={colors.primary} />
+                  <Text style={styles.resetBtnText}>Nhập lại</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.closeBtn} onPress={() => setIsFilterVisible(false)}>
+                  <Ionicons name="close-outline" size={20} color={colors.primary} />
+                  <Text style={styles.closeBtnText}>Đóng</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.searchBtn} onPress={handleSearch}>
+                  <Ionicons name="search-outline" size={20} color="white" />
+                  <Text style={styles.searchBtnText}>Tìm</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </Modal>
 
         {/* List */}
         <FlatList
@@ -177,7 +317,7 @@ export const DossierListScreen: React.FC<Props> = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: '#F9FAFB',
   },
   container: {
     flex: 1,
@@ -188,146 +328,285 @@ const styles = StyleSheet.create({
   // === Search Row ===
   searchRow: {
     flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
+    gap: 10,
+    marginBottom: spacing.md,
+    paddingHorizontal: 2,
   },
   searchInput: {
     flex: 1,
   },
-  filterButton: {
-    width: 40,
-    height: 40,
-    backgroundColor: colors.surface,
-    borderWidth: spacing.borderWidth.thin,
-    borderColor: colors.border,
-    borderRadius: spacing.borderRadius.md,
+  filterBtn: {
+    width: 44,
+    height: 44,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  filterIcon: {
-    fontSize: spacing.icon.sm,
-    color: colors.textPrimary,
-  },
 
-  // === List ===
+  // === List Content ===
   listContent: {
-    gap: spacing.lg,
-    paddingBottom: spacing.xl,
+    paddingBottom: 24,
   },
-
-  // === Card ===
   card: {
-    backgroundColor: colors.surface,
-    borderWidth: spacing.borderWidth.thin,
-    borderColor: colors.border,
-    borderRadius: spacing.borderRadius.lg,
-    padding: spacing.md,
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
     elevation: 2,
-    gap: spacing.sm,
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 8,
   },
   hsCode: {
-    fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
-    color: colors.primary,                        // #8b1a1a (Figma)
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.primary,
   },
   typeCode: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textSecondary,                  // #4a5565 (Figma)
+    fontSize: 12,
+    color: colors.textTertiary,
+    marginBottom: 8,
   },
   cardTitle: {
-    fontSize: typography.fontSize.md,
-    fontWeight: typography.fontWeight.semiBold,
-    color: colors.textPrimary,                    // #101828
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#1E2939',
+    marginBottom: 12,
+    lineHeight: 20,
   },
-
-  // === Info rows ===
   infoRow: {
     flexDirection: 'row',
-    gap: spacing.xs,
+    marginBottom: 6,
   },
   infoLabel: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textSecondary,
+    width: 120,
+    fontSize: 13,
+    color: colors.textTertiary,
   },
   infoValue: {
-    fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
-    color: colors.textPrimary,
     flex: 1,
+    fontSize: 13,
+    color: '#334155',
+    fontWeight: '500',
   },
 
   // === Reason Box ===
   reasonBox: {
-    borderRadius: spacing.borderRadius.md,
-    padding: spacing.sm,
-    gap: spacing.xs,
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
   },
   reasonBoxWarning: {
-    backgroundColor: colors.warningAltBg,         // #ffedd4 (Figma UC 78)
+    backgroundColor: '#FFFBEB',
+    borderColor: '#FEF3C7',
   },
   reasonBoxDanger: {
-    backgroundColor: '#ffe2e2',                   // Red bg (Figma UC 80)
+    backgroundColor: '#FEF2F2',
+    borderColor: '#FEE2E2',
   },
   reasonLabel: {
-    fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.semiBold,
+    fontSize: 12,
+    fontWeight: '700',
+    marginBottom: 4,
   },
   reasonLabelWarning: {
-    color: colors.warningAltText,                 // #ca3500
+    color: '#D97706',
   },
   reasonLabelDanger: {
-    color: '#c10007',                             // Red text (Figma UC 80)
+    color: '#DC2626',
   },
   reasonText: {
-    fontSize: typography.fontSize.sm,
-    lineHeight: typography.lineHeight.sm,
+    fontSize: 13,
+    lineHeight: 18,
   },
   reasonTextWarning: {
-    color: colors.warningAltText,                 // #ca3500
+    color: '#92400E',
   },
   reasonTextDanger: {
-    color: '#c10007',                             // Red text (Figma UC 80)
+    color: '#991B1B',
   },
 
-  // === View Button ===
-  viewButton: {
-    height: 32,
-    backgroundColor: colors.surface,
-    borderWidth: spacing.borderWidth.thin,
-    borderColor: colors.border,
-    borderRadius: spacing.borderRadius.md,
+  // === Action Buttons ===
+  actionRow: {
+    flexDirection: 'row',
+    marginTop: 16,
+    gap: 8,
+  },
+  smallActionButton: {
+    flex: 1,
+    height: 36,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: spacing.xs,
+    borderWidth: 1,
+  },
+  stopBtn: {
+    backgroundColor: '#FFF1F2',
+    borderColor: '#FECDD3',
+  },
+  stopBtnText: {
+    fontSize: 12,
+    color: '#E11D48',
+    fontWeight: '600',
+  },
+  withdrawBtn: {
+    backgroundColor: '#F8FAFC',
+    borderColor: '#E2E8F0',
+  },
+  withdrawBtnText: {
+    fontSize: 12,
+    color: '#475569',
+    fontWeight: '600',
+  },
+  viewButton: {
+    height: 36,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   viewButtonText: {
-    fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
-    color: colors.primary,
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#475569',
   },
 
   // === Empty & Footer ===
   emptyContainer: {
     alignItems: 'center',
-    paddingVertical: spacing.xxl,
+    marginTop: 60,
   },
   emptyText: {
-    fontSize: typography.fontSize.md,
-    color: colors.textSecondary,
+    fontSize: 14,
+    color: colors.textTertiary,
   },
   footer: {
-    fontSize: typography.fontSize.sm,
-    color: colors.textSecondary,
     textAlign: 'center',
-    paddingVertical: spacing.lg,
+    fontSize: 12,
+    color: colors.textTertiary,
+    marginTop: 8,
+  },
+
+  // === Filter Modal ===
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  filterContainer: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    width: '100%',
+    maxHeight: '90%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  filterField: {
+    marginBottom: 20,
+  },
+  filterLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1E2939',
+    marginBottom: 8,
+  },
+  dropdownInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+  },
+  dropdownPlaceholder: {
+    fontSize: 14,
+    color: colors.textTertiary,
+  },
+  dateRangeInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    gap: 8,
+  },
+  dateInput: {
+    flex: 1,
+    fontSize: 14,
+  },
+  dateSeparator: {
+    color: colors.textTertiary,
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 10,
+    paddingBottom: 20,
+  },
+  resetBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    gap: 4,
+  },
+  resetBtnText: {
+    fontSize: 14,
+    color: colors.primary,
+    fontWeight: '600',
+  },
+  closeBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    gap: 4,
+  },
+  closeBtnText: {
+    fontSize: 14,
+    color: colors.primary,
+    fontWeight: '600',
+  },
+  searchBtn: {
+    flex: 1.5,
+    backgroundColor: colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    borderRadius: 10,
+    gap: 8,
+  },
+  searchBtnText: {
+    fontSize: 14,
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

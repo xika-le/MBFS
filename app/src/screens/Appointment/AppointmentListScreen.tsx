@@ -17,7 +17,11 @@ import {
   StyleSheet,
   SafeAreaView,
   Alert,
+  Modal,
+  ScrollView,
+  TextInput,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors } from '../../theme/colors';
@@ -45,12 +49,26 @@ const STATUS_BADGE: Record<AppointmentStatus, { label: string; variant: 'info' |
 export const AppointmentListScreen: React.FC<Props> = () => {
   const [activeTab, setActiveTab] = useState<string>('cho_xac_nhan');
   const [searchText, setSearchText] = useState('');
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  
+  const [sector, setSector] = useState('');
+  const [publicService, setPublicService] = useState('');
 
   const currentData = getAppointmentsByStatus(activeTab as AppointmentStatus);
-  const filteredData = currentData.filter((item) =>
-    item.procedureName.toLowerCase().includes(searchText.toLowerCase()) ||
-    item.code.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  const filteredData = currentData.filter((item) => {
+    const matchesSearch = item.procedureName.toLowerCase().includes(searchText.toLowerCase()) ||
+                         item.code.toLowerCase().includes(searchText.toLowerCase());
+    return matchesSearch;
+  });
+
+  const handleReset = () => {
+    setSector('');
+    setPublicService('');
+  };
+
+  const handleSearch = () => {
+    setIsFilterVisible(false);
+  };
 
   const handleView = (item: AppointmentItem) => {
     Alert.alert('Xem chi tiết', `Mã: ${item.code}\n${item.procedureName}`);
@@ -114,38 +132,13 @@ export const AppointmentListScreen: React.FC<Props> = () => {
           </View>
         )}
 
-        {/* Action buttons */}
-        {isChoXacNhan ? (
-          // UC 73: 3 buttons — Xem, Sửa, Xóa
-          <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={[styles.actionButton, styles.actionButtonOutline]}
-              onPress={() => handleView(item)}
-            >
-              <Text style={styles.actionButtonTextPrimary}>Xem</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.actionButton, styles.actionButtonOutline]}
-              onPress={() => handleEdit(item)}
-            >
-              <Text style={styles.actionButtonTextPrimary}>Sửa</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.actionButton, styles.actionButtonDanger]}
-              onPress={() => handleDelete(item)}
-            >
-              <Text style={styles.actionButtonTextDanger}>Xóa</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          // UC 74, 75: 1 full-width button — Xem
-          <TouchableOpacity
-            style={styles.viewButton}
-            onPress={() => handleView(item)}
-          >
-            <Text style={styles.viewButtonText}>Xem chi tiết</Text>
-          </TouchableOpacity>
-        )}
+        {/* Action button — Single Xem button across all tabs as requested */}
+        <TouchableOpacity
+          style={styles.viewButton}
+          onPress={() => handleView(item)}
+        >
+          <Text style={styles.viewButtonText}>Xem chi tiết</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -169,10 +162,63 @@ export const AppointmentListScreen: React.FC<Props> = () => {
               placeholder="Tìm kiếm thủ tục..."
             />
           </View>
-          <TouchableOpacity style={styles.filterButton}>
-            <Text style={styles.filterIcon}>☰</Text>
+          <TouchableOpacity 
+            style={styles.filterButton}
+            onPress={() => setIsFilterVisible(true)}
+          >
+            <Ionicons name="filter-outline" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
+
+        {/* Filter Modal — Image 1 */}
+        <Modal
+          visible={isFilterVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setIsFilterVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.filterContainer}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {/* Lĩnh vực */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Lĩnh vực</Text>
+                  <TouchableOpacity style={styles.dropdownInput}>
+                    <Text style={styles.dropdownPlaceholder}>{sector || 'Nhập tên lĩnh vực...'}</Text>
+                    <Ionicons name="chevron-down" size={18} color={colors.textTertiary} />
+                  </TouchableOpacity>
+                </View>
+
+                {/* Dịch Vụ Công */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Dịch Vụ Công</Text>
+                  <TouchableOpacity style={styles.dropdownInput}>
+                    <Text style={styles.dropdownPlaceholder}>{publicService || 'Nhập tên dịch vụ công...'}</Text>
+                    <Ionicons name="chevron-down" size={18} color={colors.textTertiary} />
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
+
+              {/* Action Buttons */}
+              <View style={styles.modalFooter}>
+                <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
+                  <Ionicons name="refresh-outline" size={20} color={colors.primary} />
+                  <Text style={styles.resetBtnText}>Nhập lại</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.closeBtn} onPress={() => setIsFilterVisible(false)}>
+                  <Ionicons name="close-outline" size={20} color={colors.primary} />
+                  <Text style={styles.closeBtnText}>Đóng</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.searchBtn} onPress={handleSearch}>
+                  <Ionicons name="search-outline" size={20} color="white" />
+                  <Text style={styles.searchBtnText}>Tìm</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
         {/* List */}
         <FlatList
@@ -369,5 +415,96 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     textAlign: 'center',
     paddingVertical: spacing.lg,
+  },
+
+  // === Modal Styles ===
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    padding: spacing.lg,
+  },
+  filterContainer: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: spacing.lg,
+    maxHeight: '80%',
+  },
+  filterField: {
+    marginBottom: spacing.md,
+  },
+  filterLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textPrimary,
+    marginBottom: 12,
+  },
+  dropdownInput: {
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+  },
+  dropdownPlaceholder: {
+    color: colors.textTertiary,
+    fontSize: 14,
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: spacing.lg,
+    justifyContent: 'flex-end',
+  },
+  resetBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 8,
+    gap: 6,
+  },
+  resetBtnText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: colors.primary,
+  },
+  closeBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 8,
+    gap: 6,
+  },
+  closeBtnText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: colors.primary,
+  },
+  searchBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+    gap: 6,
+  },
+  searchBtnText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: 'white',
   },
 });

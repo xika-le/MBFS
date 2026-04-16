@@ -22,6 +22,7 @@ interface BadgeProps {
   label: string;
   variant?: BadgeVariant;
   style?: ViewStyle;
+  textStyle?: any;
 }
 
 const variantStyles: Record<BadgeVariant, { bg: string; border: string; text: string }> = {
@@ -66,6 +67,7 @@ export const Badge: React.FC<BadgeProps> = ({
   label,
   variant = 'warning',
   style,
+  textStyle,
 }) => {
   const v = variantStyles[variant];
 
@@ -80,7 +82,7 @@ export const Badge: React.FC<BadgeProps> = ({
         style,
       ]}
     >
-      <Text style={[styles.text, { color: v.text }]}>{label}</Text>
+      <Text style={[styles.text, { color: v.text }, textStyle]}>{label}</Text>
     </View>
   );
 };

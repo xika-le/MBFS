@@ -14,9 +14,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
-import { TabBar } from '../../components/shared/TabBar';
-import { Badge } from '../../components/shared/Badge';
-import { Input } from '../../components/shared/Input';
+import { TabBar, Badge, Input, Header } from '../../components/shared';
 
 type RootStackParamList = {
   ComplaintList: undefined;
@@ -163,25 +161,11 @@ export default function ComplaintListScreen() {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
       
-      {/* Header — Simple style as requested */}
-      <View style={styles.brandHeader}>
-        <View style={styles.navRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="white" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Phản ánh kiến nghị</Text>
-        </View>
-      </View>
-
-      {/* Tab Bar — Sync with UC76 */}
-      <TabBar
-        tabs={TABS.map(t => ({ key: t.id, label: t.title }))}
-        activeKey={activeTab}
-        onTabPress={setActiveTab}
-      />
+      {/* Header — Standardized shared component */}
+      <Header title="Phản ánh kiến nghị" onBack={() => navigation.goBack()} />
 
       <View style={styles.container}>
-        {/* Search & Filter row — Sync with UC76 */}
+        {/* Search row - Now on top */}
         <View style={styles.searchRow}>
           <View style={styles.searchInput}>
             <Input
@@ -190,10 +174,17 @@ export default function ComplaintListScreen() {
               placeholder="Tìm kiếm phản ánh..."
             />
           </View>
-          <TouchableOpacity style={styles.filterButton}>
+          <TouchableOpacity style={styles.filterBtn}>
             <Feather name="filter" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
+
+        {/* Tab Bar below search bar */}
+        <TabBar
+          tabs={TABS.map(t => ({ key: t.id, label: t.title }))}
+          activeKey={activeTab}
+          onTabPress={setActiveTab}
+        />
 
         <FlatList
           data={filteredData}
@@ -227,29 +218,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  brandHeader: {
-    backgroundColor: colors.primary,
-    paddingBottom: spacing.sm,
-  },
-  navRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    height: 56,
-    gap: spacing.md,
-  },
-  backButton: {
-    width: 32,
-    height: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: typography.fontFamily,
-    fontWeight: typography.fontWeight.semiBold,
-  },
   container: {
     flex: 1,
     paddingHorizontal: spacing.container.paddingHorizontal,
@@ -257,19 +225,20 @@ const styles = StyleSheet.create({
   },
   searchRow: {
     flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
+    gap: 10,
+    marginBottom: spacing.md,
+    paddingHorizontal: 2,
   },
   searchInput: {
     flex: 1,
   },
-  filterButton: {
+  filterBtn: {
     width: 44,
     height: 44,
-    backgroundColor: colors.surface,
+    backgroundColor: 'white',
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
+    borderColor: '#E5E7EB',
     justifyContent: 'center',
     alignItems: 'center',
   },

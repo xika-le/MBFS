@@ -36,6 +36,7 @@ import ProcedureListScreen from '../screens/Procedure/ProcedureListScreen';
 import ComplaintListScreen from '../screens/Complaints/ComplaintListScreen';
 import CreateComplaintScreen from '../screens/Complaints/CreateComplaintScreen';
 import ComplaintDetailScreen from '../screens/Complaints/ComplaintDetailScreen';
+import DossierDetailScreen from '../screens/Dossier/DossierDetailScreen';
 import HelpGuideScreen from '../screens/Help/HelpGuideScreen';
 import HelpDetailScreen from '../screens/Help/HelpDetailScreen';
 import FAQHomeScreen from '../screens/FAQ/FAQHomeScreen';
@@ -67,6 +68,7 @@ export type RootStackParamList = {
   IZDetail: { id: string; zoneType: ZoneType };
   AppointmentList: undefined;
   DossierList: undefined;
+  DossierDetail: { id: string };
   AreaList: undefined;
   AreaDetail: undefined;
   SectorList: undefined;
@@ -152,7 +154,12 @@ const MainStack = () => {
       <Stack.Screen
         name="DossierList"
         component={DossierListScreen}
-        options={{ title: 'Quản lý hồ sơ' }}
+        options={{ title: 'Quản lý hồ sơ', headerShown: false }}
+      />
+      <Stack.Screen
+        name="DossierDetail"
+        component={DossierDetailScreen}
+        options={{ title: 'Chi tiết hồ sơ', headerShown: false }}
       />
       <Stack.Screen
         name="AreaList"

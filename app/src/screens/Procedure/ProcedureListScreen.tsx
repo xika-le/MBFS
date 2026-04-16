@@ -168,26 +168,26 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
+    borderBottomColor: '#F1F5F9',
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F3F4F6',
+    backgroundColor: 'white',
     marginHorizontal: spacing.lg,
     paddingHorizontal: spacing.md,
-    borderRadius: 12, // More rounded like Figma cards
+    borderRadius: 8,
     height: 44,
     borderWidth: 1,
     borderColor: '#E5E7EB',
   },
   searchIcon: {
     marginRight: spacing.sm,
-    opacity: 0.7,
+    opacity: 0.5,
   },
   searchInput: {
     flex: 1,
-    fontSize: typography.fontSize.sm,
+    fontSize: 14,
     color: colors.textPrimary,
   },
   tabContainer: {
@@ -196,24 +196,26 @@ const styles = StyleSheet.create({
   tabContent: {
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.xs,
+    gap: 10,
   },
   tabPill: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#F3F4F6',
-    marginRight: spacing.sm,
+    backgroundColor: '#F1F5F9',
+    marginRight: 2, // gap handled by tabContent
   },
   tabPillActive: {
     backgroundColor: colors.primary,
   },
   tabLabel: {
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.medium,
-    color: colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#64748B',
   },
   tabLabelActive: {
     color: '#fff',
+    fontWeight: '600',
   },
   listContainer: {
     flex: 1,

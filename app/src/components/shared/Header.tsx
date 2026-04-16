@@ -1,74 +1,88 @@
-/**
- * Shared Component: Header
- * Trích xuất từ Figma node 328:569 (IndustrialParkList header), 328:871 (Detail header)
- *
- * Figma styles:
- * - height: 63.977px → 64px
- * - bg: #8b1a1a (primary)
- * - title text: white, 16px, semibold
- * - back button: 40x40, rounded 8px
- */
-
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
+
+/**
+ * Shared Component: Header
+ * Standard Navigation Style for the Project
+ */
 
 interface HeaderProps {
   title: string;
   onBack?: () => void;
   rightAction?: React.ReactNode;
+  showBack?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ title, onBack, rightAction }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+  title, 
+  onBack, 
+  rightAction,
+  showBack = true 
+}) => {
   return (
     <View style={styles.header}>
-      {onBack ? (
-        <TouchableOpacity onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backIcon}>{'‹'}</Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.placeholder} />
-      )}
+      <View style={styles.leftContainer}>
+        {showBack && onBack && (
+          <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="white" />
+          </TouchableOpacity>
+        )}
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
+      </View>
 
-      <Text style={styles.title} numberOfLines={1}>
-        {title}
-      </Text>
-
-      {rightAction ? rightAction : <View style={styles.placeholder} />}
+      <View style={styles.rightContainer}>
+        {rightAction}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    height: spacing.header.height,                // 64px
-    backgroundColor: colors.primary,              // #8b1a1a
+    height: 56,
+    backgroundColor: colors.primary,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: spacing.lg,                // 16px
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.md,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  leftContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
   backButton: {
-    width: 40,                                    // ~39.993px
-    height: 40,
-    borderRadius: spacing.borderRadius.md,        // 8px
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  backIcon: {
-    color: colors.surface,                        // white
-    fontSize: 24,
+  title: {
+    color: 'white',
+    fontSize: 18,
+    fontFamily: typography.fontFamily,
     fontWeight: typography.fontWeight.semiBold,
   },
-  title: {
-    flex: 1,
-    color: colors.surface,                        // white
-    fontSize: typography.fontSize.lg,             // 16px
-    fontWeight: typography.fontWeight.semiBold,    // 600
-    textAlign: 'center',
-  },
-  placeholder: {
-    width: 40,
+  rightContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

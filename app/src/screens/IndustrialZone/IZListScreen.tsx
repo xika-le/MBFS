@@ -14,14 +14,17 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Modal,
+  ScrollView,
+  TextInput,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
-import { Input } from '../../components/shared/Input';
-import { Badge } from '../../components/shared/Badge';
+import { Input, Badge, Header } from '../../components/shared';
 import { ZoneListItem, ZONE_CONFIG, getZoneMockData } from '../../data/zoneTypes';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'IZList'>;
@@ -32,10 +35,32 @@ export const IZListScreen: React.FC<Props> = ({ navigation, route }) => {
   const mockData = getZoneMockData(zoneType);
 
   const [searchText, setSearchText] = useState('');
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  
+  // Filter states
+  const [province, setProvince] = useState('');
+  const [areaFrom, setAreaFrom] = useState('');
+  const [areaTo, setAreaTo] = useState('');
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
 
-  const filteredData = mockData.list.filter((item) =>
-    item.name.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  const handleReset = () => {
+    setProvince('');
+    setAreaFrom('');
+    setAreaTo('');
+    setName('');
+    setAddress('');
+  };
+
+  const handleSearch = () => {
+    // Logic search could be implemented here or using filteredData
+    setIsFilterVisible(false);
+  };
+
+  const filteredData = mockData.list.filter((item) => {
+    const matchesSearch = item.name.toLowerCase().includes(searchText.toLowerCase());
+    return matchesSearch;
+  });
 
   const renderCard = ({ item }: { item: ZoneListItem }) => (
     <View style={styles.card}>
@@ -79,6 +104,7 @@ export const IZListScreen: React.FC<Props> = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Header title="Khu công nghiệp/Kinh tế" onBack={() => navigation.goBack()} />
       <View style={styles.container}>
         {/* Search row: Input + Filter button */}
         <View style={styles.searchRow}>
@@ -89,10 +115,104 @@ export const IZListScreen: React.FC<Props> = ({ navigation, route }) => {
               placeholder={`Tìm kiếm tên ${config.shortLabel}...`}
             />
           </View>
-          <TouchableOpacity style={styles.filterButton}>
-            <Text style={styles.filterIcon}>☰</Text>
+          <TouchableOpacity 
+            style={styles.filterBtn}
+            onPress={() => setIsFilterVisible(true)}
+          >
+            <Ionicons name="filter-outline" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
+
+        {/* Filter Modal */}
+        <Modal
+          visible={isFilterVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setIsFilterVisible(false)}
+        >
+          <TouchableOpacity 
+            style={styles.modalOverlay} 
+            activeOpacity={1} 
+            onPress={() => setIsFilterVisible(false)}
+          >
+            <TouchableOpacity 
+              activeOpacity={1} 
+              style={styles.filterContainer}
+            >
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {/* Tỉnh/thành */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Tỉnh/thành</Text>
+                  <TouchableOpacity style={styles.dropdownInput}>
+                    <Text style={styles.dropdownPlaceholder}>{province || '- Chọn -'}</Text>
+                    <Ionicons name="chevron-down" size={18} color={colors.textTertiary} />
+                  </TouchableOpacity>
+                </View>
+
+                {/* Diện tích */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Diện tích (hectata)</Text>
+                  <View style={styles.rangeRow}>
+                    <TextInput
+                      style={styles.rangeInput}
+                      placeholder="Từ"
+                      value={areaFrom}
+                      onChangeText={setAreaFrom}
+                      keyboardType="numeric"
+                    />
+                    <TextInput
+                      style={styles.rangeInput}
+                      placeholder="Đến"
+                      value={areaTo}
+                      onChangeText={setAreaTo}
+                      keyboardType="numeric"
+                    />
+                  </View>
+                </View>
+
+                {/* Tên KCN */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Tên {config.shortLabel}</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder={`Nhập tên ${config.shortLabel.toLowerCase()}`}
+                    value={name}
+                    onChangeText={setName}
+                  />
+                </View>
+
+                {/* Địa chỉ */}
+                <View style={styles.filterField}>
+                  <Text style={styles.filterLabel}>Địa chỉ</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="Nhập địa chỉ"
+                    value={address}
+                    onChangeText={setAddress}
+                  />
+                </View>
+              </ScrollView>
+
+              {/* Action Buttons */}
+              <View style={styles.modalFooter}>
+                <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
+                  <Ionicons name="refresh-outline" size={20} color={colors.textPrimary} />
+                  <Text style={styles.resetBtnText}>Nhập lại</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.closeBtn} onPress={() => setIsFilterVisible(false)}>
+                  <Ionicons name="close-outline" size={20} color={colors.textPrimary} />
+                  <Text style={styles.closeBtnText}>Đóng</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.searchBtn} onPress={handleSearch}>
+                  <Ionicons name="search-outline" size={20} color="white" />
+                  <Text style={styles.searchBtnText}>Tìm</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </Modal>
 
         {/* List */}
         <FlatList
@@ -126,25 +246,22 @@ const styles = StyleSheet.create({
   // === Search Row ===
   searchRow: {
     flexDirection: 'row',
-    gap: spacing.sm,                             // 8px
-    marginBottom: spacing.lg,                    // 16px
+    gap: 10,
+    marginBottom: spacing.md,
+    paddingHorizontal: 2,
   },
   searchInput: {
     flex: 1,
   },
-  filterButton: {
-    width: 40,                                   // ~39.993px
-    height: 40,
-    backgroundColor: colors.surface,             // white
-    borderWidth: spacing.borderWidth.thin,        // 1px
-    borderColor: colors.border,                  // rgba(0,0,0,0.1)
-    borderRadius: spacing.borderRadius.md,        // 8px
+  filterBtn: {
+    width: 44,
+    height: 44,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  filterIcon: {
-    fontSize: spacing.icon.sm,                   // 16px
-    color: colors.textPrimary,
   },
 
   // === List ===
@@ -221,5 +338,121 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,                 // #6a7282
     textAlign: 'center',
     paddingVertical: spacing.lg,
+  },
+
+  // === Modal Styles ===
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    padding: spacing.lg,
+  },
+  filterContainer: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: spacing.lg,
+    maxHeight: '80%',
+  },
+  filterField: {
+    marginBottom: spacing.md,
+  },
+  filterLabel: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: colors.textPrimary,
+    marginBottom: 8,
+  },
+  dropdownInput: {
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+  },
+  dropdownPlaceholder: {
+    color: colors.textTertiary,
+    fontSize: 14,
+  },
+  rangeRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  rangeInput: {
+    flex: 1,
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    backgroundColor: 'white',
+    fontSize: 14,
+  },
+  textInput: {
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    backgroundColor: 'white',
+    fontSize: 14,
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: '#f3f4f6',
+    paddingTop: 16,
+  },
+  resetBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 8,
+    gap: 6,
+  },
+  resetBtnText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: colors.textPrimary,
+  },
+  closeBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 8,
+    gap: 6,
+  },
+  closeBtnText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: colors.textPrimary,
+  },
+  searchBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44,
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+    gap: 6,
+  },
+  searchBtnText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: 'white',
   },
 });
