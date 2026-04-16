@@ -27,7 +27,7 @@ export const IdentityLoginScreen: React.FC = () => {
   const handleLogin = () => {
     if (identityId === 'admin' && password === 'admin') {
       // @ts-ignore
-      navigation.navigate('Home');
+      navigation.navigate('MainApp');
     } else {
       Alert.alert(
         'Đăng nhập thất bại',

@@ -122,7 +122,7 @@ export const VNeIDLoginScreen: React.FC = () => {
               onPress={() => {
                 if (identityId === 'admin') {
                   // @ts-ignore
-                  navigation.navigate('Home');
+                  navigation.navigate('MainApp');
                 } else {
                   console.log('VNeID Login:', identityId);
                 }
