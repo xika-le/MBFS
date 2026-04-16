@@ -83,7 +83,9 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
   };
 
   const confirmLogout = () => {
-    navigation.navigate('MainStack', { screen: 'LoginMethod' });
+    // Navigate correctly back to the root LoginMethod screen
+    // @ts-ignore
+    navigation.navigate('LoginMethod');
   };
 
   return (
