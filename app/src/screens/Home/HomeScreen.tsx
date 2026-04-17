@@ -181,10 +181,19 @@ export const HomeScreen: React.FC = () => {
               <Text style={styles.activeNewsTabText}>Tất cả</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Chính sách</Text>
+              <Text style={styles.newsTabText}>Chính sách đầu tư</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Câu chuyện</Text>
+              <Text style={styles.newsTabText}>Câu chuyện thành công</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.newsTab}>
+              <Text style={styles.newsTabText}>Lĩnh vực đầu tư</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.newsTab}>
+              <Text style={styles.newsTabText}>Đầu tư</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.newsTab}>
+              <Text style={styles.newsTabText}>Dịch vụ công</Text>
             </TouchableOpacity>
           </ScrollView>
 
