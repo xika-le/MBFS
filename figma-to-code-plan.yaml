@@ -101,17 +101,17 @@ scanned:
     scanned_at: '2026-04-13'
     figma_section: '8:2'
     figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcx'
-    status: done
+    status: cancelled
     functions:
       - id: '2'
         name: Tra cứu thông tin khu chế xuất trên mobile
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcx
       - id: '3-7'
         name: Chi tiết khu chế xuất (tabs)
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcx
@@ -121,17 +121,17 @@ scanned:
     scanned_at: '2026-04-13'
     figma_section: '8:2'
     figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcnht'
-    status: done
+    status: cancelled
     functions:
       - id: '2'
         name: Tra cứu thông tin KCN hỗ trợ trên mobile
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcnht
       - id: '3-7'
         name: Chi tiết KCN hỗ trợ (tabs)
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcnht
@@ -141,17 +141,17 @@ scanned:
     scanned_at: '2026-04-13'
     figma_section: '8:2'
     figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcncn'
-    status: done
+    status: cancelled
     functions:
       - id: '2'
         name: Tra cứu thông tin KCN chuyên ngành trên mobile
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcncn
       - id: '3-7'
         name: Chi tiết KCN chuyên ngành (tabs)
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcncn
@@ -181,17 +181,17 @@ scanned:
     scanned_at: '2026-04-13'
     figma_section: '8:2'
     figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kcnctc'
-    status: done
+    status: cancelled
     functions:
       - id: '2'
         name: Tra cứu thông tin KCN công nghệ cao trên mobile
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcnctc
       - id: '3-7'
         name: Chi tiết KCN công nghệ cao (tabs)
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kcnctc
@@ -201,17 +201,17 @@ scanned:
     scanned_at: '2026-04-13'
     figma_section: '8:2'
     figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kktvb'
-    status: done
+    status: cancelled
     functions:
       - id: '2'
         name: Tra cứu thông tin KKT ven biển trên mobile
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kktvb
       - id: '3-7'
         name: Chi tiết KKT ven biển (tabs)
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kktvb
@@ -221,17 +221,17 @@ scanned:
     scanned_at: '2026-04-13'
     figma_section: '8:2'
     figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kktck'
-    status: done
+    status: cancelled
     functions:
       - id: '2'
         name: Tra cứu thông tin KKT cửa khẩu trên mobile
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kktck
       - id: '3-7'
         name: Chi tiết KKT cửa khẩu (tabs)
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kktck
@@ -241,17 +241,17 @@ scanned:
     scanned_at: '2026-04-13'
     figma_section: '8:2'
     figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kktcb'
-    status: done
+    status: cancelled
     functions:
       - id: '2'
         name: Tra cứu thông tin KKT chuyên biệt trên mobile
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kktcb
       - id: '3-7'
         name: Chi tiết KKT chuyên biệt (tabs)
-        status: done
+        status: cancelled
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=kktcb
@@ -275,6 +275,106 @@ scanned:
         file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
         figma_nodes: []
         note: Shared screen, zoneType=ktmtd
+
+  - feature: '1.11'
+    name: Khai thác thông tin khu kinh tế trên mobile
+    scanned_at: '2026-04-17'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kkt'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin khu kinh tế trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kkt
+      - id: '3-7'
+        name: Chi tiết khu kinh tế (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kkt
+
+  - feature: '1.12'
+    name: Khai thác thông tin mô hình khu khác trên mobile
+    scanned_at: '2026-04-17'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=mhk'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin mô hình khu khác trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=mhk
+      - id: '3-7'
+        name: Chi tiết mô hình khu khác (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=mhk
+
+  - feature: '1.13'
+    name: Khai thác thông tin khu phi thuế quan trên mobile
+    scanned_at: '2026-04-17'
+    figma_section: '8:2'
+    figma_section_name: 'Reuse từ 1.1 — tham số hóa zoneType=kptq'
+    status: done
+    functions:
+      - id: '2'
+        name: Tra cứu thông tin khu phi thuế quan trên mobile
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZListScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kptq
+      - id: '3-7'
+        name: Chi tiết khu phi thuế quan (tabs)
+        status: done
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        note: Shared screen, zoneType=kptq
+
+  - feature: '1.14'
+    name: Kiểm tra KCN, KKT - Tra cứu thông tin quỹ đất
+    scanned_at: '2026-04-17'
+    generated_at: '2026-04-17'
+    spec_source: specs
+    spec_files:
+      - 'docs/img_references/UC68-Listview thông tin quỹ đất.png'
+      - 'docs/img_references/UC68-Filter popup.png'
+      - 'docs/img_references/UC68-Detailview thông tin quỹ đất.png'
+    spec_notes: |
+      Tra cứu thông tin chi tiết về các lô đất trong KCN.
+      Bao gồm danh sách lô đất, bộ lọc nâng cao (KCN, diện tích, trạng thái) và màn hình chi tiết thông tin hạ tầng, pháp lý.
+    status: done
+    functions:
+      - id: '68-list'
+        name: Xem danh sách quỹ đất và bộ lọc
+        status: done
+        file_path: app/src/screens/IndustrialZone/LandFundListScreen.tsx
+        generated_at: '2026-04-17'
+        figma_nodes: []
+        spec_description: |
+          Header: "Thông tin quỹ đất" + icon Filter
+          Search: Ô tìm kiếm tên lô đất
+          Body: Danh sách Card (Lô đất). 
+          Card gồm: Tên lô (N101), Vị trí (Số 8), Diện tích (1000m2), Badge "Số lượng", Badge "Trạng thái" (Còn trống/Đã cho thuê), Badge "Công bố".
+          Filter Popup: Chọn KCN, Nhập diện tích (Từ - Đến), Chọn tình trạng quỹ đất, Chọn tình trạng công bố.
+      - id: '68-detail'
+        name: Chi tiết thông tin quỹ đất
+        status: done
+        file_path: app/src/screens/IndustrialZone/LandFundDetailScreen.tsx
+        generated_at: '2026-04-17'
+        figma_nodes: []
+        spec_description: |
+          Header: Gradient Red, Title (N101), Subtitle (KCN Tân Bình), Info rows (Area, Duration), Badge Status (Còn trống).
+          Carousel: Hình ảnh lô đất.
+          Section "Thông tin cơ bản": Table/List rows (Tên lô, KCN, Vị trí, Diện tích, Thời hạn thuê).
+          Section "Hạ tầng": Icon + name + status (Đường, Điện, Nước, Hạ tầng khác).
+          Section "Tình trạng": Badge/Text (Tình trạng sử dụng, Trạng thái công bố).
+          Section "Thông tin chi tiết": Paragraph text mô tả.
 
   - feature: '2.2'
     name: Quản lý hồ sơ trên mobile

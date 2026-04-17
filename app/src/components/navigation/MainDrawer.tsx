@@ -35,7 +35,6 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         { label: 'Cục Đầu tư nước ngoài', icon: 'info' as const, route: 'About' },
         { label: 'Lĩnh vực đầu tư', icon: 'grid' as const, route: 'SectorList' },
         { label: 'Khu vực đầu tư', icon: 'map' as const, route: 'AreaList' },
-        { label: 'Chính sách đầu tư', icon: 'file-text' as const, route: 'PolicyNews' },
         { label: 'Liên hệ', icon: 'phone' as const, route: 'Contact' },
       ],
     },
@@ -46,23 +45,26 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         { label: 'Quản lý hồ sơ', icon: 'folder' as const, route: 'DossierList' },
         { label: 'Quản lý đặt lịch', icon: 'calendar' as const, route: 'AppointmentList' },
         { label: 'Phản ánh kiến nghị', icon: 'message-square' as const, route: 'ComplaintList' },
-        { label: 'Báo cáo đầu tư', icon: 'activity' as const, route: 'Placeholder' },
+        // { label: 'Báo cáo đầu tư', icon: 'activity' as const, route: 'Placeholder' },
       ],
     },
     {
       title: 'Khu công nghiệp / KKT',
       items: [
-        { label: 'KCN / KKT ven biển', icon: 'layers' as const, route: 'IZList', params: { zoneType: 'kcn' } },
-        { label: 'Khu chế xuất', icon: 'box' as const, route: 'IZList', params: { zoneType: 'kcx' } },
-        { label: 'KCN công nghệ cao', icon: 'cpu' as const, route: 'IZList', params: { zoneType: 'kcnctc' } },
+        { label: 'Khu công nghiệp', icon: 'layers' as const, route: 'IZList', params: { zoneType: 'kcn' } },
+        { label: 'KCN sinh thái', icon: 'wind' as const, route: 'IZList', params: { zoneType: 'kcnst' } },
+        { label: 'Khu thương mại tự do', icon: 'refresh-cw' as const, route: 'IZList', params: { zoneType: 'ktmtd' } },
+        { label: 'Khu kinh tế', icon: 'globe' as const, route: 'IZList', params: { zoneType: 'kkt' } },
+        { label: 'Mô hình khu khác', icon: 'grid' as const, route: 'IZList', params: { zoneType: 'mhk' } },
+        { label: 'Khu phi thuế quan', icon: 'shield' as const, route: 'IZList', params: { zoneType: 'kptq' } },
+        { label: 'Thông tin quỹ đất', icon: 'map' as const, route: 'LandFundList' },
       ],
     },
     {
       title: 'Tin tức & Tra cứu',
       items: [
-        { label: 'Tin tức đầu tư', icon: 'globe' as const, route: 'InvestmentNews' },
+        { label: 'Tin tức', icon: 'globe' as const, route: 'InvestmentNews' },
         { label: 'Văn bản pháp luật', icon: 'book-open' as const, route: 'LegalDocumentList' },
-        { label: 'Câu chuyện thành công', icon: 'award' as const, route: 'SuccessStory' },
         { label: 'FAQ', icon: 'help-circle' as const, route: 'FAQHome' },
         { label: 'Hướng dẫn sử dụng', icon: 'book' as const, route: 'HelpGuide' },
       ],
@@ -93,7 +95,7 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
       {/* Drawer Header - User Info */}
       <View style={styles.header}>
         <View style={styles.userInfoRow}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.avatar}
             onPress={() => handleNavigate('PersonalAccount')}
           >
@@ -104,7 +106,7 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
             <Text style={styles.userEmail}>nguyenvana@example.com</Text>
           </View>
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.viewProfileBtn}
           onPress={() => handleNavigate('PersonalAccount')}
         >
@@ -135,14 +137,14 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
 
       {/* Drawer Footer */}
       <View style={styles.footer}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.footerItem}
           onPress={() => handleNavigate('AccountSettings')}
         >
           <Icon name="settings" size={18} color={colors.textPrimary} />
           <Text style={styles.footerItemLabel}>Cấu hình tài khoản</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.footerItem}
           onPress={handleLogout}
         >

@@ -188,7 +188,7 @@ export const DossierListScreen: React.FC<Props> = ({ navigation }) => {
             style={styles.filterBtn}
             onPress={() => setIsFilterVisible(true)}
           >
-            <Ionicons name="filter-outline" size={20} color={colors.textPrimary} />
+            <Ionicons name="filter" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
 
@@ -270,19 +270,34 @@ export const DossierListScreen: React.FC<Props> = ({ navigation }) => {
 
               {/* Action Buttons */}
               <View style={styles.modalFooter}>
-                <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
-                  <Ionicons name="refresh-outline" size={20} color={colors.primary} />
-                  <Text style={styles.resetBtnText}>Nhập lại</Text>
+                <TouchableOpacity 
+                  style={styles.modalFooterBtn} 
+                  onPress={handleReset}
+                >
+                  <View style={styles.iconWrapper}>
+                    <Ionicons name="reload" size={16} color="#8B1A1A" />
+                  </View>
+                  <Text style={styles.modalFooterBtnText}>Nhập lại</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.closeBtn} onPress={() => setIsFilterVisible(false)}>
-                  <Ionicons name="close-outline" size={20} color={colors.primary} />
-                  <Text style={styles.closeBtnText}>Đóng</Text>
+                <TouchableOpacity 
+                  style={styles.modalFooterBtn} 
+                  onPress={() => setIsFilterVisible(false)}
+                >
+                  <View style={styles.iconWrapper}>
+                    <Ionicons name="close" size={20} color="#8B1A1A" />
+                  </View>
+                  <Text style={styles.modalFooterBtnText}>Đóng</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.searchBtn} onPress={handleSearch}>
-                  <Ionicons name="search-outline" size={20} color="white" />
-                  <Text style={styles.searchBtnText}>Tìm</Text>
+                <TouchableOpacity 
+                  style={[styles.modalFooterBtn, styles.modalFooterBtnPrimary]} 
+                  onPress={handleSearch}
+                >
+                  <View style={styles.iconWrapper}>
+                    <Ionicons name="search" size={18} color="white" />
+                  </View>
+                  <Text style={[styles.modalFooterBtnText, { color: 'white' }]}>Tìm</Text>
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
@@ -564,49 +579,41 @@ const styles = StyleSheet.create({
   },
   modalFooter: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     gap: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+    backgroundColor: 'white',
     marginTop: 10,
-    paddingBottom: 20,
   },
-  resetBtn: {
-    flex: 1,
+  modalFooterBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 16,
     height: 44,
-    gap: 4,
-  },
-  resetBtnText: {
-    fontSize: 14,
-    color: colors.primary,
-    fontWeight: '600',
-  },
-  closeBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 44,
-    gap: 4,
-  },
-  closeBtnText: {
-    fontSize: 14,
-    color: colors.primary,
-    fontWeight: '600',
-  },
-  searchBtn: {
-    flex: 1.5,
-    backgroundColor: colors.primary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 44,
-    borderRadius: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E2E2E2',
+    backgroundColor: 'white',
     gap: 8,
+    minWidth: 110,
   },
-  searchBtnText: {
-    fontSize: 14,
-    color: 'white',
-    fontWeight: 'bold',
+  modalFooterBtnPrimary: {
+    backgroundColor: '#8B1A1A',
+    borderColor: '#8B1A1A',
+  },
+  modalFooterBtnText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#8B1A1A',
+  },
+  iconWrapper: {
+    width: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

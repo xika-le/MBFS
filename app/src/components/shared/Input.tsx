@@ -14,7 +14,7 @@
  * - placeholder color: #6a7282
  */
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import {
   View,
   TextInput,
@@ -39,7 +39,7 @@ interface InputProps extends TextInputProps {
   rightIcon?: React.ReactNode;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input = forwardRef<TextInput, InputProps>(({
   value,
   onChangeText,
   placeholder,
@@ -50,7 +50,7 @@ export const Input: React.FC<InputProps> = ({
   variant = 'filled',
   rightIcon,
   ...rest
-}) => {
+}, ref) => {
   return (
     <View style={[
       styles.container, 
@@ -60,6 +60,7 @@ export const Input: React.FC<InputProps> = ({
     ]}>
       {leftIcon && <View style={styles.iconContainer}>{leftIcon}</View>}
       <TextInput
+        ref={ref}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
@@ -77,7 +78,7 @@ export const Input: React.FC<InputProps> = ({
       {rightIcon && <View style={styles.rightIconContainer}>{rightIcon}</View>}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

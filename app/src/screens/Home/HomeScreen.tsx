@@ -16,14 +16,17 @@ import { spacing } from '../../theme/spacing';
 import { typography } from '../../theme/typography';
 import { Icon, Badge } from '../../components/shared';
 import { RootStackParamList } from '../../navigation/AppNavigator';
+import { FeatureSearchModal } from '../../components/home/FeatureSearchModal';
 
 type HomeScreenNavigationProp = DrawerNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const { width } = useWindowDimensions();
+  const [isSearchVisible, setIsSearchVisible] = React.useState(false);
 
   const itemWidth = (width - 32 - 16) / 3;
+  const statCardWidth = (width - 32 - 24) / 4;
 
   const quickAccessItems = [
     { title: 'Hướng dẫn sử dụng', icon: 'help-circle' as const, route: 'HelpGuide' },
@@ -46,17 +49,22 @@ export const HomeScreen: React.FC = () => {
     { title: 'Báo cáo quý I/2026 sắp đến hạn', deadline: 'Hạn: 15/04/2026', type: 'warning' },
   ];
 
+  const handleFeatureSelect = (route: string, params?: any) => {
+    // @ts-ignore
+    navigation.navigate(route, params);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.headerButton}
           onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
         >
           <Icon name="menu" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
-        
+
         <View style={styles.logoAndTitle}>
           <View style={styles.logoBadge}>
             <Icon name="activity" size={20} color={colors.surface} />
@@ -69,9 +77,9 @@ export const HomeScreen: React.FC = () => {
             <Icon name="bell" size={24} color={colors.textPrimary} />
             <View style={styles.notifyBadge} />
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.searchButton}
-            onPress={() => navigation.navigate('LegalDocumentList')}
+            onPress={() => setIsSearchVisible(true)}
           >
             <Icon name="search" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
@@ -104,8 +112,8 @@ export const HomeScreen: React.FC = () => {
           <Text style={styles.sectionTitle}>Truy cập nhanh</Text>
           <View style={styles.quickAccessGrid}>
             {quickAccessItems.map((item, index) => (
-              <TouchableOpacity 
-                key={index} 
+              <TouchableOpacity
+                key={index}
                 style={[styles.quickAccessItem, { width: itemWidth }]}
                 onPress={() => {
                   if (item.route && item.route !== 'Placeholder') {
@@ -128,18 +136,18 @@ export const HomeScreen: React.FC = () => {
         {/* Investment Overview */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Tổng quan đầu tư</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.statsScroll}>
+          <View style={styles.statsContainer}>
             {stats.map((item, index) => (
-              <View key={index} style={styles.statCard}>
+              <View key={index} style={[styles.statCard, { width: statCardWidth }]}>
                 <Text style={[styles.statValue, { color: item.color }]}>{item.value}</Text>
-                <Text style={styles.statLabel}>{item.label}</Text>
+                <Text style={styles.statLabel} numberOfLines={1}>{item.label}</Text>
               </View>
             ))}
-          </ScrollView>
+          </View>
         </View>
 
         {/* Suggestions */}
-        <View style={styles.sectionContainer}>
+        {/* <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Gợi ý cho bạn</Text>
           <View style={styles.suggestionList}>
             {suggestions.map((item, index) => (
@@ -157,7 +165,7 @@ export const HomeScreen: React.FC = () => {
               </View>
             ))}
           </View>
-        </View>
+        </View> */}
 
         {/* News Section */}
         <View style={styles.sectionContainer}>
@@ -167,27 +175,27 @@ export const HomeScreen: React.FC = () => {
               <Text style={styles.seeAllText}>Xem tất cả</Text>
             </TouchableOpacity>
           </View>
-          
+
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.newsTabs}>
             <TouchableOpacity style={[styles.newsTab, styles.activeNewsTab]}>
-              <Text style={styles.activeNewsTabText}>Tin đầu tư</Text>
+              <Text style={styles.activeNewsTabText}>Tất cả</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.newsTab}>
               <Text style={styles.newsTabText}>Chính sách</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Thành công</Text>
+              <Text style={styles.newsTabText}>Câu chuyện</Text>
             </TouchableOpacity>
           </ScrollView>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.newsScroll}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.newsCard}
               onPress={() => navigation.navigate('PolicyNews')}
             >
-              <Image 
-                source={{ uri: 'https://picsum.photos/400/200?random=1' }} 
-                style={styles.newsImage} 
+              <Image
+                source={{ uri: 'https://picsum.photos/400/200?random=1' }}
+                style={styles.newsImage}
               />
               <View style={styles.newsContent}>
                 <View style={styles.newsMeta}>
@@ -200,13 +208,13 @@ export const HomeScreen: React.FC = () => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.newsCard}
               onPress={() => navigation.navigate('InvestmentNews')}
             >
-              <Image 
-                source={{ uri: 'https://picsum.photos/400/200?random=2' }} 
-                style={styles.newsImage} 
+              <Image
+                source={{ uri: 'https://picsum.photos/400/200?random=2' }}
+                style={styles.newsImage}
               />
               <View style={styles.newsContent}>
                 <View style={styles.newsMeta}>
@@ -222,7 +230,7 @@ export const HomeScreen: React.FC = () => {
         </View>
 
         {/* Bottom Banner */}
-        <View style={styles.bannerWrapper}>
+        {/* <View style={styles.bannerWrapper}>
           <View style={[styles.banner, { backgroundColor: colors.link }]}>
             <Text style={styles.bannerCategory}>Cơ hội đầu tư</Text>
             <Text style={styles.bannerTitle}>Ưu đãi thuế đặc biệt cho dự án công nghệ cao</Text>
@@ -230,10 +238,16 @@ export const HomeScreen: React.FC = () => {
               <Text style={[styles.bannerButtonText, { color: colors.link }]}>Tìm hiểu thêm</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         <View style={{ height: 40 }} />
       </ScrollView>
+
+      <FeatureSearchModal
+        visible={isSearchVisible}
+        onClose={() => setIsSearchVisible(false)}
+        onSelectFeature={handleFeatureSelect}
+      />
     </SafeAreaView>
   );
 };
@@ -408,26 +422,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.textPrimary,
   },
-  statsScroll: {
-    gap: 8,
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   statCard: {
-    width: 120,
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.08)',
     borderRadius: 16,
-    padding: 12,
+    padding: 8,
+    alignItems: 'center',
   },
   statValue: {
     fontWeight: typography.fontWeight.semiBold,
-    fontSize: 24,
-    marginBottom: 4,
+    fontSize: 18,
+    marginBottom: 2,
   },
   statLabel: {
     fontWeight: typography.fontWeight.regular,
-    fontSize: 10,
+    fontSize: 9,
     color: colors.textSecondary,
+    textAlign: 'center',
   },
   suggestionList: {
     gap: 8,

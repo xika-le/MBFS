@@ -23,9 +23,7 @@ import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
-import { Card } from '../../components/shared/Card';
-import { TabBar } from '../../components/shared/TabBar';
-import { Badge } from '../../components/shared/Badge';
+import { Input, Badge, Header, Card, TabBar } from '../../components/shared';
 import {
   ZONE_CONFIG,
   getZoneMockData,
@@ -524,7 +522,7 @@ const InvestmentDetailModal: React.FC<{
 // ============================================================
 // MAIN SCREEN
 // ============================================================
-export const IZDetailScreen: React.FC<Props> = ({ route }) => {
+export const IZDetailScreen: React.FC<Props> = ({ navigation, route }) => {
   const zoneType = route.params?.zoneType ?? 'kcn';
   const config = ZONE_CONFIG[zoneType];
   const mockData = getZoneMockData(zoneType);
@@ -558,6 +556,7 @@ export const IZDetailScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Header title={config.detailTitle} onBack={() => navigation.goBack()} />
       <TabBar tabs={TABS} activeKey={activeTab} onTabPress={setActiveTab} />
       {renderTabContent()}
       <HistoryDetailModal

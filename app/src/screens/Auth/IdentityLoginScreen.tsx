@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  TextInput,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
@@ -23,6 +24,7 @@ export const IdentityLoginScreen: React.FC = () => {
   const [identityId, setIdentityId] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const passwordRef = useRef<TextInput>(null);
 
   const handleLogin = () => {
     if (identityId === 'admin' && password === 'admin') {
@@ -64,6 +66,9 @@ export const IdentityLoginScreen: React.FC = () => {
                 onChangeText={setIdentityId}
                 leftIcon={<Feather name="user" size={18} color={colors.textSecondary} />}
                 variant="outline"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordRef.current?.focus()}
+                autoCapitalize="none"
               />
             </View>
 
@@ -71,11 +76,14 @@ export const IdentityLoginScreen: React.FC = () => {
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Mật khẩu*</Text>
               <Input
+                ref={passwordRef}
                 placeholder="Nhập mật khẩu"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
                 variant="outline"
+                returnKeyType="go"
+                onSubmitEditing={handleLogin}
                 rightIcon={
                   <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                     <Feather 

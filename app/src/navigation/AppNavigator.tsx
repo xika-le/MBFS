@@ -43,6 +43,8 @@ import FAQHomeScreen from '../screens/FAQ/FAQHomeScreen';
 import FAQCategoryScreen from '../screens/FAQ/FAQCategoryScreen';
 import { ContactScreen } from '../screens/Contact/ContactScreen';
 import { AboutScreen } from '../screens/About/AboutScreen';
+import { LandFundListScreen } from '../screens/IndustrialZone/LandFundListScreen';
+import { LandFundDetailScreen } from '../screens/IndustrialZone/LandFundDetailScreen';
 import PersonalAccountScreen from '../screens/Account/PersonalAccountScreen';
 import EditPersonalAccountScreen from '../screens/Account/EditPersonalAccountScreen';
 import BusinessAccountScreen from '../screens/Account/BusinessAccountScreen';
@@ -111,6 +113,8 @@ export type RootStackParamList = {
   EditBusinessAccount: undefined;
   ChangePassword: undefined;
   AccountSettings: undefined;
+  LandFundList: undefined;
+  LandFundDetail: { id: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -139,16 +143,12 @@ const MainStack = () => {
       <Stack.Screen
         name="IZList"
         component={IZListScreen}
-        options={({ route }) => ({
-          title: ZONE_CONFIG[route.params.zoneType].listTitle,
-        })}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="IZDetail"
         component={IZDetailScreen}
-        options={({ route }) => ({
-          title: ZONE_CONFIG[route.params.zoneType].detailTitle,
-        })}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="AppointmentList"
@@ -319,6 +319,16 @@ const MainStack = () => {
         name="AccountSettings"
         component={AccountSettingsScreen}
         options={{ title: 'Cấu hình tài khoản', headerShown: false }}
+      />
+      <Stack.Screen
+        name="LandFundList"
+        component={LandFundListScreen}
+        options={{ title: 'Thông tin quỹ đất', headerShown: false }}
+      />
+      <Stack.Screen
+        name="LandFundDetail"
+        component={LandFundDetailScreen}
+        options={{ title: 'Chi tiết quỹ đất', headerShown: false }}
       />
     </Stack.Navigator>
   );

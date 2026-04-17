@@ -21,7 +21,10 @@ export type ZoneType =
   | 'kktvb'   // 1.7 KKT ven biển
   | 'kktck'   // 1.8 KKT cửa khẩu
   | 'kktcb'   // 1.9 KKT chuyên biệt
-  | 'ktmtd';  // 1.10 Khu thương mại tự do
+  | 'ktmtd'   // 1.10 Khu thương mại tự do
+  | 'kkt'     // 1.11 Khu kinh tế
+  | 'mhk'     // 1.12 Mô hình khu khác
+  | 'kptq';   // 1.13 Khu phi thuế quan
 
 export interface ZoneConfig {
   label: string;         // Tên đầy đủ
@@ -117,12 +120,35 @@ export const ZONE_CONFIG: Record<ZoneType, ZoneConfig> = {
     detailTitle: 'Chi tiết Khu TMTD',
     featureId: '1.10',
   },
+  kkt: {
+    label: 'Khu kinh tế',
+    shortLabel: 'KKT',
+    codePrefix: 'KKT',
+    listTitle: 'Danh sách Khu kinh tế',
+    detailTitle: 'Chi tiết Khu kinh tế',
+    featureId: '1.11',
+  },
+  mhk: {
+    label: 'Mô hình khu khác',
+    shortLabel: 'MHKK',
+    codePrefix: 'MHK',
+    listTitle: 'Danh sách Mô hình khu khác',
+    detailTitle: 'Chi tiết Mô hình khu khác',
+    featureId: '1.12',
+  },
+  kptq: {
+    label: 'Khu phi thuế quan',
+    shortLabel: 'KPTQ',
+    codePrefix: 'KPTQ',
+    listTitle: 'Danh sách Khu phi thuế quan',
+    detailTitle: 'Chi tiết Khu phi thuế quan',
+    featureId: '1.13',
+  },
 };
 
 /** Ordered list of all zone types for HomeScreen rendering */
 export const ALL_ZONE_TYPES: ZoneType[] = [
-  'kcn', 'kcx', 'kcnht', 'kcncn', 'kcnst',
-  'kcnctc', 'kktvb', 'kktck', 'kktcb', 'ktmtd',
+  'kcn', 'kcnst', 'ktmtd', 'kkt', 'mhk', 'kptq',
 ];
 
 // ============================================================
@@ -293,6 +319,9 @@ const createMockData = (type: ZoneType): ZoneMockData => {
     kktck: ['Lạng Sơn', 'Quảng Ninh', 'Lào Cai', 'Hà Giang', 'Cao Bằng', 'Tây Ninh'],
     kktcb: ['Phú Quốc', 'Vân Đồn', 'Bắc Vân Phong', 'Chu Lai', 'Dung Quất', 'Nghi Sơn'],
     ktmtd: ['Đà Nẵng', 'Hải Phòng', 'TP Hồ Chí Minh', 'Quảng Ninh', 'Phú Quốc', 'Cần Thơ'],
+    kkt: ['Thanh Hóa', 'Hải Phòng', 'Bình Định', 'Vũng Tàu', 'Quảng Nam', 'Hà Tĩnh'],
+    mhk: ['Bình Dương', 'Đồng Nai', 'Hà Nội', 'Long An', 'Hải Dương', 'Bắc Ninh'],
+    kptq: ['Lào Cai', 'Lạng Sơn', 'Quảng Ninh', 'Kiên Giang', 'Tây Ninh', 'An Giang'],
   };
 
   const nameMap: Record<ZoneType, string[]> = {
@@ -306,6 +335,9 @@ const createMockData = (type: ZoneType): ZoneMockData => {
     kktck: ['KKT cửa khẩu Đồng Đăng - Lạng Sơn', 'KKT cửa khẩu Móng Cái', 'KKT cửa khẩu Lào Cai', 'KKT cửa khẩu Thanh Thủy', 'KKT cửa khẩu Trà Lĩnh', 'KKT cửa khẩu Mộc Bài'],
     kktcb: ['KKT Phú Quốc', 'KKT Vân Đồn', 'KKT Bắc Vân Phong', 'KKT mở Chu Lai', 'KKT Dung Quất', 'KKT Nghi Sơn'],
     ktmtd: ['KTM tự do Đà Nẵng', 'KTM tự do Hải Phòng', 'KTM tự do TP HCM', 'KTM tự do Vân Đồn', 'KTM tự do Phú Quốc', 'KTM tự do Cần Thơ'],
+    kkt: ['Khu kinh tế Nghi Sơn', 'Khu kinh tế Đình Vũ', 'Khu kinh tế Nhơn Hội', 'Khu kinh tế Đông Nam', 'Khu kinh tế Chu Lai', 'Khu kinh tế Vũng Áng'],
+    mhk: ['Mô hình khu công nghiệp mới', 'Khu đô thị - dịch vụ', 'Khu đổi mới sáng tạo', 'Khu phức hợp công nghệ', 'Mô hình khu liên hợp', 'Khu công nghiệp chuyên sâu'],
+    kptq: ['Khu phi thuế quan Lào Cai', 'Khu phi thuế quan Lạng Sơn', 'Khu phi thuế quan Móng Cái', 'Khu phi thuế quan Phú Quốc', 'Khu phi thuế quan Mộc Bài', 'Khu phi thuế quan Tịnh Biên'],
   };
 
   const provinces = provinceMap[type];

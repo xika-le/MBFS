@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  TextInput,
 } from 'react-native';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
@@ -28,6 +29,7 @@ export const VNeIDLoginScreen: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [timer, setTimer] = useState(298); // 4:58
+  const passwordRef = useRef<TextInput>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,6 +42,15 @@ export const VNeIDLoginScreen: React.FC = () => {
     const min = Math.floor(seconds / 60);
     const sec = seconds % 60;
     return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  };
+
+  const handleLogin = () => {
+    if (identityId === 'admin') {
+      // @ts-ignore
+      navigation.navigate('MainApp');
+    } else {
+      console.log('VNeID Login:', identityId);
+    }
   };
 
   return (
@@ -96,14 +107,20 @@ export const VNeIDLoginScreen: React.FC = () => {
                 leftIcon={<Feather name="user" size={18} color={colors.textTertiary} />}
                 variant="outline"
                 style={styles.input}
+                returnKeyType="next"
+                onSubmitEditing={() => passwordRef.current?.focus()}
+                autoCapitalize="none"
               />
               <Input
+                ref={passwordRef}
                 placeholder="Mật khẩu"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
                 leftIcon={<Feather name="lock" size={18} color={colors.textTertiary} />}
                 variant="outline"
+                returnKeyType="go"
+                onSubmitEditing={handleLogin}
                 rightIcon={
                   <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                     <Feather 
@@ -119,14 +136,7 @@ export const VNeIDLoginScreen: React.FC = () => {
             <TouchableOpacity 
               style={styles.loginBtn} 
               activeOpacity={0.8}
-              onPress={() => {
-                if (identityId === 'admin') {
-                  // @ts-ignore
-                  navigation.navigate('MainApp');
-                } else {
-                  console.log('VNeID Login:', identityId);
-                }
-              }}
+              onPress={handleLogin}
             >
               <Text style={styles.loginBtnText}>Đăng nhập</Text>
             </TouchableOpacity>

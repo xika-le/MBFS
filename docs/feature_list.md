@@ -12,27 +12,9 @@ Cây phân rã được trích xuất từ tài liệu Usecase của BA, giữ n
 │   ├── [5] Tra cứu nhóm thông tin về xã hội cho khu công nghiệp trên mobile
 │   ├── [6] Tra cứu nhóm thông tin về môi trường cho khu công nghiệp trên mobile
 │   └── [7] Xem danh sách dự án kêu gọi đầu tư trong khu công nghiệp trên mobile
-├── 1.2 Khai thác thông tin khu chế xuất trên mobile
-│   ├── [8] Tra cứu thông tin khu chế xuất trên mobile
-│   ├── [9] Theo dõi lịch sử cập nhật hồ sơ khu chế xuất trên mobile
-│   ├── [10] Tra cứu thông tin về kinh tế cho khu chế xuất trên mobile
-│   ├── [11] Tra cứu nhóm thông tin về xã hội cho khu chế xuất trên mobile
-│   ├── [12] Tra cứu nhóm thông tin về môi trường cho khu chế xuất trên mobile
-│   └── [13] Xem danh sách dự án kêu gọi đầu tư trong khu chế xuất trên mobile
-├── 1.3 Khai thác thông tin khu công nghiệp hỗ trợ trên mobile
-│   ├── [14] Tra cứu thông tin khu công nghiệp hỗ trợ trên mobile
-│   ├── [15] Theo dõi lịch sử cập nhật hồ sơ khu công nghiệp hỗ trợ trên mobile
-│   ├── [16] Tra cứu thông tin về kinh tế cho khu công nghiệp hỗ trợ trên mobile
-│   ├── [17] Tra cứu nhóm thông tin về xã hội cho khu công nghiệp hỗ trợ trên mobile
-│   ├── [18] Tra cứu nhóm thông tin về môi trường cho khu công nghiệp hỗ trợ trên mobile
-│   └── [19] Xem danh sách dự án kêu gọi đầu tư trong khu công nghiệp hỗ trợ trên mobile
-├── 1.4 Khai thác thông tin khu công nghiệp chuyên ngành trên mobile
-│   ├── [20] Tra cứu thông tin khu công nghiệp chuyên ngành trên mobile
-│   ├── [21] Theo dõi lịch sử cập nhật hồ sơ khu công nghiệp chuyên ngành trên mobile
-│   ├── [22] Tra cứu thông tin về kinh tế cho khu công nghiệp chuyên ngành trên mobile
-│   ├── [23] Tra cứu nhóm thông tin về xã hội cho khu công nghiệp chuyên ngành trên mobile
-│   ├── [24] Tra cứu nhóm thông tin về môi trường cho khu công nghiệp chuyên ngành trên mobile
-│   └── [25] Xem danh sách dự án kêu gọi đầu tư trong khu công nghiệp chuyên ngành trên mobile
+├── 1.2 Khai thác thông tin khu chế xuất trên mobile (CANCELLED)
+├── 1.3 Khai thác thông tin khu công nghiệp hỗ trợ trên mobile (CANCELLED)
+├── 1.4 Khai thác thông tin khu công nghiệp chuyên ngành trên mobile (CANCELLED)
 ├── 1.5 Khai thác thông tin khu công nghiệp sinh thái trên mobile
 │   ├── [26] Tra cứu thông tin khu công nghiệp sinh thái trên mobile
 │   ├── [27] Theo dõi lịch sử cập nhật hồ sơ khu công nghiệp sinh thái trên mobile
@@ -40,34 +22,10 @@ Cây phân rã được trích xuất từ tài liệu Usecase của BA, giữ n
 │   ├── [29] Tra cứu nhóm thông tin về xã hội cho khu công nghiệp sinh thái trên mobile
 │   ├── [30] Tra cứu nhóm thông tin về môi trường cho khu công nghiệp sinh thái trên mobile
 │   └── [31] Xem danh sách dự án kêu gọi đầu tư trong khu công nghiệp sinh thái trên mobile
-├── 1.6 Khai thác thông tin khu công nghiệp công nghệ cao trên mobile
-│   ├── [32] Tra cứu thông tin khu công nghiệp công nghệ cao trên mobile
-│   ├── [33] Theo dõi lịch sử cập nhật hồ sơ khu công nghiệp công nghệ cao trên mobile
-│   ├── [34] Tra cứu thông tin về kinh tế cho khu công nghiệp công nghệ cao trên mobile
-│   ├── [35] Tra cứu nhóm thông tin về xã hội cho khu công nghiệp công nghệ cao trên mobile
-│   ├── [36] Tra cứu nhóm thông tin về môi trường cho khu công nghiệp công nghệ cao trên mobile
-│   └── [37] Xem danh sách dự án kêu gọi đầu tư trong khu công nghiệp công nghệ cao trên mobile
-├── 1.7 Khai thác thông tin khu kinh tế ven biển trên mobile
-│   ├── [38] Tra cứu thông tin khu kinh tế ven biển trên mobile
-│   ├── [39] Theo dõi lịch sử cập nhật hồ sơ khu kinh tế ven biển trên mobile
-│   ├── [40] Tra cứu thông tin về kinh tế cho khu kinh tế ven biển trên mobile
-│   ├── [41] Tra cứu nhóm thông tin về xã hội cho khu kinh tế ven biển trên mobile
-│   ├── [42] Tra cứu nhóm thông tin về môi trường cho khu kinh tế ven biển trên mobile
-│   └── [43] Xem danh sách dự án kêu gọi đầu tư trong khu kinh tế ven biển trên mobile
-├── 1.8 Khai thác thông tin khu kinh tế cửa khẩu trên mobile
-│   ├── [44] Tra cứu thông tin khu kinh tế cửa khẩu trên mobile
-│   ├── [45] Theo dõi lịch sử cập nhật hồ sơ khu kinh tế cửa khẩu trên mobile
-│   ├── [46] Tra cứu thông tin về kinh tế cho khu kinh tế cửa khẩu trên mobile
-│   ├── [47] Tra cứu nhóm thông tin về xã hội cho khu kinh tế cửa khẩu trên mobile
-│   ├── [48] Tra cứu nhóm thông tin về môi trường cho khu kinh tế cửa khẩu trên mobile
-│   └── [49] Xem danh sách dự án kêu gọi đầu tư trong khu kinh tế cửa khẩu trên mobile
-├── 1.9 Khai thác thông tin khu kinh tế chuyên biệt trên mobile
-│   ├── [50] Tra cứu thông tin khu kinh tế chuyên biệt trên mobile
-│   ├── [51] Theo dõi lịch sử cập nhật hồ sơ khu kinh tế chuyên biệt trên mobile
-│   ├── [52] Tra cứu thông tin về kinh tế cho khu kinh tế chuyên biệt trên mobile
-│   ├── [53] Tra cứu nhóm thông tin về xã hội cho khu kinh tế chuyên biệt trên mobile
-│   ├── [54] Tra cứu nhóm thông tin về môi trường cho khu kinh tế chuyên biệt trên mobile
-│   └── [55] Xem danh sách dự án kêu gọi đầu tư trong khu kinh tế chuyên biệt trên mobile
+├── 1.6 Khai thác thông tin khu công nghiệp công nghệ cao trên mobile (CANCELLED)
+├── 1.7 Khai thác thông tin khu kinh tế ven biển trên mobile (CANCELLED)
+├── 1.8 Khai thác thông tin khu kinh tế cửa khẩu trên mobile (CANCELLED)
+├── 1.9 Khai thác thông tin khu kinh tế chuyên biệt trên mobile (CANCELLED)
 ├── 1.10 Khai thác thông tin khu thương mại tự do trên mobile
 │   ├── [56] Tra cứu thông tin khu thương mại tự do trên mobile
 │   ├── [57] Theo dõi lịch sử cập nhật hồ sơ khu thương mại tự do trên mobile
@@ -75,20 +33,17 @@ Cây phân rã được trích xuất từ tài liệu Usecase của BA, giữ n
 │   ├── [59] Tra cứu nhóm thông tin về xã hội cho khu thương mại tự do trên mobile
 │   ├── [60] Tra cứu nhóm thông tin về môi trường cho khu thương mại tự do trên mobile
 │   └── [61] Xem danh sách dự án kêu gọi đầu tư trong khu thương mại tự do trên mobile
-├── 1.11 Tra cứu tổng hợp thông tin các khu công nghiệp, khu kinh tế trên mobile
-│   ├── [62] Theo dõi hồ sơ các khu công nghiệp, khu kinh tế trên mobile
-│   └── [63] Tra cứu tổng hợp thông tin các khu công nghiệp, khu kinh tế trên mobile
-├── 1.12 Khai thác thông tin dự án đầu tư khu công nghiệp, khu kinh tế trên mobile
-│   ├── [64] Tra cứu thông tin dự án đầu tư xây dựng và kinh doanh kết cấu hạ tầng trong khu kinh tế trên mobile
-│   ├── [65] Theo dõi lịch sử cập nhật thông tin dự án đầu tư xây dựng và kinh doanh kết cấu hạ tầng trong khu kinh tế trên mobile
-│   ├── [66] Tra cứu thông tin dự án đầu tư sản xuất kinh doanh trong khu kinh tế trên mobile
-│   ├── [67] Theo dõi lịch sử cập nhật thông tin dự án đầu tư sản xuất kinh doanh trong khu kinh tế trên mobile
-│   ├── [68] Tra cứu thông tin dự án đầu tư xây dựng và kinh doanh kết cấu hạ tầng trong khu công nghiệp trên mobile
-│   ├── [69] Theo dõi lịch sử cập nhật thông tin dự án đầu tư xây dựng và kinh doanh kết cấu hạ tầng trong khu công nghiệp trên mobile
-│   ├── [70] Tra cứu thông tin dự án đầu tư sản xuất kinh doanh trong khu công nghiệp trên mobile
-│   └── [71] Theo dõi lịch sử cập nhật thông tin dự án đầu tư sản xuất kinh doanh trong khu công nghiệp trên mobile
-└── 1.13 Khai thác thông tin kiểm tra kcn, ktt trên mobile
-    └── [72] Tra cứu thông tin kiểm tra khu công nghiệp, khu kinh tế trên mobile
+├── 1.11 Khai thác thông tin khu kinh tế trên mobile
+│   ├── [62] Tra cứu thông tin khu kinh tế trên mobile
+│   └── [63] Xem chi tiết khu kinh tế trên mobile
+├── 1.12 Khai thác thông tin mô hình khu khác trên mobile
+│   ├── [64] Tra cứu thông tin mô hình khu khác trên mobile
+│   └── [65] Xem chi tiết mô hình khu khác trên mobile
+├── 1.13 Khai thác thông tin khu phi thuế quan trên mobile
+│   ├── [66] Tra cứu thông tin khu phi thuế quan trên mobile
+│   └── [67] Xem chi tiết khu phi thuế quan trên mobile
+└── 1.14 Kiểm tra KCN, KKT
+    └── [68] Tra cứu thông tin quỹ đất trong khu công nghiệp
 
 ## 2. QUẢN LÝ XÚC TIẾN ĐẦU TƯ TRÊN MOBILE
 ├── 2.1 Quản lý đặt lịch nộp thủ tục về đầu tư trên mobile
