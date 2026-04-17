@@ -98,10 +98,10 @@ export const HomeScreen: React.FC = () => {
                 <Text style={styles.greetingText}>Xin chào,</Text>
                 <Text style={styles.userNameText}>Nguyễn Văn A</Text>
                 <Text style={styles.userRoleText}>Nhà đầu tư</Text>
-                <View style={styles.userStatusRow}>
+                {/* <View style={styles.userStatusRow}>
                   <Icon name="file-text" size={16} color={colors.surface} />
                   <Text style={styles.userStatusText}>Bạn có 3 hồ sơ đang xử lý</Text>
-                </View>
+                </View> */}
               </View>
             </View>
           </View>
@@ -190,7 +190,7 @@ export const HomeScreen: React.FC = () => {
               <Text style={styles.newsTabText}>Lĩnh vực đầu tư</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Đầu tư</Text>
+              <Text style={styles.newsTabText}>Tin đầu tư</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.newsTab}>
               <Text style={styles.newsTabText}>Dịch vụ công</Text>

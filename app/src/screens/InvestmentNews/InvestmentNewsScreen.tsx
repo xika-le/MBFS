@@ -8,7 +8,7 @@ const NEWS_CATEGORIES = [
   { id: 'policy', label: 'Chính sách đầu tư' },
   { id: 'success', label: 'Câu chuyện thành công' },
   { id: 'sector', label: 'Lĩnh vực đầu tư' },
-  { id: 'investment', label: 'Đầu tư' },
+  { id: 'investment', label: 'Tin đầu tư' },
   { id: 'public-service', label: 'Dịch vụ công' },
 ];
 
@@ -56,6 +56,36 @@ const listData = [
   },
   {
     id: '4',
+    category: 'promotion',
+    categoryName: 'Thông tin xúc tiến',
+    title: 'Bắc Ninh kêu gọi đầu tư vào 5 dự án hạ tầng lớn',
+    excerpt: 'Tỉnh cam kết hỗ trợ tối đa về mặt bằng và thủ tục pháp lý...',
+    date: '07/04/2026',
+    author: 'Cổng thông tin BN',
+    image: 'https://placehold.co/150x150/ffd700/ffffff?text=Promotion',
+  },
+  {
+    id: '5',
+    category: 'local',
+    categoryName: 'Tin địa phương',
+    title: 'Long An đặt mục tiêu thu hút 1 tỷ USD vốn FDI năm 2026',
+    excerpt: 'Tập trung vào các dự án công nghệ cao và logistics...',
+    date: '06/04/2026',
+    author: 'Báo Long An',
+    image: 'https://placehold.co/150x150/32cd32/ffffff?text=Local',
+  },
+  {
+    id: '6',
+    category: 'legal-update',
+    categoryName: 'Văn bản mới',
+    title: 'Thông tư mới về quản lý dự án PPP có hiệu lực từ tháng 5',
+    excerpt: 'Làm rõ các quy định về chia sẻ rủi ro giữa nhà nước và tư nhân...',
+    date: '05/04/2026',
+    author: 'Bộ Kế hoạch & Đầu tư',
+    image: 'https://placehold.co/150x150/ff4500/ffffff?text=Legal',
+  },
+  {
+    id: '7',
     category: 'sector',
     categoryName: 'Lĩnh vực đầu tư',
     title: 'Năng lượng tái tạo trở thành thỏi nam châm thu hút vốn',
@@ -65,7 +95,7 @@ const listData = [
     image: 'https://placehold.co/150x150/20b2aa/ffffff?text=Green+Energy',
   },
   {
-    id: '5',
+    id: '8',
     category: 'public-service',
     categoryName: 'Dịch vụ công',
     title: 'Số hóa 100% thủ tục cấp phép đầu tư trực tuyến',
@@ -73,16 +103,6 @@ const listData = [
     date: '04/04/2026',
     author: 'Chính Phủ',
     image: 'https://placehold.co/150x150/4169e1/ffffff?text=E-gov',
-  },
-  {
-    id: '6',
-    category: 'policy',
-    categoryName: 'Luật đầu tư',
-    title: 'Sửa đổi Luật Đầu tư 2024: Thông thoáng hơn cho nhà đầu tư',
-    excerpt: 'Cắt giảm hàng loạt thủ tục hành chính không cần thiết...',
-    date: '05/04/2026',
-    author: 'Sài Gòn Giải Phóng',
-    image: 'https://placehold.co/150x150/4682b4/ffffff?text=Law',
   },
 ];
 
