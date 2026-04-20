@@ -17,7 +17,9 @@ import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
 import { Header, Input, Button } from '../../components/shared';
+import { RootStackParamList } from '../../navigation/types';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export const IdentityLoginScreen: React.FC = () => {
   const navigation = useNavigation();

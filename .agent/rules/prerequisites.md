@@ -20,8 +20,8 @@
 
 ## Phase dependencies
 ```
-Scan Figma (/scan_figma) → Phase 0 (init-design-system) → Phase 1/2 (gen-module / gen-feature) → Phase 3 (update-module / update-feature)
+Scan (/scan_figma hoặc /scan_specs) → Phase 0 (init-design-system) → Phase 1/2 (gen-module / gen-feature) → Phase 3 (update-module / update-feature)
 ```
-- `/scan_figma` phải chạy trước để tạo entries trong `scanned` array
+- `/scan_figma` hoặc `/scan_specs` phải chạy trước để tạo entries trong `scanned` array
 - Phase 0 phải hoàn thành trước Phase 1, 2, 3
 - Phase 3 yêu cầu feature đã được gen (status: `done` hoặc `partial`)

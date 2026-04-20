@@ -520,9 +520,11 @@ scanned:
     name: Tin tức & Hỗ trợ (UC85 - UC115)
     scanned_at: '2026-04-14'
     generated_at: '2026-04-14'
-    figma_section: '341:2099'
-    figma_section_name: 'UC 99-104: Hướng dẫn sử dụng'
-    status: done
+    figma_section:
+      - '341:2099'
+      - '1477:2'
+    figma_section_name: 'UC 99-104: Hướng dẫn sử dụng + UC 73: Tra cứu thủ tục hành chính'
+    status: partial
     spec_source: figma
     spec_files:
       - 'docs/img_references/UC85-Danh sách các khu vực đầu tư.png'
@@ -539,8 +541,7 @@ scanned:
     spec_notes: |
       Flow thông tin: Danh sách -> bản tin -> chi tiết bản tin.
       Flow FAQ: Trang chủ chủ đề -> Danh sách câu hỏi (Accordion) -> Search.
-    status: done
-    generated_at: '2026-04-14'
+    generated_at: '2026-04-19'
     functions:
       - id: '85'
         name: UC 85 - Thông tin khu vực đầu tư
@@ -630,11 +631,19 @@ scanned:
         name: UC 99 - Tra cứu thủ tục hành chính
         status: done
         file_path: app/src/screens/Procedure/ProcedureListScreen.tsx
-        generated_at: '2026-04-14'
-        figma_nodes: []
+        generated_at: '2026-04-19'
+        figma_nodes:
+          - '1477:6'
+          - '1477:177'
+          - '1477:318'
+          - '1477:716'
+          - '1477:888'
+          - '1477:1065'
         spec_description: |
           Màn hình danh sách thủ tục hành chính với SearchBar và Tabs lọc theo cấp (Trung ương/Tỉnh/Xã).
           Card hiển thị: Badge đơn vị, Badge trạng thái, tiêu đề bold, meta info (thời gian xử lý, số hồ sơ), và link Xem chi tiết.
+          Detail view có 5 tabs: Thông tin chung, Trình tự thực hiện, Thành phần hồ sơ, Cách thức thực hiện, Căn cứ pháp lý.
+        note: 'Re-gen from Figma 1477:2. List + Detail (5-tab). Detail screen: ProcedureDetailScreen.tsx'
       - id: '104'
         name: UC 104 - Tra cứu hướng dẫn sử dụng (Main Menu)
         status: done
@@ -719,9 +728,11 @@ scanned:
     spec_source: figma
     scanned_at: '2026-04-14'
     generated_at: '2026-04-14'
-    figma_section: '163:2516'
-    figma_section_name: 'UC 178: đăng nhập'
-    status: done
+    figma_section:
+      - '163:2516'   # UC 178: đăng nhập
+      - '521:2203'   # UC 180-181: thông báo
+    figma_section_name: 'UC 178: đăng nhập + UC 180-181: thông báo'
+    status: partial
     functions:
       - id: '178.1'
         name: Chọn phương thức đăng nhập
@@ -760,6 +771,22 @@ scanned:
         figma_nodes:
           - '161:2330'   # Quên mật khẩu
           - '161:2430'   # Đặt lại mật khẩu
+      - id: '180'
+        name: Nhắc hạn (Tab Cảnh báo)
+        status: done
+        file_path: app/src/screens/Notification/NotificationScreen.tsx
+        generated_at: '2026-04-18'
+        figma_nodes:
+          - '523:4729'   # Nhắc hạn - danh sách cảnh báo quá hạn/sắp đến hạn
+        note: Tab "Cảnh báo" in NotificationScreen — alert cards with deadline info
+      - id: '181'
+        name: Nhận thông báo (Tab Thông báo)
+        status: done
+        file_path: app/src/screens/Notification/NotificationScreen.tsx
+        generated_at: '2026-04-18'
+        figma_nodes:
+          - '523:4908'   # Nhận thông báo - danh sách thông báo kết quả/hệ thống
+        note: Tab "Thông báo" in NotificationScreen — notif cards with category badges
 
   - feature: '4.3'
     name: Đăng ký tài khoản

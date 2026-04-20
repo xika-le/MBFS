@@ -41,11 +41,11 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
     {
       title: 'Dịch vụ',
       items: [
-        { label: 'Thủ tục về đầu tư', icon: 'clipboard' as const, route: 'ProcedureList' },
+        { label: 'Thủ tục hành chính', icon: 'file-text' as const, route: 'ProcedureList' },
         { label: 'Quản lý hồ sơ', icon: 'folder' as const, route: 'DossierList' },
         { label: 'Quản lý đặt lịch', icon: 'calendar' as const, route: 'AppointmentList' },
         { label: 'Phản ánh kiến nghị', icon: 'message-square' as const, route: 'ComplaintList' },
-        // { label: 'Báo cáo đầu tư', icon: 'activity' as const, route: 'Placeholder' },
+        { label: 'Báo cáo đầu tư', icon: 'file-text' as const, route: 'ReportList' },
       ],
     },
     {

@@ -1,285 +1,315 @@
+/**
+ * ProcedureListScreen — UC 99: Tra cứu thủ tục hành chính
+ * Figma node: 1477:6 (List view)
+ *
+ * Layout: Header (primary bg) + SearchBar + ScrollView with procedure cards
+ * Card: title (14px medium), key-value rows (Mã thủ tục, Lĩnh vực, Cơ quan)
+ */
+
 import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   ScrollView,
-  StatusBar,
   TextInput,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
-import { colors, spacing, typography } from '../../theme';
-import { Header, Card, Badge } from '../../components/shared';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { colors } from '../../theme/colors';
+import { spacing } from '../../theme/spacing';
+import { typography } from '../../theme/typography';
 
-const STATUS_TABS = [
-  { id: 'all', label: 'Tất cả' },
-  { id: 'central', label: 'Cấp Trung ương' },
-  { id: 'province', label: 'Cấp Tỉnh' },
-  { id: 'district', label: 'Cấp Huyện' },
-  { id: 'commune', label: 'Cấp Xã' },
-];
+// --- Types ---
+interface Procedure {
+  id: string;
+  title: string;
+  code: string;
+  field: string;
+  agency: string;
+  level: string;
+}
 
-const PROCEDURES = [
+// --- Mock Data ---
+const MOCK_PROCEDURES: Procedure[] = [
   {
     id: '1',
-    title: 'Cấp Giấy chứng nhận đăng ký đầu tư',
-    agency: 'Bộ KH&ĐT',
-    status: 'Đang áp dụng',
-    duration: '15 ngày làm việc',
-    dossierCount: '8 hồ sơ',
+    title: 'Thủ tục đăng ký đầu tư dự án mới',
+    code: 'TT-001-2024',
+    field: 'Đầu tư',
+    agency: 'Bộ Kế hoạch và Đầu tư',
+    level: 'Trung ương',
   },
   {
     id: '2',
-    title: 'Điều chỉnh Giấy chứng nhận đăng ký đầu tư',
-    agency: 'Bộ KH&ĐT',
-    status: 'Đang áp dụng',
-    duration: '10 ngày làm việc',
-    dossierCount: '6 hồ sơ',
+    title: 'Thủ tục cấp Giấy chứng nhận đăng ký doanh nghiệp',
+    code: 'TT-002-2024',
+    field: 'Doanh nghiệp',
+    agency: 'Sở Kế hoạch và Đầu tư',
+    level: 'Tỉnh',
   },
   {
     id: '3',
-    title: 'Cấp lại Giấy chứng nhận đăng ký đầu tư',
-    agency: 'Sở KH&ĐT',
-    status: 'Đang áp dụng',
-    duration: '5 ngày làm việc',
-    dossierCount: '4 hồ sơ',
+    title: 'Thủ tục cấp phép xây dựng công trình',
+    code: 'TT-003-2024',
+    field: 'Xây dựng',
+    agency: 'Sở Xây dựng',
+    level: 'Tỉnh',
   },
   {
     id: '4',
-    title: 'Thủ tục chấm dứt hoạt động dự án đầu tư',
-    agency: 'Bộ KH&ĐT',
-    status: 'Đang áp dụng',
-    duration: '15 ngày làm việc',
-    dossierCount: '7 hồ sơ',
+    title: 'Thủ tục đăng ký đầu tư ra nước ngoài',
+    code: 'TT-004-2024',
+    field: 'Đầu tư quốc tế',
+    agency: 'Bộ Kế hoạch và Đầu tư',
+    level: 'Trung ương',
+  },
+  {
+    id: '5',
+    title: 'Thủ tục cấp giấy phép môi trường',
+    code: 'TT-005-2024',
+    field: 'Môi trường',
+    agency: 'Sở Tài nguyên và Môi trường',
+    level: 'Tỉnh',
   },
 ];
 
-const ProcedureCard = ({ procedure, onPress }: any) => (
-  <Card style={styles.card}>
-    <View style={styles.badgeRow}>
-      <Badge 
-        label={procedure.agency} 
-        variant="info" 
-        style={styles.agencyBadge}
-      />
-      <Badge 
-        label={procedure.status} 
-        variant="success" 
-      />
+// --- Procedure Card ---
+const ProcedureCard: React.FC<{ item: Procedure; onPress: () => void }> = ({
+  item,
+  onPress,
+}) => (
+  <TouchableOpacity style={styles.card} activeOpacity={0.7} onPress={onPress}>
+    <Text style={styles.cardTitle} numberOfLines={2}>
+      {item.title}
+    </Text>
+
+    <View style={styles.infoRows}>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Mã thủ tục:</Text>
+        <Text style={styles.infoValue}>{item.code}</Text>
+      </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Lĩnh vực:</Text>
+        <Text style={styles.infoValue}>{item.field}</Text>
+      </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Cơ quan:</Text>
+        <Text style={styles.infoValue}>{item.agency}</Text>
+      </View>
     </View>
-    
-    <Text style={styles.cardTitle}>{procedure.title}</Text>
-    
-    <View style={styles.metaRow}>
-      <View style={styles.metaItem}>
-        <MaterialCommunityIcons name="clock-outline" size={14} color={colors.textSecondary} style={{ marginRight: 6 }} />
-        <Text style={styles.metaText}>{procedure.duration}</Text>
-      </View>
-      <View style={styles.metaItem}>
-        <MaterialCommunityIcons name="file-document-outline" size={14} color={colors.textSecondary} style={{ marginRight: 6 }} />
-        <Text style={styles.metaText}>{procedure.dossierCount}</Text>
-      </View>
-    </View>    
-    <View style={styles.divider} />
-    
-    <TouchableOpacity onPress={onPress} style={styles.actionButton}>
-      <Text style={styles.actionText}>Xem chi tiết</Text>
-      <Text style={styles.actionArrow}>→</Text>
-    </TouchableOpacity>
-  </Card>
+  </TouchableOpacity>
 );
 
-const ProcedureListScreen = ({ navigation }: any) => {
-  const [activeTab, setActiveTab] = useState('all');
+// --- Main Screen ---
+const ProcedureListScreen = () => {
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
 
+  const filteredProcedures = MOCK_PROCEDURES.filter((p) =>
+    p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.code.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary} />
-      <Header 
-        title="Thủ tục Hành chính" 
-        onBack={() => navigation.goBack()} 
-      />
-      
-      <View style={styles.searchSection}>
-        <View style={styles.searchBar}>
-          <MaterialCommunityIcons name="magnify" size={20} color={colors.textSecondary} style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Tìm kiếm thủ tục hành chính..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholderTextColor={colors.textSecondary}
-          />
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <TouchableOpacity
+            style={styles.headerBackBtn}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={20} color="#fff" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Thủ tục hành chính</Text>
         </View>
-        
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          style={styles.tabContainer}
-          contentContainerStyle={styles.tabContent}
-        >
-          {STATUS_TABS.map((tab) => (
-            <TouchableOpacity
-              key={tab.id}
-              style={[
-                styles.tabPill,
-                activeTab === tab.id && styles.tabPillActive
-              ]}
-              onPress={() => setActiveTab(tab.id)}
-            >
-              <Text style={[
-                styles.tabLabel,
-                activeTab === tab.id && styles.tabLabelActive
-              ]}>
-                {tab.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+        <TouchableOpacity style={styles.headerBellBtn}>
+          <Ionicons name="notifications-outline" size={20} color="#fff" />
+          <View style={styles.bellDot} />
+        </TouchableOpacity>
       </View>
 
-      <ScrollView 
-        style={styles.listContainer} 
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <Ionicons
+            name="search"
+            size={20}
+            color="rgba(10,10,10,0.5)"
+            style={styles.searchIcon}
+          />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Nhập mã, tên thủ tục..."
+            placeholderTextColor="rgba(10,10,10,0.5)"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+        </View>
+      </View>
+
+      {/* Procedure List */}
+      <ScrollView
+        style={styles.listScroll}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
       >
-        {PROCEDURES.map((procedure) => (
-          <ProcedureCard 
-            key={procedure.id} 
-            procedure={procedure}
-            onPress={() => {}}
+        {filteredProcedures.map((item) => (
+          <ProcedureCard
+            key={item.id}
+            item={item}
+            onPress={() =>
+              (navigation as any).navigate('ProcedureDetail', {
+                id: item.id,
+                title: item.title,
+                code: item.code,
+                field: item.field,
+                agency: item.agency,
+                level: item.level,
+              })
+            }
           />
         ))}
         <View style={{ height: 40 }} />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
+export default ProcedureListScreen;
+
+// --- Styles ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: '#f6f6f6',
   },
-  searchSection: {
+
+  // Header — Figma: #8b1a1a, 64px, title center-ish, bell icon right
+  header: {
+    height: 64,
+    backgroundColor: colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.lg,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+  },
+  headerBackBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semiBold,
+    color: '#fff',
+    lineHeight: 24,
+  },
+  headerBellBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bellDot: {
+    position: 'absolute',
+    top: 8,
+    right: 10,
+    width: 8,
+    height: 8,
+    borderRadius: 9999,
+    backgroundColor: '#fdc700',
+  },
+
+  // Search — Figma: bg #f6f6f6, rounded 10, pl 40
+  searchContainer: {
     backgroundColor: '#fff',
-    paddingTop: spacing.md,
-    paddingBottom: spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    paddingHorizontal: spacing.lg,
+    paddingTop: 10,
+    paddingBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
-    marginHorizontal: spacing.lg,
-    paddingHorizontal: spacing.md,
-    borderRadius: 8,
+    backgroundColor: '#f6f6f6',
+    borderRadius: 10,
     height: 44,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    paddingHorizontal: spacing.lg,
   },
   searchIcon: {
     marginRight: spacing.sm,
-    opacity: 0.5,
   },
   searchInput: {
     flex: 1,
-    fontSize: 14,
-    color: colors.textPrimary,
+    fontSize: typography.fontSize.lg,
+    color: '#0a0a0a',
+    letterSpacing: -0.3125,
   },
-  tabContainer: {
-    marginTop: spacing.md,
-  },
-  tabContent: {
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.xs,
-    gap: 10,
-  },
-  tabPill: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: '#F1F5F9',
-    marginRight: 2, // gap handled by tabContent
-  },
-  tabPillActive: {
-    backgroundColor: colors.primary,
-  },
-  tabLabel: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#64748B',
-  },
-  tabLabelActive: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-  listContainer: {
+
+  // List
+  listScroll: {
     flex: 1,
   },
   listContent: {
     padding: spacing.lg,
+    gap: spacing.md,
   },
+
+  // Card — Figma: white bg, rounded 14, shadow
   card: {
-    marginBottom: spacing.md,
+    backgroundColor: '#fff',
+    borderRadius: 14,
     padding: spacing.lg,
-    borderRadius: spacing.borderRadius.lg,
-  },
-  badgeRow: {
-    flexDirection: 'row',
-    marginBottom: spacing.sm,
-  },
-  agencyBadge: {
-    marginRight: spacing.xs,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   cardTitle: {
     fontSize: typography.fontSize.md,
-    fontWeight: typography.fontWeight.semiBold,
-    color: colors.textPrimary,
-    lineHeight: 22,
+    fontWeight: typography.fontWeight.medium,
+    color: '#0a0a0a',
+    lineHeight: 20,
+    letterSpacing: -0.15,
     marginBottom: spacing.md,
   },
-  metaRow: {
+  infoRows: {
+    gap: spacing.sm,
+  },
+  infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    height: 16,
   },
-  metaItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: spacing.lg,
+  infoLabel: {
+    width: 128,
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.regular,
+    color: '#4a5565',
+    lineHeight: 16,
   },
-  metaIcon: {
-    fontSize: 14,
-    marginRight: 6,
-  },
-  metaText: {
-    fontSize: 13,
-    color: colors.textSecondary,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: colors.borderLight,
-    marginBottom: spacing.md,
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  actionText: {
-    fontSize: 14,
-    fontWeight: typography.fontWeight.semiBold,
-    color: colors.primary,
-    marginRight: 6,
-  },
-  actionArrow: {
-    fontSize: 16,
-    color: colors.primary,
-    top: -1,
+  infoValue: {
+    flex: 1,
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.regular,
+    color: '#101828',
+    lineHeight: 16,
   },
 });
-
-export default ProcedureListScreen;

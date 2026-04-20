@@ -73,7 +73,7 @@ export const HomeScreen: React.FC = () => {
         </View>
 
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.notifyButton}>
+          <TouchableOpacity style={styles.notifyButton} onPress={() => (navigation as any).navigate('Notification')}>
             <Icon name="bell" size={24} color={colors.textPrimary} />
             <View style={styles.notifyBadge} />
           </TouchableOpacity>

@@ -19,7 +19,6 @@ Một feature có thể chứa functions từ **nhiều nguồn khác nhau** (hy
 # Phase 0: Design System
 phase_0:
   status: pending | done
-  completed_at: "YYYY-MM-DD"           # khi done
   components_generated:                 # danh sách components đã gen
     - "Button"
     - "Input"

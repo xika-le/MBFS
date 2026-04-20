@@ -44,6 +44,5 @@ src/
 ## Comment convention
 ```typescript
 // Feature: 4.2.1 - Đăng nhập ứng dụng mobile
-// Generated at: 2026-04-01
-// Updated at: 2026-04-10 (thay đổi: màu button, font size title)
+// Figma Node: 159:43
 ```

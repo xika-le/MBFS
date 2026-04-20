@@ -14,7 +14,7 @@ import { Feather } from '@expo/vector-icons';
 import { colors, spacing, typography } from '../../theme';
 import { Header, Input, Button, RegisterStepIndicator } from '../../components/shared';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../navigation/AppNavigator';
+import { RootStackParamList } from '../../navigation/types';
 
 type RegisterFormRouteProp = RouteProp<RootStackParamList, any>;
 

@@ -33,6 +33,7 @@ import SuccessStoryDetailScreen from '../screens/SuccessStoryNews/SuccessStoryDe
 import LegalDocumentListScreen from '../screens/LegalDocument/LegalDocumentListScreen';
 import LegalDocumentDetailScreen from '../screens/LegalDocument/LegalDocumentDetailScreen';
 import ProcedureListScreen from '../screens/Procedure/ProcedureListScreen';
+import ProcedureDetailScreen from '../screens/Procedure/ProcedureDetailScreen';
 import ComplaintListScreen from '../screens/Complaints/ComplaintListScreen';
 import CreateComplaintScreen from '../screens/Complaints/CreateComplaintScreen';
 import ComplaintDetailScreen from '../screens/Complaints/ComplaintDetailScreen';
@@ -51,6 +52,7 @@ import BusinessAccountScreen from '../screens/Account/BusinessAccountScreen';
 import EditBusinessAccountScreen from '../screens/Account/EditBusinessAccountScreen';
 import ChangePasswordScreen from '../screens/Account/ChangePasswordScreen';
 import AccountSettingsScreen from '../screens/Account/AccountSettingsScreen';
+import { NotificationScreen } from '../screens/Notification/NotificationScreen';
 import { LoginMethodScreen } from '../screens/Auth/LoginMethodScreen';
 import { IdentityLoginScreen } from '../screens/Auth/IdentityLoginScreen';
 import { VNeIDLoginScreen } from '../screens/Auth/VNeIDLoginScreen';
@@ -100,6 +102,7 @@ export type RootStackParamList = {
   Contact: undefined;
   About: undefined;
   ProcedureList: undefined;
+  ProcedureDetail: { id: string; title: string; code: string; field: string; agency: string; level: string };
   ComplaintList: undefined;
   CreateComplaint: undefined;
   ComplaintDetail: { id: string };
@@ -115,6 +118,7 @@ export type RootStackParamList = {
   AccountSettings: undefined;
   LandFundList: undefined;
   LandFundDetail: { id: string };
+  Notification: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -256,6 +260,11 @@ const MainStack = () => {
         options={{ title: 'Thủ tục hành chính', headerShown: false }}
       />
       <Stack.Screen
+        name="ProcedureDetail"
+        component={ProcedureDetailScreen}
+        options={{ title: 'Chi tiết thủ tục', headerShown: false }}
+      />
+      <Stack.Screen
         name="ComplaintList"
         component={ComplaintListScreen}
         options={{ title: 'Danh sách khiếu nại', headerShown: false }}
@@ -329,6 +338,11 @@ const MainStack = () => {
         name="LandFundDetail"
         component={LandFundDetailScreen}
         options={{ title: 'Chi tiết quỹ đất', headerShown: false }}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{ title: 'Thông báo', headerShown: false }}
       />
     </Stack.Navigator>
   );
