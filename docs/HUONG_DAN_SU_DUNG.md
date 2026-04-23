@@ -41,21 +41,21 @@
 ## 2. Tổng quan Pipeline
 
 ```
-┌─────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────┐
 │                    LIFECYCLE DỰ ÁN                       │
 │                                                          │
-│  /init_feature_list  →  Phân rã chức năng từ tài liệu   │
+│  /init_feature_list  →  Phân rã chức năng từ tài liệu    │
 │          ↓                                               │
 │  /init_design_system →  Phase 0: Setup project + tokens  │
 │          ↓                                               │
 │  /scan_figma hoặc /scan_specs  →  Scan thiết kế          │
 │          ↓                                               │
-│  /gen_feature hoặc /gen_module →  Gen code React Native   │
+│  /gen_feature hoặc /gen_module →  Gen code React Native  │
 │          ↓                                               │
 │  /update_feature hoặc /update_module → Cập nhật khi đổi  │
 │                                                          │
 │  /pipeline  →  Tự động lặp: scan → gen → test            │
-└─────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────┘
 ```
 
 **File trung tâm:** `figma-to-code-plan.yaml` — là nguồn sự thật duy nhất (source of truth), mọi command đều đọc/ghi qua file này.

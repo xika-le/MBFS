@@ -1,5 +1,5 @@
 ---
-name: diff-design-code
+name: diff_design_code
 description: "So sánh thiết kế mới (Figma MCP hoặc specs mới) với code React Native hiện tại. Trả về danh sách thay đổi cụ thể. Không sửa code."
 disable-model-invocation: true
 argument-hint: <đường dẫn file code hiện tại>

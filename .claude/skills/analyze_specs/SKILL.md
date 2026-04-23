@@ -1,5 +1,5 @@
 ---
-name: analyze-specs
+name: analyze_specs
 description: "Phân tích ảnh/text mô tả UI → trả về structured spec object gồm danh sách functions với spec_description chi tiết. Dùng cho /scan_specs và nhánh specs của /update_feature."
 argument-hint: <feature name hoặc context>
 ---
@@ -12,7 +12,7 @@ argument-hint: <feature name hoặc context>
 - Text mô tả UI từ user
 
 ## Mục tiêu
-Phân tích input thô (ảnh/text) và trả về **structured spec object** mô tả rõ ràng các functions + UI của feature, sẵn sàng để ghi vào plan YAML qua skill `write-plan`.
+Phân tích input thô (ảnh/text) và trả về **structured spec object** mô tả rõ ràng các functions + UI của feature, sẵn sàng để ghi vào plan YAML qua skill `write_plan`.
 
 ## Quy trình phân tích
 
@@ -93,7 +93,7 @@ heading text: → typography.heading (fontWeight: bold)
 
 ## Output format
 
-Trả về object sẵn sàng truyền cho `write-plan` action `scan`:
+Trả về object sẵn sàng truyền cho `write_plan` action `scan`:
 
 ```yaml
 spec_source: specs

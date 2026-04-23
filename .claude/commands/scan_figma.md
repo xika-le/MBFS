@@ -26,7 +26,7 @@ Nếu thiếu `--section` → DỪNG, yêu cầu cung cấp:
 ### 1. Parse input & validate
 - Extract `sectionId` từ `--section` (support cả nodeId và URL format)
 - Extract `featureId` từ `--feature` (nếu có)
-- Gọi skill **`read-plan`** với mode `check <featureId>` (nếu có featureId):
+- Gọi skill **`read_plan`** với mode `check <featureId>` (nếu có featureId):
   - `plan_exists: false` → đánh dấu lần đầu scan, sẽ tạo file mới ở bước 6
   - `entry_exists: true` + cùng `spec_source: figma` → hỏi: "Section này đã scan cho feature X. Scan lại (ghi đè)?"
   - `entry_exists: true` + `spec_source: specs` → cảnh báo: "Feature này đã có Specs entry. Bạn muốn thêm figma song song không?"
@@ -98,7 +98,7 @@ Nếu user edit → áp dụng thay đổi trước khi ghi.
 
 ### 6. Ghi vào figma-to-code-plan.yaml
 
-Gọi skill **`write-plan`**:
+Gọi skill **`write_plan`**:
 
 - **Nếu file chưa tồn tại** → gọi `write-plan init-project` trước (hỏi user tên project hoặc lấy từ Figma file name)
 - Gọi `write-plan scan` với data:
@@ -106,7 +106,7 @@ Gọi skill **`write-plan`**:
   - `feature`, `name`, `figma_section`, `figma_section_name`, `figma_shared_nodes`
   - `functions[]` — mỗi function gồm: `id`, `name`, `figma_nodes[]`
 
-Skill `write-plan` sẽ tự xử lý append entry mới hoặc update entry đã có.
+Skill `write_plan` sẽ tự xử lý append entry mới hoặc update entry đã có.
 
 **Quy tắc data truyền vào:**
 - `spec_source: figma` — bắt buộc

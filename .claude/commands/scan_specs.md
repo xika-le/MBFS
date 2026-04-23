@@ -35,7 +35,7 @@ Nếu không có ảnh VÀ không có text mô tả → DỪNG:
 - Extract `featureId` từ `--feature`
 - Extract danh sách `imagePaths` từ `--image` (nếu có)
 - Extract `featureName` từ `--name` (nếu có)
-- Gọi skill **`read-plan`** với mode `check <featureId>`:
+- Gọi skill **`read_plan`** với mode `check <featureId>`:
   - `plan_exists: false` → đánh dấu lần đầu scan, sẽ tạo file mới ở bước 6
   - `entry_exists: true` + cùng `spec_source: specs` → hỏi: "Feature này đã scan specs. Scan lại (ghi đè)?"
   - `entry_exists: true` + `spec_source: figma` → cảnh báo: "Feature này đã có Figma entry. Bạn muốn thêm specs song song không?"
@@ -56,7 +56,7 @@ Nếu không có ảnh VÀ không có text mô tả → DỪNG:
 
 ### 3. Phân tích specs → xác định functions
 
-Gọi skill **`analyze-specs`** với toàn bộ input thu thập ở bước 2.
+Gọi skill **`analyze_specs`** với toàn bộ input thu thập ở bước 2.
 
 Skill trả về structured spec object gồm:
 - `spec_files` — danh sách file paths
@@ -104,15 +104,15 @@ Nếu user edit → áp dụng thay đổi trước khi ghi.
 
 ### 6. Ghi vào figma-to-code-plan.yaml
 
-Gọi skill **`write-plan`**:
+Gọi skill **`write_plan`**:
 
 - **Nếu file chưa tồn tại** → gọi `write-plan init-project` trước (hỏi user tên project hoặc lấy từ `docs/feature_list.md`)
-- Gọi `write-plan scan` với data từ output của `analyze-specs`:
+- Gọi `write-plan scan` với data từ output của `analyze_specs`:
   - `spec_source: specs`
   - `feature`, `name`, `spec_files`, `spec_notes`
   - `functions[]` — mỗi function gồm: `id`, `name`, `spec_description`
 
-Skill `write-plan` sẽ tự xử lý append entry mới hoặc update entry đã có.
+Skill `write_plan` sẽ tự xử lý append entry mới hoặc update entry đã có.
 
 **Quy tắc data truyền vào:**
 - `spec_source: specs` — bắt buộc

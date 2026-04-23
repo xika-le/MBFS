@@ -1,5 +1,5 @@
 ---
-name: write-plan
+name: write_plan
 description: "Tạo mới / cập nhật figma-to-code-plan.yaml. Hỗ trợ các action: init, scan, gen, update, upgrade. Bảo toàn dữ liệu hiện có."
 disable-model-invocation: true
 argument-hint: "<action> <featureId> [data...]"
@@ -13,7 +13,7 @@ Format: `<action> <featureId | phaseId> [data]`
 
 ## Mục tiêu
 
-Ghi / cập nhật `figma-to-code-plan.yaml`. Skill này **chỉ ghi** — dùng `read-plan` để đọc trước khi ghi.
+Ghi / cập nhật `figma-to-code-plan.yaml`. Skill này **chỉ ghi** — dùng `read_plan` để đọc trước khi ghi.
 
 ## Quy tắc chung
 

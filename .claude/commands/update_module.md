@@ -5,7 +5,7 @@ description: "Phase 3 — Update code React Native cho toàn bộ module khi thi
 ## Steps
 
 ### 1. Xác định features cần update
-- Gọi skill **`read-plan`** với mode `module <$ARGUMENTS>`
+- Gọi skill **`read_plan`** với mode `module <$ARGUMENTS>`
 - Từ `entries[]`, lọc: chỉ lấy features có status `done` hoặc `partial`
 - Nếu không có → gợi ý `/gen_module` trước
 

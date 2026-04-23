@@ -32,7 +32,7 @@ description: "Phase 0 - Khởi tạo dự án React Native (Expo) chạy đượ
 - Với mỗi component tìm thấy:
   - Gọi MCP tool **`get_design_context(nodeId)`** với `artifactType=REUSABLE_COMPONENT`
   - Nhận: reference code + screenshot + metadata
-  - Gọi skill **`gen-rn-screen`** với design context thật → gen component bám sát Figma
+  - Gọi skill **`gen_rn_screen`** với design context thật → gen component bám sát Figma
 - Kết quả: files trong `app/src/components/shared/` bám sát 100% thiết kế
 
 ### 5. Setup Navigation cơ bản
@@ -42,7 +42,7 @@ description: "Phase 0 - Khởi tạo dự án React Native (Expo) chạy đượ
 
 ### 6. Cập nhật plan & Báo cáo
 
-- Gọi skill **`write-plan`**:
+- Gọi skill **`write_plan`**:
   - Nếu file `figma-to-code-plan.yaml` chưa tồn tại → gọi `write-plan init-project` trước
   - Gọi `write-plan init-phase0` với `components_generated: [Button, Card, Badge, ...]`
 - Báo cáo:

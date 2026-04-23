@@ -1,5 +1,5 @@
 ---
-name: gen-rn-screen
+name: gen_rn_screen
 description: "Gen code React Native chạy được cho 1 screen từ design context (Figma MCP hoặc specs). Code phải bám sát 100% thiết kế về layout, colors, typography, content."
 disable-model-invocation: true
 argument-hint: <tên screen/component>

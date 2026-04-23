@@ -6,8 +6,8 @@ description: "Phase 1 — Gen code React Native cho toàn bộ module từ Figma
 
 > **ĐÂY LÀ BƯỚC ĐẦU TIÊN. KHÔNG ĐƯỢC BỎ QUA.**
 
-1. Gọi skill **`read-plan`** với mode `check` để kiểm tra plan tồn tại và phase_0 done
-2. Gọi skill **`read-plan`** với mode `module <$ARGUMENTS>`:
+1. Gọi skill **`read_plan`** với mode `check` để kiểm tra plan tồn tại và phase_0 done
+2. Gọi skill **`read_plan`** với mode `module <$ARGUMENTS>`:
    - `found: false` → DỪNG:
      > "Module `$ARGUMENTS` chưa có feature nào được scan. Chạy `/scan_figma` hoặc `/scan_specs` cho từng feature trước rồi quay lại."
 3. Kiểm tra `summary` trong kết quả:

@@ -1,5 +1,5 @@
 ---
-name: read-plan
+name: read_plan
 description: "Đọc figma-to-code-plan.yaml và truy vấn dữ liệu: tìm feature/module, check status, gate check. Trả về structured data để workflow xử lý tiếp."
 disable-model-invocation: true
 argument-hint: "<mode> <query>"

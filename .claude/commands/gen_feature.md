@@ -12,13 +12,13 @@ description: "Phase 2 — Gen code React Native cho 1 feature từ Figma. Tạo 
 
 > **ĐÂY LÀ BƯỚC ĐẦU TIÊN. KHÔNG ĐƯỢC BỎ QUA.**
 
-1. Gọi skill **`read-plan`** với mode `check <$ARGUMENTS>`:
+1. Gọi skill **`read_plan`** với mode `check <$ARGUMENTS>`:
    - `plan_exists: false` → DỪNG: "Chưa có plan. Chạy `/scan_figma` hoặc `/scan_specs` trước."
    - `phase_0_done: false` → DỪNG: "Phase 0 chưa hoàn thành. Chạy `/init_design_system` trước."
    - `entry_exists: false` → DỪNG:
      > "Feature `$ARGUMENTS` chưa được scan. Chạy `/scan_figma --section <nodeId> --feature $ARGUMENTS` hoặc `/scan_specs --feature $ARGUMENTS` trước rồi quay lại."
    - `entry.status: done` → hỏi: "Feature đã gen. Gen lại (ghi đè)?"
-2. Gọi skill **`read-plan`** với mode `feature <$ARGUMENTS>` → lấy entry đầy đủ
+2. Gọi skill **`read_plan`** với mode `feature <$ARGUMENTS>` → lấy entry đầy đủ
 3. Đọc `spec_source` của entry để xác định luồng xử lý:
    - `spec_source: figma` → **Figma path** (bước 1A bên dưới)
    - `spec_source: specs` → **Specs path** (bước 1B bên dưới)
@@ -67,7 +67,7 @@ Với mỗi function có `status: scanned`:
 - **Nếu `spec_source: specs`**: Bám sát `spec_description` về layout; dùng design tokens cho colors/spacing/typography
 - Sử dụng shared components từ Phase 0 (Card, Badge, Button, Input, Header, TabBar)
 - Sử dụng theme tokens (colors.ts, typography.ts, spacing.ts)
-- Gọi skill **`gen-rn-screen`** với design context đã xây dựng
+- Gọi skill **`gen_rn_screen`** với design context đã xây dựng
 
 ### 3. Xử lý multiple views per function
 
@@ -89,7 +89,7 @@ Nếu function có nhiều `figma_nodes` (ví dụ: List view + Form view):
 
 ### 7. Tracking — QUY TẮC ĐÁNH STATUS
 
-Gọi skill **`write-plan`** với action `gen`:
+Gọi skill **`write_plan`** với action `gen`:
 - `feature` — feature ID
 - `functions[]` — mỗi function đã gen gồm: `id`, `status`, `file_path`, `note`
 
@@ -118,7 +118,7 @@ functions:
   # ...
 ```
 
-Skill `write-plan` sẽ tự tính feature status (done/partial/scanned).
+Skill `write_plan` sẽ tự tính feature status (done/partial/scanned).
 
 ### 8. Báo cáo
 - Feature name, tổng functions

@@ -32,7 +32,7 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
     {
       title: 'Giới thiệu',
       items: [
-        { label: 'Cục Đầu tư nước ngoài', icon: 'info' as const, route: 'About' },
+        { label: 'Giới thiệu', icon: 'info' as const, route: 'About' },
         { label: 'Lĩnh vực đầu tư', icon: 'grid' as const, route: 'SectorList' },
         { label: 'Khu vực đầu tư', icon: 'map' as const, route: 'AreaList' },
         { label: 'Liên hệ', icon: 'phone' as const, route: 'Contact' },
