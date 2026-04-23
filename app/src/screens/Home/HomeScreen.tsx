@@ -54,6 +54,70 @@ export const HomeScreen: React.FC = () => {
     navigation.navigate(route, params);
   };
 
+  const NEWS_CATEGORIES = [
+    { id: 'all', label: 'Tất cả' },
+    { id: 'policy', label: 'Chính sách', route: 'PolicyNews' },
+    { id: 'success', label: 'Thành công', route: 'SuccessStory' },
+    { id: 'sector', label: 'Lĩnh vực', route: 'SectorNews' },
+    { id: 'investment', label: 'Đầu tư', route: 'InvestmentNews' },
+    { id: 'public-service', label: 'Dịch vụ công', route: 'PublicServiceNews' },
+  ];
+
+  const NEWS_ITEMS = [
+    {
+      id: '1',
+      category: 'policy',
+      categoryLabel: 'Chính sách',
+      date: '12/04/2026',
+      title: 'Chính sách mới hỗ trợ nhà đầu tư nước ngoài tại Việt Nam',
+      image: 'https://picsum.photos/400/200?random=1',
+      route: 'PolicyNews',
+    },
+    {
+      id: '2',
+      category: 'investment',
+      categoryLabel: 'Tin đầu tư',
+      date: '11/04/2026',
+      title: 'Khu công nghiệp công nghệ cao thu hút 500 triệu USD',
+      image: 'https://picsum.photos/400/200?random=2',
+      route: 'InvestmentNews',
+    },
+    {
+      id: '3',
+      category: 'success',
+      categoryLabel: 'Thành công',
+      date: '10/04/2026',
+      title: 'Hành trình vươn tầm quốc tế của doanh nghiệp Việt',
+      image: 'https://picsum.photos/400/200?random=3',
+      route: 'SuccessStory',
+    },
+    {
+      id: '4',
+      category: 'sector',
+      categoryLabel: 'Lĩnh vực',
+      date: '09/04/2026',
+      title: 'Tiềm năng đầu tư vào năng lượng tái tạo năm 2026',
+      image: 'https://picsum.photos/400/200?random=4',
+      route: 'SectorNews',
+    },
+    {
+      id: '5',
+      category: 'public-service',
+      categoryLabel: 'Dịch vụ công',
+      date: '08/04/2026',
+      title: 'Triển khai cấp phép đầu tư trực tuyến cấp độ 4',
+      image: 'https://picsum.photos/400/200?random=5',
+      route: 'PublicServiceNews',
+    },
+  ];
+
+  const [activeNewsTab, setActiveNewsTab] = React.useState('all');
+
+  const filteredNews = React.useMemo(() => {
+    if (activeNewsTab === 'all') return NEWS_ITEMS;
+    return NEWS_ITEMS.filter(item => item.category === activeNewsTab);
+  }, [activeNewsTab]);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -98,10 +162,6 @@ export const HomeScreen: React.FC = () => {
                 <Text style={styles.greetingText}>Xin chào,</Text>
                 <Text style={styles.userNameText}>Nguyễn Văn A</Text>
                 <Text style={styles.userRoleText}>Nhà đầu tư</Text>
-                {/* <View style={styles.userStatusRow}>
-                  <Icon name="file-text" size={16} color={colors.surface} />
-                  <Text style={styles.userStatusText}>Bạn có 3 hồ sơ đang xử lý</Text>
-                </View> */}
               </View>
             </View>
           </View>
@@ -146,27 +206,6 @@ export const HomeScreen: React.FC = () => {
           </View>
         </View>
 
-        {/* Suggestions */}
-        {/* <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Gợi ý cho bạn</Text>
-          <View style={styles.suggestionList}>
-            {suggestions.map((item, index) => (
-              <View key={index} style={styles.suggestionItem}>
-                <View style={styles.suggestionIcon}>
-                  <Icon name="alert-circle" size={20} color={colors.warningText} />
-                </View>
-                <View style={styles.suggestionContent}>
-                  <Text style={styles.suggestionTitle}>{item.title}</Text>
-                  <Text style={styles.suggestionDeadline}>{item.deadline}</Text>
-                </View>
-                <TouchableOpacity style={styles.suggestionButton} onPress={() => navigation.navigate('DossierList')}>
-                  <Text style={styles.suggestionButtonText}>Xử lý</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-        </View> */}
-
         {/* News Section */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
@@ -177,64 +216,54 @@ export const HomeScreen: React.FC = () => {
           </View>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.newsTabs}>
-            <TouchableOpacity style={[styles.newsTab, styles.activeNewsTab]}>
-              <Text style={styles.activeNewsTabText}>Tất cả</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Chính sách đầu tư</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Câu chuyện thành công</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Lĩnh vực đầu tư</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Tin đầu tư</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.newsTab}>
-              <Text style={styles.newsTabText}>Dịch vụ công</Text>
-            </TouchableOpacity>
+            {NEWS_CATEGORIES.map((category) => (
+              <TouchableOpacity
+                key={category.id}
+                style={[
+                  styles.newsTab,
+                  activeNewsTab === category.id && styles.activeNewsTab
+                ]}
+                onPress={() => setActiveNewsTab(category.id)}
+              >
+                <Text
+                  style={[
+                    styles.newsTabText,
+                    activeNewsTab === category.id && styles.activeNewsTabText
+                  ]}
+                >
+                  {category.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </ScrollView>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.newsScroll}>
-            <TouchableOpacity
-              style={styles.newsCard}
-              onPress={() => navigation.navigate('PolicyNews')}
-            >
-              <Image
-                source={{ uri: 'https://picsum.photos/400/200?random=1' }}
-                style={styles.newsImage}
-              />
-              <View style={styles.newsContent}>
-                <View style={styles.newsMeta}>
-                  <Badge label="Chính sách" variant="info" />
-                  <Text style={styles.newsDate}>12/04/2026</Text>
+            {filteredNews.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.newsCard}
+                onPress={() => navigation.navigate(item.route as any)}
+              >
+                <Image
+                  source={{ uri: item.image }}
+                  style={styles.newsImage}
+                />
+                <View style={styles.newsContent}>
+                  <View style={styles.newsMeta}>
+                    <Badge label={item.categoryLabel} variant="info" />
+                    <Text style={styles.newsDate}>{item.date}</Text>
+                  </View>
+                  <Text style={styles.newsTitle} numberOfLines={2}>
+                    {item.title}
+                  </Text>
                 </View>
-                <Text style={styles.newsTitle} numberOfLines={2}>
-                  Chính sách mới hỗ trợ nhà đầu tư nước ngoài tại Việt Nam
-                </Text>
+              </TouchableOpacity>
+            ))}
+            {filteredNews.length === 0 && (
+              <View style={{ width: width - 32, padding: 20, alignItems: 'center' }}>
+                <Text style={{ color: colors.textSecondary }}>Không có tin tức nào trong chuyên mục này</Text>
               </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.newsCard}
-              onPress={() => navigation.navigate('InvestmentNews')}
-            >
-              <Image
-                source={{ uri: 'https://picsum.photos/400/200?random=2' }}
-                style={styles.newsImage}
-              />
-              <View style={styles.newsContent}>
-                <View style={styles.newsMeta}>
-                  <Badge label="Tin đầu tư" variant="info" />
-                  <Text style={styles.newsDate}>11/04/2026</Text>
-                </View>
-                <Text style={styles.newsTitle} numberOfLines={2}>
-                  Khu công nghiệp công nghệ cao thu hút 500 triệu USD
-                </Text>
-              </View>
-            </TouchableOpacity>
+            )}
           </ScrollView>
         </View>
 
