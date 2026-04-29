@@ -17,12 +17,21 @@ export interface LandFundInfrastructure {
   status: 'available' | 'unavailable';
 }
 
+export interface LandFundAttachment {
+  id: string;
+  name: string;
+  type: 'pdf' | 'doc' | 'xls' | 'img' | 'dwg';
+  size: string;
+  date: string;
+}
+
 export interface LandFundDetail extends LandFundItem {
   duration: string;
   leaseExpiry: string;
   description: string;
   images: string[];
   infrastructure: LandFundInfrastructure[];
+  attachments: LandFundAttachment[];
 }
 
 export const LAND_FUND_LIST: LandFundItem[] = [
@@ -85,6 +94,14 @@ export const getLandFundDetail = (id: string): LandFundDetail => {
       { type: 'electric', label: 'Điện', status: 'available' },
       { type: 'water', label: 'Nước', status: 'unavailable' },
       { type: 'infra', label: 'Hạ tầng', status: 'unavailable' },
+    ],
+    attachments: [
+      { id: '1', name: 'Bản đồ quy hoạch lô đất.pdf', type: 'pdf', size: '2.4 MB', date: '15/03/2026' },
+      { id: '2', name: 'Giấy chứng nhận quyền sử dụng đất.pdf', type: 'pdf', size: '1.1 MB', date: '10/01/2026' },
+      { id: '3', name: 'Báo cáo đánh giá hạ tầng.docx', type: 'doc', size: '856 KB', date: '22/02/2026' },
+      { id: '4', name: 'Bảng giá cho thuê 2026.xlsx', type: 'xls', size: '320 KB', date: '05/01/2026' },
+      { id: '5', name: 'Bản vẽ thiết kế mặt bằng.dwg', type: 'dwg', size: '5.7 MB', date: '18/03/2026' },
+      { id: '6', name: 'Ảnh thực tế lô đất.jpg', type: 'img', size: '3.2 MB', date: '20/03/2026' },
     ],
   };
 };

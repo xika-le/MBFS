@@ -72,6 +72,28 @@ scanned:
         figma_nodes:
           - '328:1205'  # UC 4: List view
         note: Sub-tab "Kinh tế" in tab "Kinh tế - XH - MT"
+      - id: '4-detail'
+        name: Chi tiết Kinh tế (Modal)
+        status: done
+        spec_source: specs
+        generated_at: '2026-04-29'
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        spec_description: |
+          [Zone: Header]
+            - Title: "Chi tiết Kinh tế" + nút X đóng modal
+          [Zone: Form - Năm kỳ]
+            - Row 2 cột: Dropdown "Năm" (Năm 2026) + Dropdown "Kỳ" (Quý 1) — required (*)
+          [Zone: Form - Chỉ tiêu kinh tế]
+            - Layout 2 cột, mỗi row: Label + TextInput + Unit selector
+            - Row 1: Doanh thu (*) (tỷ VNĐ) | Giá trị SX CN (*) (tỷ VNĐ)
+            - Row 2: Kim nghạch XK (*) (tỷ VNĐ) | Kim ngạch NK (*) (tỷ VNĐ)
+            - Row 3: Nộp ngân sách NN (triệu VNĐ) | Thuế TNDN (triệu VNĐ)
+            - Row 4: Thuế XNK (triệu VNĐ) | (empty)
+            - Row 5: Số DN giải thể (number) | Số DN ngừng hoạt động (number)
+          [Zone: Footer]
+            - Nút "Thoát" (align right)
+        note: Modal xem chi tiết khi bấm "Xem chi tiết" trong card Kinh tế
       - id: '5'
         name: Tra cứu nhóm thông tin về xã hội cho khu công nghiệp trên mobile
         status: done
@@ -79,6 +101,31 @@ scanned:
         figma_nodes:
           - '328:1365'  # UC 5: List view
         note: Sub-tab "Xã hội" in tab "Kinh tế - XH - MT"
+      - id: '5-detail'
+        name: Chi tiết Xã hội (Modal)
+        status: done
+        spec_source: specs
+        generated_at: '2026-04-29'
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        spec_description: |
+          [Zone: Header]
+            - Title: "Chi tiết Xã hội" + nút X đóng modal
+          [Zone: Form - Năm kỳ]
+            - Row: Dropdown "Năm" (Năm 2026) + Dropdown "Kỳ" (Quý 1) — required (*)
+            - Tổng số lao động (*) (number, full width)
+          [Zone: Form - Lao động]
+            - Layout 2 cột:
+            - Row 1: Tổng LĐ nữ (*) | Tổng LĐ nước ngoài
+            - Row 2: LĐ kỹ thuật cao | Phổ thông
+            - Row 3: Sơ cấp | Trung cấp
+            - Row 4: Cao đẳng | Đại học
+            - Row 5: Trên đại học | Khác
+          [Zone: Form - Thu nhập]
+            - Thu nhập BQ (number + unit VNĐ)
+          [Zone: Footer]
+            - Nút "Thoát" (align right)
+        note: Modal xem chi tiết khi bấm "Xem chi tiết" trong card Xã hội
       - id: '6'
         name: Tra cứu nhóm thông tin về môi trường cho khu công nghiệp trên mobile
         status: done
@@ -86,6 +133,40 @@ scanned:
         figma_nodes:
           - '328:1487'  # UC 6: List view
         note: Sub-tab "Môi trường" in tab "Kinh tế - XH - MT"
+      - id: '6-detail'
+        name: Chi tiết Môi trường (Modal)
+        status: done
+        spec_source: specs
+        generated_at: '2026-04-29'
+        file_path: app/src/screens/IndustrialZone/IZDetailScreen.tsx
+        figma_nodes: []
+        spec_description: |
+          [Zone: Header]
+            - Title: "Chi tiết Môi trường" + nút X đóng modal
+          [Zone: Form - Năm kỳ + Nguyên nhân]
+            - Row: Dropdown "Năm" (Năm 2026) + Dropdown "Kỳ" (Quý 1) — required (*)
+            - Nguyên nhân (text input)
+          [Zone: Form - Nhà máy XLNT]
+            - Tình trạng quy hoạch nhà máy XLNT (*) (dropdown: Có/Không)
+            - Thời gian dự kiến đưa vào vận hành (date picker)
+            - Tình trạng hoạt động nhà máy XLNT (*) (dropdown: Đang hoạt động/...)
+            - Giải pháp xử lý để đảm bảo đáp ứng quy định BVMT (textarea)
+          [Zone: Form - Công suất]
+            - Row: Công suất thiết kế (m³/ngày đêm) | Chất lượng xử lý nước thải (dropdown: Đạt/Không đạt)
+            - Row: Công suất hoạt động (m³/ngày đêm)
+          [Zone: Section - Thông tin môi trường khác]
+            - Section header: "Thông tin môi trường khác"
+            - Layout 2 cột:
+            - Row 1: Tổng nước thải của khu (m³/ngày đêm) | Số vi phạm MT
+            - Row 2: Tổng khí thải | Số lần kiểm tra MT
+            - Row 3: Tổng chất thải rắn | Lượng nước tái sử dụng
+            - Row 4: Chất thải nguy hại | Số mô hình cộng sinh CN
+            - Row 5: Tỷ lệ tái chế | Giảm phát thải
+            - Row 6: Năng lượng tái tạo | Chứng nhận xanh (dropdown)
+            - Row 7: Tỷ lệ DN đạt chuẩn MT
+          [Zone: Footer]
+            - Nút "Thoát" (align right)
+        note: Modal xem chi tiết khi bấm "Xem chi tiết" trong card Môi trường
       - id: '7'
         name: Xem danh sách dự án kêu gọi đầu tư trong khu công nghiệp trên mobile
         status: done
@@ -826,3 +907,31 @@ scanned:
         figma_nodes:
           - '161:1873'
           - '161:1927'
+
+  - feature: 'UC41'
+    name: Tra cứu thông tin cho thuê đất trong khu công nghiệp
+    spec_source: figma
+    scanned_at: '2026-04-29'
+    generated_at: '2026-04-29'
+    figma_section: '2183:1654'
+    figma_section_name: 'UC 41: Tra cứu thông tin cho thuê đất trong khu công nghiệp'
+    figma_shared_nodes: []
+    status: done
+    functions:
+      - id: '41-list'
+        name: Danh sách cho thuê đất + Bộ lọc
+        status: done
+        file_path: app/src/screens/IndustrialZone/RentalListScreen.tsx
+        generated_at: '2026-04-29'
+        figma_nodes:
+          - '2056:111'   # UC 41: List view
+          - '921:1436'   # Filter popup
+        note: List screen with search, filter modal (5 fields), rental cards
+      - id: '41-detail'
+        name: Chi tiết thông tin cho thuê đất
+        status: done
+        file_path: app/src/screens/IndustrialZone/RentalDetailScreen.tsx
+        generated_at: '2026-04-29'
+        figma_nodes:
+          - '2056:298'   # UC 41: Detail view
+        note: Detail screen with 5 sections (lô đất, hợp đồng, tài chính, bổ sung, đính kèm)

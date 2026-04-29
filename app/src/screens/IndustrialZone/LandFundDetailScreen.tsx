@@ -16,7 +16,7 @@ import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { typography } from '../../theme/typography';
 import { Icon, Header } from '../../components/shared';
-import { getLandFundDetail } from '../../data/landFundMockData';
+import { getLandFundDetail, LandFundAttachment } from '../../data/landFundMockData';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
@@ -94,10 +94,34 @@ export const LandFundDetailScreen: React.FC = () => {
     );
   };
 
+  const FILE_TYPE_CONFIG: Record<LandFundAttachment['type'], { icon: string; color: string; bg: string }> = {
+    pdf: { icon: 'file-text', color: '#E53E3E', bg: '#FEF2F2' },
+    doc: { icon: 'file-text', color: '#3182CE', bg: '#EBF8FF' },
+    xls: { icon: 'file-text', color: '#38A169', bg: '#F0FFF4' },
+    img: { icon: 'image', color: '#D69E2E', bg: '#FFFFF0' },
+    dwg: { icon: 'file', color: '#805AD5', bg: '#FAF5FF' },
+  };
+
+  const renderAttachmentItem = (item: LandFundAttachment) => {
+    const config = FILE_TYPE_CONFIG[item.type];
+    return (
+      <TouchableOpacity key={item.id} style={styles.attachItem} activeOpacity={0.7}>
+        <View style={[styles.attachIconBg, { backgroundColor: config.bg }]}>
+          <Icon name={config.icon as any} size={20} color={config.color} />
+        </View>
+        <View style={styles.attachInfo}>
+          <Text style={styles.attachName} numberOfLines={1}>{item.name}</Text>
+          <Text style={styles.attachMeta}>{item.size}  •  {item.date}</Text>
+        </View>
+        <Icon name="download" size={18} color={colors.textTertiary} />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.primary} />
-      <Header title="Chi tiết lô đất" onBack={() => navigation.goBack()} />
+      <Header title="Chi tiết quỹ đất" onBack={() => navigation.goBack()} />
 
       <ScrollView bounces={false} contentContainerStyle={styles.scrollContent}>
 
@@ -151,7 +175,7 @@ export const LandFundDetailScreen: React.FC = () => {
           </ScrollView>
 
           {/* Basic Info Accordion */}
-          <AccordionSection title="Thông tin chung lô đất" icon="info">
+          <AccordionSection title="Thông tin chung quỹ đất" icon="info">
             {renderInfoRow('Tên lô đất', data.name)}
             {renderInfoRow('Khu công nghiệp', data.zoneName)}
             {renderInfoRow('Vị trí', data.location)}
@@ -166,8 +190,16 @@ export const LandFundDetailScreen: React.FC = () => {
           </AccordionSection>
 
           {/* Detailed Info Accordion */}
-          <AccordionSection title="Thông tin chi tiết & Mô tả" icon="list" defaultOpen={false}>
+          <AccordionSection title="Thông tin chi tiết" icon="list" defaultOpen={false}>
             <Text style={styles.descriptionText}>{data.description}</Text>
+          </AccordionSection>
+
+          {/* Attachments Accordion */}
+          <AccordionSection title="Tài liệu đính kèm" icon="paperclip" defaultOpen={false}>
+            <View style={styles.attachList}>
+              {data.attachments.map(renderAttachmentItem)}
+            </View>
+            <Text style={styles.attachCount}>{data.attachments.length} tài liệu</Text>
           </AccordionSection>
         </View>
 
@@ -347,5 +379,43 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#475569',
     paddingTop: 12,
+  },
+  attachList: {
+    gap: 0,
+  },
+  attachItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+  },
+  attachIconBg: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  attachInfo: {
+    flex: 1,
+    marginRight: 12,
+  },
+  attachName: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#1E293B',
+    marginBottom: 2,
+  },
+  attachMeta: {
+    fontSize: 12,
+    color: colors.textTertiary,
+  },
+  attachCount: {
+    fontSize: 12,
+    color: colors.textTertiary,
+    textAlign: 'center',
+    marginTop: 12,
   },
 });

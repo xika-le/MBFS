@@ -45,7 +45,6 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         { label: 'Quản lý hồ sơ', icon: 'folder' as const, route: 'DossierList' },
         { label: 'Quản lý đặt lịch', icon: 'calendar' as const, route: 'AppointmentList' },
         { label: 'Phản ánh kiến nghị', icon: 'message-square' as const, route: 'ComplaintList' },
-        { label: 'Báo cáo đầu tư', icon: 'file-text' as const, route: 'ReportList' },
       ],
     },
     {
@@ -58,6 +57,7 @@ export const MainDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         { label: 'Mô hình khu khác', icon: 'grid' as const, route: 'IZList', params: { zoneType: 'mhk' } },
         { label: 'Khu phi thuế quan', icon: 'shield' as const, route: 'IZList', params: { zoneType: 'kptq' } },
         { label: 'Thông tin quỹ đất', icon: 'map' as const, route: 'LandFundList' },
+        { label: 'Quản lý cho thuê đất', icon: 'clipboard' as const, route: 'RentalList' },
       ],
     },
     {

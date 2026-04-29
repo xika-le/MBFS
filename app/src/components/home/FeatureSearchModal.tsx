@@ -34,7 +34,6 @@ const SEARCHABLE_FEATURES: FeatureItem[] = [
     { label: 'Quản lý hồ sơ', icon: 'folder', route: 'DossierList', category: 'Dịch vụ' },
     { label: 'Quản lý đặt lịch', icon: 'calendar', route: 'AppointmentList', category: 'Dịch vụ' },
     { label: 'Phản ánh kiến nghị', icon: 'message-square', route: 'ComplaintList', category: 'Dịch vụ' },
-    { label: 'Báo cáo đầu tư', icon: 'activity', route: 'InvestmentReport', category: 'Dịch vụ' },
 
     // Khu công nghiệp / KKT
     { label: 'Khu công nghiệp', icon: 'layers', route: 'IZList', params: { zoneType: 'kcn' }, category: 'Khu công nghiệp / KKT' },
@@ -44,6 +43,7 @@ const SEARCHABLE_FEATURES: FeatureItem[] = [
     { label: 'Mô hình khu khác', icon: 'grid', route: 'IZList', params: { zoneType: 'mhk' }, category: 'Khu công nghiệp / KKT' },
     { label: 'Khu phi thuế quan', icon: 'shield', route: 'IZList', params: { zoneType: 'kptq' }, category: 'Khu công nghiệp / KKT' },
     { label: 'Thông tin quỹ đất', icon: 'map', route: 'LandFundList', category: 'Khu công nghiệp / KKT' },
+    { label: 'Quản lý cho thuê đất', icon: 'clipboard', route: 'RentalList', category: 'Khu công nghiệp / KKT' },
 
     // Tin tức & Tra cứu
     { label: 'Tin tức đầu tư', icon: 'globe', route: 'InvestmentNews', category: 'Tin tức & Tra cứu' },

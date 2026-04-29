@@ -36,6 +36,9 @@ import {
   ZoneInvestmentCallItem,
   ZoneProjectItem,
   ZoneInvestmentDetail,
+  ZoneEconomyDetail,
+  ZoneSocialDetail,
+  ZoneEnvironmentDetail,
 } from '../../data/zoneTypes';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'IZDetail'>;
@@ -252,7 +255,7 @@ const SUB_TABS = [
   { key: 'moiTruong', label: 'Môi trường' },
 ];
 
-const KinhTeContent: React.FC<{ data: ZoneEconomyItem[] }> = ({ data }) => (
+const KinhTeContent: React.FC<{ data: ZoneEconomyItem[]; onViewDetail?: () => void }> = ({ data, onViewDetail }) => (
   <>
     {data.map((item, index) => (
       <Card key={index} style={styles.card}>
@@ -267,13 +270,13 @@ const KinhTeContent: React.FC<{ data: ZoneEconomyItem[] }> = ({ data }) => (
             <DataField label="Kim ngạch NK" value={item.kimNgachNK.value} valueColor={item.kimNgachNK.color} />
           </DataFieldRow>
         </View>
-        <ViewDetailButton />
+        <ViewDetailButton onPress={onViewDetail} />
       </Card>
     ))}
   </>
 );
 
-const XaHoiContent: React.FC<{ data: ZoneSocialItem[] }> = ({ data }) => (
+const XaHoiContent: React.FC<{ data: ZoneSocialItem[]; onViewDetail?: () => void }> = ({ data, onViewDetail }) => (
   <>
     {data.map((item, index) => (
       <Card key={index} style={styles.card}>
@@ -286,13 +289,13 @@ const XaHoiContent: React.FC<{ data: ZoneSocialItem[] }> = ({ data }) => (
           </DataFieldRow>
           <DataField label="Thu nhập BQ (Triệu đồng)" value={item.thuNhapBQ.value} valueColor={item.thuNhapBQ.color} />
         </View>
-        <ViewDetailButton />
+        <ViewDetailButton onPress={onViewDetail} />
       </Card>
     ))}
   </>
 );
 
-const MoiTruongContent: React.FC<{ data: ZoneEnvironmentItem[] }> = ({ data }) => (
+const MoiTruongContent: React.FC<{ data: ZoneEnvironmentItem[]; onViewDetail?: () => void }> = ({ data, onViewDetail }) => (
   <>
     {data.map((item, index) => (
       <Card key={index} style={styles.card}>
@@ -307,7 +310,7 @@ const MoiTruongContent: React.FC<{ data: ZoneEnvironmentItem[] }> = ({ data }) =
             <DataField label="Tổng nước thải của khu" value={item.tongNuocThai.value} valueColor={item.tongNuocThai.color} />
           </DataFieldRow>
         </View>
-        <ViewDetailButton />
+        <ViewDetailButton onPress={onViewDetail} />
       </Card>
     ))}
   </>
@@ -317,17 +320,20 @@ const KinhTeXHMTTab: React.FC<{
   economy: ZoneEconomyItem[];
   social: ZoneSocialItem[];
   environment: ZoneEnvironmentItem[];
-}> = ({ economy, social, environment }) => {
+  onViewEconomyDetail?: () => void;
+  onViewSocialDetail?: () => void;
+  onViewEnvironmentDetail?: () => void;
+}> = ({ economy, social, environment, onViewEconomyDetail, onViewSocialDetail, onViewEnvironmentDetail }) => {
   const [activeSubTab, setActiveSubTab] = useState('kinhTe');
 
   const renderSubTabContent = () => {
     switch (activeSubTab) {
       case 'kinhTe':
-        return <KinhTeContent data={economy} />;
+        return <KinhTeContent data={economy} onViewDetail={onViewEconomyDetail} />;
       case 'xaHoi':
-        return <XaHoiContent data={social} />;
+        return <XaHoiContent data={social} onViewDetail={onViewSocialDetail} />;
       case 'moiTruong':
-        return <MoiTruongContent data={environment} />;
+        return <MoiTruongContent data={environment} onViewDetail={onViewEnvironmentDetail} />;
       default:
         return null;
     }
@@ -520,6 +526,199 @@ const InvestmentDetailModal: React.FC<{
 );
 
 // ============================================================
+// DIALOG: Chi tiết Kinh tế
+// ============================================================
+const EconomyDetailModal: React.FC<{
+  visible: boolean;
+  onClose: () => void;
+  data: ZoneEconomyDetail;
+}> = ({ visible, onClose, data }) => (
+  <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+    <View style={styles.modalBackdrop}>
+      <View style={styles.modalCard}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalHeaderTitle}>Chi tiết Kinh tế</Text>
+          <TouchableOpacity onPress={onClose} style={styles.modalCloseIcon}>
+            <Text style={styles.modalCloseIconText}>✕</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView
+          style={styles.modalContent}
+          contentContainerStyle={styles.modalContentInner}
+          showsVerticalScrollIndicator={false}
+        >
+          <DialogField label="Năm, kỳ" value={`${data.nam} — ${data.quy}`} />
+          <View style={styles.modalDivider} />
+          <DialogFieldRow>
+            <DialogField label="Doanh thu" value={`${data.doanhThu} ${data.doanhThuUnit}`} />
+            <DialogField label="Giá trị SX CN" value={`${data.giaTriSXCN} ${data.giaTriSXCNUnit}`} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Kim nghạch XK" value={`${data.kimNgachXK} ${data.kimNgachXKUnit}`} />
+            <DialogField label="Kim ngạch NK" value={`${data.kimNgachNK} ${data.kimNgachNKUnit}`} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Nộp ngân sách NN" value={`${data.nopNganSachNN} ${data.nopNganSachNNUnit}`} />
+            <DialogField label="Thuế TNDN" value={`${data.thueTNDN} ${data.thueTNDNUnit}`} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Thuế XNK" value={`${data.thueXNK} ${data.thueXNKUnit}`} />
+            <DialogField label="" value="" />
+          </DialogFieldRow>
+          <View style={styles.modalDivider} />
+          <DialogFieldRow>
+            <DialogField label="Số DN giải thể" value={data.soDNGiaiThe} />
+            <DialogField label="Số DN ngừng hoạt động" value={data.soDNNgungHoatDong} />
+          </DialogFieldRow>
+        </ScrollView>
+        <View style={styles.modalFooter}>
+          <TouchableOpacity style={styles.modalCloseButton} onPress={onClose}>
+            <Text style={styles.modalCloseButtonText}>Thoát</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  </Modal>
+);
+
+// ============================================================
+// DIALOG: Chi tiết Xã hội
+// ============================================================
+const SocialDetailModal: React.FC<{
+  visible: boolean;
+  onClose: () => void;
+  data: ZoneSocialDetail;
+}> = ({ visible, onClose, data }) => (
+  <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+    <View style={styles.modalBackdrop}>
+      <View style={styles.modalCard}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalHeaderTitle}>Chi tiết Xã hội</Text>
+          <TouchableOpacity onPress={onClose} style={styles.modalCloseIcon}>
+            <Text style={styles.modalCloseIconText}>✕</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView
+          style={styles.modalContent}
+          contentContainerStyle={styles.modalContentInner}
+          showsVerticalScrollIndicator={false}
+        >
+          <DialogField label="Năm, kỳ" value={`${data.nam} — ${data.quy}`} />
+          <DialogField label="Tổng số lao động" value={data.tongSoLaoDong} />
+          <View style={styles.modalDivider} />
+          <DialogFieldRow>
+            <DialogField label="Tổng LĐ nữ" value={data.tongLDNu} />
+            <DialogField label="Tổng LĐ nước ngoài" value={data.tongLDNuocNgoai} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="LĐ kỹ thuật cao" value={data.ldKyThuatCao} />
+            <DialogField label="Phổ thông" value={data.phoThong} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Sơ cấp" value={data.soCap} />
+            <DialogField label="Trung cấp" value={data.trungCap} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Cao đẳng" value={data.caoDang} />
+            <DialogField label="Đại học" value={data.daiHoc} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Trên đại học" value={data.trenDaiHoc} />
+            <DialogField label="Khác" value={data.khac} />
+          </DialogFieldRow>
+          <View style={styles.modalDivider} />
+          <DialogField label="Thu nhập BQ" value={`${data.thuNhapBQ} ${data.thuNhapBQUnit}`} />
+        </ScrollView>
+        <View style={styles.modalFooter}>
+          <TouchableOpacity style={styles.modalCloseButton} onPress={onClose}>
+            <Text style={styles.modalCloseButtonText}>Thoát</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  </Modal>
+);
+
+// ============================================================
+// DIALOG: Chi tiết Môi trường
+// ============================================================
+const EnvironmentDetailModal: React.FC<{
+  visible: boolean;
+  onClose: () => void;
+  data: ZoneEnvironmentDetail;
+}> = ({ visible, onClose, data }) => (
+  <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+    <View style={styles.modalBackdrop}>
+      <View style={styles.modalCard}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalHeaderTitle}>Chi tiết Môi trường</Text>
+          <TouchableOpacity onPress={onClose} style={styles.modalCloseIcon}>
+            <Text style={styles.modalCloseIconText}>✕</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView
+          style={styles.modalContent}
+          contentContainerStyle={styles.modalContentInner}
+          showsVerticalScrollIndicator={false}
+        >
+          <DialogField label="Năm, kỳ" value={`${data.nam} — ${data.quy}`} />
+          <DialogField label="Nguyên nhân" value={data.nguyenNhan} />
+          <View style={styles.modalDivider} />
+          <DialogFieldRow>
+            <DialogField label="Tình trạng QH nhà máy XLNT" value={data.tinhTrangQuyHoachXLNT} />
+            <DialogField label="Thời gian dự kiến vận hành" value={data.thoiGianDuKienVanHanh} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Tình trạng HĐ nhà máy XLNT" value={data.tinhTrangHoatDongXLNT} />
+            <DialogField label="Giải pháp xử lý BVMT" value={data.giaiPhapXuLyBVMT} />
+          </DialogFieldRow>
+          <View style={styles.modalDivider} />
+          <DialogFieldRow>
+            <DialogField label="Công suất thiết kế" value={`${data.congSuatThietKe} ${data.congSuatThietKeUnit}`} />
+            <DialogField label="Chất lượng xử lý nước thải" value={data.chatLuongXuLyNuocThai} />
+          </DialogFieldRow>
+          <DialogField label="Công suất hoạt động" value={`${data.congSuatHoatDong} ${data.congSuatHoatDongUnit}`} />
+
+          <View style={styles.modalDivider} />
+          <Text style={styles.dialogSectionTitle}>Thông tin môi trường khác</Text>
+
+          <DialogFieldRow>
+            <DialogField label="Tổng nước thải của khu" value={`${data.tongNuocThaiCuaKhu} ${data.tongNuocThaiCuaKhuUnit}`} />
+            <DialogField label="Số vi phạm MT" value={data.soViPhamMT} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Tổng khí thải" value={data.tongKhiThai} />
+            <DialogField label="Số lần kiểm tra MT" value={data.soLanKiemTraMT} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Tổng chất thải rắn" value={data.tongChatThaiRan} />
+            <DialogField label="Lượng nước tái sử dụng" value={data.luongNuocTaiSuDung} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Chất thải nguy hại" value={data.chatThaiNguyHai} />
+            <DialogField label="Số mô hình cộng sinh CN" value={data.soMoHinhCongSinhCN} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Tỷ lệ tái chế" value={data.tyLeTaiChe} />
+            <DialogField label="Giảm phát thải" value={data.giamPhatThai} />
+          </DialogFieldRow>
+          <DialogFieldRow>
+            <DialogField label="Năng lượng tái tạo" value={data.nangLuongTaiTao} />
+            <DialogField label="Chứng nhận xanh" value={data.chungNhanXanh} />
+          </DialogFieldRow>
+          <DialogField label="Tỷ lệ DN đạt chuẩn MT" value={data.tyLeDNDatChuanMT} />
+        </ScrollView>
+        <View style={styles.modalFooter}>
+          <TouchableOpacity style={styles.modalCloseButton} onPress={onClose}>
+            <Text style={styles.modalCloseButtonText}>Thoát</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  </Modal>
+);
+
+// ============================================================
 // MAIN SCREEN
 // ============================================================
 export const IZDetailScreen: React.FC<Props> = ({ navigation, route }) => {
@@ -530,6 +729,9 @@ export const IZDetailScreen: React.FC<Props> = ({ navigation, route }) => {
   const [activeTab, setActiveTab] = useState('hoSo');
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [investmentModalVisible, setInvestmentModalVisible] = useState(false);
+  const [economyModalVisible, setEconomyModalVisible] = useState(false);
+  const [socialModalVisible, setSocialModalVisible] = useState(false);
+  const [environmentModalVisible, setEnvironmentModalVisible] = useState(false);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -543,6 +745,9 @@ export const IZDetailScreen: React.FC<Props> = ({ navigation, route }) => {
             economy={mockData.economy}
             social={mockData.social}
             environment={mockData.environment}
+            onViewEconomyDetail={() => setEconomyModalVisible(true)}
+            onViewSocialDetail={() => setSocialModalVisible(true)}
+            onViewEnvironmentDetail={() => setEnvironmentModalVisible(true)}
           />
         );
       case 'lichSu':
@@ -568,6 +773,21 @@ export const IZDetailScreen: React.FC<Props> = ({ navigation, route }) => {
         visible={investmentModalVisible}
         onClose={() => setInvestmentModalVisible(false)}
         data={mockData.investmentDetail}
+      />
+      <EconomyDetailModal
+        visible={economyModalVisible}
+        onClose={() => setEconomyModalVisible(false)}
+        data={mockData.economyDetail}
+      />
+      <SocialDetailModal
+        visible={socialModalVisible}
+        onClose={() => setSocialModalVisible(false)}
+        data={mockData.socialDetail}
+      />
+      <EnvironmentDetailModal
+        visible={environmentModalVisible}
+        onClose={() => setEnvironmentModalVisible(false)}
+        data={mockData.environmentDetail}
       />
     </SafeAreaView>
   );
@@ -868,4 +1088,12 @@ const styles = StyleSheet.create({
   bottomPadding: {
     height: spacing.xxl,
   },
+
+  dialogSectionTitle: {
+    fontSize: typography.fontSize.md,
+    fontWeight: typography.fontWeight.semiBold,
+    color: colors.textPrimary,
+    lineHeight: typography.lineHeight.md,
+  },
+
 });

@@ -285,6 +285,74 @@ export interface ZoneInvestmentDetail {
   quocGia: string;
 }
 
+export interface ZoneEconomyDetail {
+  nam: string;
+  quy: string;
+  doanhThu: string;
+  doanhThuUnit: string;
+  giaTriSXCN: string;
+  giaTriSXCNUnit: string;
+  kimNgachXK: string;
+  kimNgachXKUnit: string;
+  kimNgachNK: string;
+  kimNgachNKUnit: string;
+  nopNganSachNN: string;
+  nopNganSachNNUnit: string;
+  thueTNDN: string;
+  thueTNDNUnit: string;
+  thueXNK: string;
+  thueXNKUnit: string;
+  soDNGiaiThe: string;
+  soDNNgungHoatDong: string;
+}
+
+export interface ZoneSocialDetail {
+  nam: string;
+  quy: string;
+  tongSoLaoDong: string;
+  tongLDNu: string;
+  tongLDNuocNgoai: string;
+  ldKyThuatCao: string;
+  phoThong: string;
+  soCap: string;
+  trungCap: string;
+  caoDang: string;
+  daiHoc: string;
+  trenDaiHoc: string;
+  khac: string;
+  thuNhapBQ: string;
+  thuNhapBQUnit: string;
+}
+
+export interface ZoneEnvironmentDetail {
+  nam: string;
+  quy: string;
+  nguyenNhan: string;
+  tinhTrangQuyHoachXLNT: string;
+  thoiGianDuKienVanHanh: string;
+  tinhTrangHoatDongXLNT: string;
+  giaiPhapXuLyBVMT: string;
+  congSuatThietKe: string;
+  congSuatThietKeUnit: string;
+  chatLuongXuLyNuocThai: string;
+  congSuatHoatDong: string;
+  congSuatHoatDongUnit: string;
+  tongNuocThaiCuaKhu: string;
+  tongNuocThaiCuaKhuUnit: string;
+  soViPhamMT: string;
+  tongKhiThai: string;
+  soLanKiemTraMT: string;
+  tongChatThaiRan: string;
+  luongNuocTaiSuDung: string;
+  chatThaiNguyHai: string;
+  soMoHinhCongSinhCN: string;
+  tyLeTaiChe: string;
+  giamPhatThai: string;
+  nangLuongTaiTao: string;
+  chungNhanXanh: string;
+  tyLeDNDatChuanMT: string;
+}
+
 export interface ZoneMockData {
   list: ZoneListItem[];
   detail: ZoneDetail;
@@ -296,6 +364,9 @@ export interface ZoneMockData {
   investmentCall: ZoneInvestmentCallItem[];
   projects: ZoneProjectItem[];
   investmentDetail: ZoneInvestmentDetail;
+  economyDetail: ZoneEconomyDetail;
+  socialDetail: ZoneSocialDetail;
+  environmentDetail: ZoneEnvironmentDetail;
 }
 
 // ============================================================
@@ -533,6 +604,74 @@ const createMockData = (type: ZoneType): ZoneMockData => {
     quocGia: 'Việt Nam',
   };
 
+  const economyDetail: ZoneEconomyDetail = {
+    nam: 'Năm 2026',
+    quy: 'Quý 1',
+    doanhThu: `${rev}`,
+    doanhThuUnit: 'tỷ VNĐ',
+    giaTriSXCN: `${rev + 300}`,
+    giaTriSXCNUnit: 'tỷ VNĐ',
+    kimNgachXK: `${Math.floor(rev * 0.48)}`,
+    kimNgachXKUnit: 'tỷ VNĐ',
+    kimNgachNK: `${Math.floor(rev * 0.32)}`,
+    kimNgachNKUnit: 'tỷ VNĐ',
+    nopNganSachNN: `${Math.floor(rev * 0.15)}`,
+    nopNganSachNNUnit: 'triệu VNĐ',
+    thueTNDN: `${Math.floor(rev * 0.08)}`,
+    thueTNDNUnit: 'triệu VNĐ',
+    thueXNK: `${Math.floor(rev * 0.05)}`,
+    thueXNKUnit: 'triệu VNĐ',
+    soDNGiaiThe: `${Math.floor(2 + idx * 0.5)}`,
+    soDNNgungHoatDong: `${Math.floor(3 + idx * 0.3)}`,
+  };
+
+  const socialDetail: ZoneSocialDetail = {
+    nam: 'Năm 2026',
+    quy: 'Quý 1',
+    tongSoLaoDong: `${ld}`,
+    tongLDNu: `${Math.floor(ld * 0.52)}`,
+    tongLDNuocNgoai: `${Math.floor(ld * 0.096)}`,
+    ldKyThuatCao: `${Math.floor(ld * 0.15)}`,
+    phoThong: `${Math.floor(ld * 0.35)}`,
+    soCap: `${Math.floor(ld * 0.1)}`,
+    trungCap: `${Math.floor(ld * 0.12)}`,
+    caoDang: `${Math.floor(ld * 0.08)}`,
+    daiHoc: `${Math.floor(ld * 0.13)}`,
+    trenDaiHoc: `${Math.floor(ld * 0.03)}`,
+    khac: `${Math.floor(ld * 0.04)}`,
+    thuNhapBQ: `${((7 + idx * 0.3) * 1000000).toLocaleString()}`,
+    thuNhapBQUnit: 'VNĐ',
+  };
+
+  const environmentDetail: ZoneEnvironmentDetail = {
+    nam: 'Năm 2026',
+    quy: 'Quý 1',
+    nguyenNhan: type === 'kcnst' ? '' : 'Chưa cập nhật',
+    tinhTrangQuyHoachXLNT: 'Có',
+    thoiGianDuKienVanHanh: '23/04/2026',
+    tinhTrangHoatDongXLNT: 'Đang hoạt động',
+    giaiPhapXuLyBVMT: `Áp dụng công nghệ xử lý nước thải tiên tiến, đảm bảo đạt QCVN 40:2011/BTNMT cột A`,
+    congSuatThietKe: `${5000 + idx * 1000}`,
+    congSuatThietKeUnit: 'm³/ngày đêm',
+    chatLuongXuLyNuocThai: 'Đạt',
+    congSuatHoatDong: `${4000 + idx * 800}`,
+    congSuatHoatDongUnit: 'm³/ngày đêm',
+    tongNuocThaiCuaKhu: `${3000 + idx * 600}`,
+    tongNuocThaiCuaKhuUnit: 'm³/ngày đêm',
+    soViPhamMT: `${Math.floor(idx * 0.5)}`,
+    tongKhiThai: `${1000 + idx * 200}`,
+    soLanKiemTraMT: `${4 + idx}`,
+    tongChatThaiRan: `${500 + idx * 100}`,
+    luongNuocTaiSuDung: `${800 + idx * 150}`,
+    chatThaiNguyHai: `${50 + idx * 10}`,
+    soMoHinhCongSinhCN: `${Math.floor(1 + idx * 0.5)}`,
+    tyLeTaiChe: `${60 + idx * 3}`,
+    giamPhatThai: `${15 + idx * 2}`,
+    nangLuongTaiTao: `${10 + idx * 3}`,
+    chungNhanXanh: ['kcnst', 'kcnctc'].includes(type) ? 'Chứng chỉ carbon' : 'Chưa có',
+    tyLeDNDatChuanMT: `${70 + idx * 3}`,
+  };
+
   return {
     list,
     detail,
@@ -544,6 +683,9 @@ const createMockData = (type: ZoneType): ZoneMockData => {
     investmentCall,
     projects,
     investmentDetail,
+    economyDetail,
+    socialDetail,
+    environmentDetail,
   };
 };
 

@@ -46,6 +46,8 @@ import { ContactScreen } from '../screens/Contact/ContactScreen';
 import { AboutScreen } from '../screens/About/AboutScreen';
 import { LandFundListScreen } from '../screens/IndustrialZone/LandFundListScreen';
 import { LandFundDetailScreen } from '../screens/IndustrialZone/LandFundDetailScreen';
+import { RentalListScreen } from '../screens/IndustrialZone/RentalListScreen';
+import { RentalDetailScreen } from '../screens/IndustrialZone/RentalDetailScreen';
 import PersonalAccountScreen from '../screens/Account/PersonalAccountScreen';
 import EditPersonalAccountScreen from '../screens/Account/EditPersonalAccountScreen';
 import BusinessAccountScreen from '../screens/Account/BusinessAccountScreen';
@@ -118,6 +120,8 @@ export type RootStackParamList = {
   AccountSettings: undefined;
   LandFundList: undefined;
   LandFundDetail: { id: string };
+  RentalList: undefined;
+  RentalDetail: { id: string };
   Notification: undefined;
 };
 
@@ -338,6 +342,16 @@ const MainStack = () => {
         name="LandFundDetail"
         component={LandFundDetailScreen}
         options={{ title: 'Chi tiết quỹ đất', headerShown: false }}
+      />
+      <Stack.Screen
+        name="RentalList"
+        component={RentalListScreen}
+        options={{ title: 'Quản lý cho thuê đất', headerShown: false }}
+      />
+      <Stack.Screen
+        name="RentalDetail"
+        component={RentalDetailScreen}
+        options={{ title: 'Chi tiết cho thuê đất', headerShown: false }}
       />
       <Stack.Screen
         name="Notification"
